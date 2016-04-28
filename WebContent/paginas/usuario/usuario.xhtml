@@ -1,0 +1,104 @@
+<!DOCTYPE html > 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/components"
+      template="/WEB-INF/design/_template-main.xhtml">
+       
+<ui:define name="title">Usuários</ui:define>       
+       
+<ui:define name="content">
+
+	<h:form>
+		<p:fieldset legend="Pesquisa" toggleable="true">
+		
+			<h:panelGrid columns="4" cellpadding="10">
+				<h:panelGrid>
+					<p:outputLabel value="Email" />
+					<p:inputText value="#{usuarioMB.filtroEmail }" size="50" />
+				</h:panelGrid>
+	
+				<h:panelGrid>
+					<p:outputLabel value="Perfil" />
+					<p:selectOneRadio value="#{usuarioMB.filtroPerfil }" layout="lineDirection" >
+						<f:selectItem itemLabel="TODOS" itemValue="" noSelectionOption="true" />
+						<f:selectItems value="#{enumHelper.perfils }" var="profileVar"
+							itemValue="#{profileVar}" itemLabel="#{profileVar.descricao }" />				
+					</p:selectOneRadio>
+				</h:panelGrid>
+				
+				<p:commandButton icon="ui-icon-search" value="Pesquisar" 
+					action="#{usuarioMB.pesquisar() }"
+					update=":formUsuarios" 
+					/>
+			</h:panelGrid>
+			
+		</p:fieldset>
+	</h:form>
+	
+	
+	<p:separator />
+	
+	
+	<h:form id="formUsuarios">
+	
+		<my:globalMessages />
+		
+		<p:commandButton icon="fa fa-plus" value="Novo Usuário" 
+			process="@this"
+			action="#{usuarioMB.novo() }" 
+			update=":regiaoUsuario"
+			oncomplete="PF('DialogUsuario').show();"
+			/>
+			
+		<p:dataTable value="#{usuarioMB.usuarios }" var="usuarioVar"
+			rendered="#{not empty usuarioMB.usuarios }">
+			
+			<p:column headerText="#" styleClass="col5p colCenter">
+				<h:outputText value="#{usuarioVar.id }" styleClass="less2" />
+			</p:column>
+
+			<p:column headerText="Email" styleClass="col40p">
+				<h:outputText value="#{usuarioVar.email }" styleClass="destak2" />
+			</p:column>
+	
+			<p:column headerText="Perfil" styleClass="col40p">
+				<h:outputText value="#{usuarioVar.perfil.descricao }" styleClass="destak3" />
+			</p:column>
+			
+			<p:column styleClass="col10p colCenter">
+				<p:commandButton icon="fa fa-edit" value="Editar"
+					process="@this"
+					action="#{usuarioMB.gerenciar(usuarioVar) }"
+					update=":regiaoUsuario"
+					oncomplete="PF('DialogUsuario').show();"
+					/>
+			</p:column>
+		</p:dataTable>
+	</h:form>
+		
+		
+		
+	<p:dialog widgetVar="DialogUsuario" header="Usuário"  
+		modal="true" dynamic="true" closeOnEscape="true" maximizable="true" 
+		position="top" width="60%" height="60%" >
+		
+		<p:outputPanel id="regiaoUsuario">
+		
+			<p:tabView>
+				<p:tab title="Principal">
+					<ui:include src="/paginas/usuario/usuario-frag-principal.xhtml" />
+				</p:tab>
+			
+				<p:tab title="Senha" rendered="#{not usuarioMB.usuario.transient}">
+					<ui:include src="/paginas/usuario/usuario-frag-senha.xhtml" />
+				</p:tab>
+			</p:tabView>
+		</p:outputPanel>
+	</p:dialog>
+	
+	
+</ui:define>
+</ui:composition>

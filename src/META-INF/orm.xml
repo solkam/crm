@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd">
+
+
+	<!-- usuario -->
+
+	<named-query name="buscarUsuarioPeloEmailESenha">
+		<query>
+			select u
+			from Usuario u
+			where u.email = :pEmail
+			and   u.senha = :pSenha
+		</query>
+	</named-query>
+
+
+	<!-- area de interesse -->
+	
+	<named-query name="pesquisarAreaInteresse">
+		<query>
+			select ia
+			from AreaInteresse ia
+			order by ia.descricao
+		</query>
+	</named-query>
+	
+	<named-query name="pesquisarAreaInteresseAtiva">
+		<query>
+			select ia
+			from AreaInteresse ia
+			where ia.flagAtivo = TRUE
+			order by ia.descricao
+		</query>
+	</named-query>
+	
+	<named-query name="buscarAreaInteressePorDescricao">
+		<query>
+			select ia
+			from AreaInteresse ia
+			where ia.descricao = :pDescricao
+		</query>
+	</named-query>
+
+
+
+	<!-- profissao -->
+	
+	<named-query name="pesquisarProfissao">
+		<query>
+			select p
+			from Profissao p
+			order by p.descricao
+		</query>
+	</named-query>
+	
+	<named-query name="pesquisarProfissaoAtiva">
+		<query>
+			select p
+			from Profissao p
+			where p.flagAtivo = TRUE
+			order by p.descricao
+		</query>
+	</named-query>
+	
+	<named-query name="buscarProfissaoPelaDescricao">
+		<query>
+			select p
+			from Profissao p
+			where p.descricao = :pDescricao
+		</query>
+	</named-query>
+	
+	
+	
+	<!-- Pessoa -->
+	
+	<named-query name="pesquisarPessoa">
+		<query>
+			select c
+			from Pessoa c
+			order by c.primeiroNome, c.sobreNome
+		</query>
+	</named-query>
+
+	<named-query name="pesquisarPessoaPeloPrimeiroNomeOuUltimoNomeOrCidade">
+		<query>
+			select distinct c
+			from Pessoa c
+			where c.primeiroNome           like :pNome
+			or   c.sobreNome               like :pNome
+			or   c.endereco.enderecoCidade like :pCidadeNome
+			order by c.primeiroNome, c.sobreNome
+		</query>
+	</named-query>
+	
+	<named-query name="pesquisarPessoaComImagem">
+		<query>
+			select c
+			from Pessoa c
+			where c.imagemBinario IS NOT NULL
+		</query>
+	</named-query>
+	
+	<named-query name="buscarPessoaPeloEmailPrincipal">
+		<query>
+			select c
+			from Pessoa c
+			where c.emailPrincipal = :pEmailPrincipal
+		</query>
+	</named-query>
+	
+	<named-query name="pesquisarPessoaPelaAreaInteresse">
+		<query>
+			select c
+			from Pessoa c
+				join c.areasInteresse area
+			where area = :pAreaInteresse
+			order by c.primeiroNome, c.sobreNome
+		</query>
+	</named-query>
+	
+	<named-query name="pesquisarPessoaPelaProfissao">
+		<query>
+			select c
+			from Pessoa c
+				join c.profissoes p
+			where p = :pProfissao
+			order by c.primeiroNome, c.sobreNome
+		</query>
+	</named-query>
+	
+
+
+</entity-mappings>

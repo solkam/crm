@@ -1,0 +1,65 @@
+<!DOCTYPE html > 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/components"
+      template="/WEB-INF/design/_template-main.xhtml">
+<ui:define name="menu"  />
+      
+<ui:define name="title" />
+
+<ui:define name="content" >
+
+	<div style="width:700px;margin:auto">
+		<h:form>
+		
+			<p:panel header="Autenticação">
+			
+				<h:panelGrid cellpadding="10" style="margin:auto;" >
+
+					<f:facet name="header">
+						<p:graphicImage library="img" name="logo_tremn_512.png" />
+					</f:facet>
+					
+
+					<h:panelGrid columns="2" cellpadding="10">
+						<h:panelGroup>
+							<p:graphicImage library="img" name="icon_keys1_128.png" cache="true" />
+						</h:panelGroup>
+					
+						<h:panelGrid cellpadding="5">
+							<h:panelGrid>
+								<p:outputLabel for="inEmail" value="Email"  />
+								<p:inputText id="inEmail" size="40" required="true" value="#{accessMB.email }"  />
+								<p:message for="inEmail" />
+							</h:panelGrid>
+							
+							<h:panelGrid>
+								<p:outputLabel for="inPass" value="Senha" />
+								<p:password id="inPass" size="20" feedback="false" required="true" value="#{accessMB.senha }" />
+								<p:message for="inPass" />
+							</h:panelGrid>
+							
+							<p:commandButton icon="fa fa-sign-in" value="Entrar" 
+								action="#{accessMB.doLogin() }"
+								update="@form" 
+								/>
+						</h:panelGrid>
+
+					</h:panelGrid>
+					
+					<my:globalMessages />
+					
+				</h:panelGrid>
+				
+				<f:facet name="footer">
+					<h:outputText value="CRM na Nuvem 2016 - Todos os direitos reservados - versão 0.10 (26/04/2016)" styleClass="less2" />
+				</f:facet>
+			</p:panel>
+		</h:form>
+	</div>
+
+</ui:define>
+</ui:composition>

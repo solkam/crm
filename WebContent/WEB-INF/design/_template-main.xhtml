@@ -1,0 +1,62 @@
+<!DOCTYPE html >
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>CRM na Nuvem</title>
+	<link rel="shortcut icon" href="http://www.tremn.com.br/wp-content/themes/tremn/favicon.ico" type="image/x-icon" />
+
+	<h:outputStylesheet library="css" name="mystyle.css" />
+	<h:outputScript library="js" name="locale-primefaces.js" />
+
+	<style type="text/css">
+		#header {
+			padding: 0px;
+			border: 1px solid #fff;
+		}
+		#menu {
+			padding: 0;
+			margin: 0;
+			border: 1px solid #fff;
+			text-align: center;
+			vertical-align: middle;
+		}
+		#content {
+			border: 1px solid #eee;
+		}
+	</style>
+	
+	
+</h:head>
+
+
+<h:body>
+
+	<div id="header">
+		<ui:include src="/WEB-INF/design/header.xhtml" />
+	</div>
+	
+	<div id="menu">
+		<ui:insert name="menu" >
+			<ui:include src="/WEB-INF/design/menu.xhtml" />
+		</ui:insert>
+	</div>
+	
+	<div id="content">
+		<p:panel>
+			<span class="destak1">
+				<ui:insert name="title" />
+			</span>
+			<p:separator />	
+			
+			<ui:insert name="content" />
+			
+		</p:panel>
+	</div>
+
+</h:body>
+
+</html>

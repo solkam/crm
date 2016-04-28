@@ -1,0 +1,54 @@
+<!DOCTYPE html > 
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
+
+	<center>
+		<h:panelGrid columns="5" cellpadding="5">
+		
+			<h:link outcome="/pages/contact/contact.xhtml" styleClass="menuitem">
+				<f:param name="idx" value="0" />
+				<h:panelGrid cellpadding="0" cellspacing="5" styleClass="menuitem">
+					<p:graphicImage library="img" name="icon_contact_128.png"  />
+					<p:separator styleClass="#{param.idx eq 0 ? 'menuOn' : 'menuOff' }" />
+				</h:panelGrid>
+			</h:link>
+		
+			<h:link outcome="/pages/product/product.xhtml" styleClass="menuitem">
+				<f:param name="idx" value="1" />
+				<h:panelGrid cellpadding="0" cellspacing="5" styleClass="menuitem">
+					<p:graphicImage library="img" name="icon_product_128.png"  />
+					<p:separator styleClass="#{param.idx eq 1 ? 'menuOn' : 'menuOff' }" />
+				</h:panelGrid>
+			</h:link>
+
+			<h:link outcome="/pages/event/event.xhtml" styleClass="menuitem">
+				<f:param name="idx" value="2" />
+				<h:panelGrid cellpadding="0" cellspacing="5" styleClass="menuitem">
+					<p:graphicImage library="img" name="icon_event_128.png"  />
+					<p:separator styleClass="#{param.idx eq 2 ? 'menuOn' : 'menuOff' }" />
+				</h:panelGrid>
+			</h:link>
+
+			<h:link outcome="/pages/report/report-contact.xhtml" styleClass="menuitem">
+				<f:param name="idx" value="3" />
+				<h:panelGrid cellpadding="0" cellspacing="5" styleClass="menuitem">
+					<p:graphicImage library="img" name="icon_report_128.png"  />
+					<p:separator styleClass="#{param.idx eq 3 ? 'menuOn' : 'menuOff' }" />
+				</h:panelGrid>
+			</h:link>
+
+			<h:link outcome="/pages/user/user.xhtml" styleClass="menuitem">
+				<f:param name="idx" value="4" />
+				<h:panelGrid cellpadding="0" cellspacing="5" styleClass="menuitem">
+					<p:graphicImage library="img" name="icon_user_128.png"  />
+					<p:separator styleClass="#{param.idx eq 4 ? 'menuOn' : 'menuOff' }" />
+				</h:panelGrid>
+			</h:link>
+	
+		</h:panelGrid>
+	</center>
+
+</ui:fragment>

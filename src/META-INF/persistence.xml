@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+
+	<persistence-unit name="crmPU">
+
+		<jta-data-source>java:/crmDS</jta-data-source>
+
+		<mapping-file>META-INF/orm.xml</mapping-file>
+
+		<class>br.com.crm.model.entity.Usuario</class>
+		<class>br.com.crm.model.entity.InfoLog</class>
+		<class>br.com.crm.model.entity.AreaInteresse</class>
+		<class>br.com.crm.model.entity.Profissao</class>
+		<class>br.com.crm.model.entity.Endereco</class>
+		<class>br.com.crm.model.entity.RedeSocial</class>
+		<class>br.com.crm.model.entity.Empresa</class>
+		<class>br.com.crm.model.entity.Telefone</class>
+		<class>br.com.crm.model.entity.DocumentoIdentidade</class>
+		<class>br.com.crm.model.entity.Pessoa</class>
+		<class>br.com.crm.model.entity.Maturidade</class>
+		<class>br.com.crm.model.entity.PessoaObservacao</class>
+		<class>br.com.crm.model.entity.PessoaCartaoNegocio</class>
+		<class>br.com.crm.model.entity.ContactInscriptionForm</class>
+
+		<properties>
+			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+		</properties>
+
+	</persistence-unit>
+</persistence>

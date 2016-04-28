@@ -1,0 +1,49 @@
+<!DOCTYPE html > 
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
+
+	<p:toolbar>
+		<p:toolbarGroup>
+			<h:panelGrid columns="3" cellpadding="5" >
+
+				<h:graphicImage library="img" name="logo_tremncrm_32.png" />
+				
+				
+			</h:panelGrid>
+		</p:toolbarGroup>
+		
+
+
+
+		<p:toolbarGroup align="right" >
+			<h:form>
+				<h:panelGrid columns="3" cellpadding="5" >
+
+					<h:panelGrid columns="2" rendered="#{sessionHolder.flagLogged}" >
+						<span class="ui-icon ui-icon-person" />
+						<h:outputText value="#{sessionHolder.usuario.email}" styleClass="less2" />
+					</h:panelGrid>
+	
+					<h:panelGrid columns="2" rendered="#{sessionHolder.flagLogged}" >
+						<span class="ui-icon ui-icon-key" />
+						<h:outputText value="#{sessionHolder.usuario.perfil.descricao }" styleClass="less2" />
+					</h:panelGrid>
+
+					<p:commandButton icon="ui-icon-key" value="Trocar senha" 
+						rendered="false"
+						/>
+					
+					<p:commandButton icon="ui-icon-power" value="Sair" ajax="false" 
+						rendered="#{sessionHolder.flagLogged}"
+						action="#{accessMB.doLogout() }"
+						/>
+				</h:panelGrid>
+			</h:form>
+		</p:toolbarGroup>
+	</p:toolbar>
+	
+
+</ui:fragment>

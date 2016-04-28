@@ -1,0 +1,60 @@
+<!DOCTYPE html > 
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:tremn="http://java.sun.com/jsf/composite/components">
+       
+<h:form id="formUsuario">
+
+	<tremn:globalMessages />
+
+	<p:panel>
+
+		<h:panelGrid columns="2" cellpadding="10">
+			<h:panelGrid>
+				<p:outputLabel for="inEmail" value="Email" styleClass="req" />
+				<p:inputText id="inEmail" value="#{usuarioMB.usuario.email}" size="50" required="true" placeholder="Email" />
+				<p:message for="inEmail" />
+			</h:panelGrid>
+
+			<h:panelGrid>
+				<p:outputLabel for="inPerfil" value="Perfil" styleClass="req" />
+				<p:selectOneRadio id="inPerfil" value="#{usuarioMB.usuario.perfil }" required="true" layout="pageDirection" >
+					<f:selectItems value="#{enumHelper.perfils }" var="perfilVar" 
+						itemValue="#{perfilVar}" itemLabel="#{perfilVar.descricao }" />
+				</p:selectOneRadio>
+				<p:message for="inPerfil" />
+			</h:panelGrid>
+
+		</h:panelGrid>
+
+	</p:panel>
+	
+	<p:toolbar>
+		<p:toolbarGroup>
+			<p:commandButton icon="ui-icon-check" value="Salvar Usuário" 
+				action="#{usuarioMB.salvar() }"
+				update=":regiaoUsuario :formUsuarios" 
+				/>
+		</p:toolbarGroup>
+	
+		<p:toolbarGroup align="right" rendered="#{not usuarioMB.usuario.transient}">
+			<p:menuButton value="Remover?" style="font-size:0.8em;">
+				<p:menuitem icon="ui-icon-trash" value="Sim, remover"
+					process="@this"
+					action="#{usuarioMB.remover()}"
+					update=":regiaoUsuario :formUsuarios"
+					oncomplete="if (args.sucessOnly) PF('DialogUsuario').hide();"
+					/>
+				<p:menuitem icon="ui-icon-close" value="Não"
+					process="@none"
+					global="false" 
+					/>
+			</p:menuButton>
+		</p:toolbarGroup>
+	</p:toolbar>
+</h:form>
+
+</ui:fragment>

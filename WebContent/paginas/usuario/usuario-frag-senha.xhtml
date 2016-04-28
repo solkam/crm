@@ -1,0 +1,53 @@
+<!DOCTYPE html > 
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:tremn="http://java.sun.com/jsf/composite/components">
+       
+<h:form id="formUsuarioSenha">
+
+	<tremn:globalMessages />
+
+	<p:panel>
+
+		<h:panelGrid columns="1" cellpadding="10">
+			<h:panelGrid>
+				<p:outputLabel for="inPass1" value="Digite a senha" styleClass="req" />
+				<p:password id="inPass1" value="#{usuarioMB.senha1}" size="20" required="true" feedback="true" inline="false"
+					requiredMessage="Senha é obrigatória"
+					goodLabel="Bom" weakLabel="Fraca" strongLabel="Forte" promptLabel="Digite a senha" 
+					/>
+				<p:message for="inPass1" />
+			</h:panelGrid>
+
+			<h:panelGrid>
+				<p:outputLabel for="inPass2" value="Confirme a senha" styleClass="req" />
+				<p:password id="inPass2" value="#{usuarioMB.senha2}" size="20" required="true" feedback="true" inline="false"
+					requiredMessage="Senha de confirmação é obrigatória"
+					goodLabel="Bom" weakLabel="Fraca" strongLabel="Forte" promptLabel="Confirme a senha" 
+					/>
+				<p:message for="inPass2" />
+			</h:panelGrid>
+
+		</h:panelGrid>
+		
+		<f:facet name="footer">
+			<span>Nota: O fato de a senha ser fraca não impedirá que seja salva. </span>
+		</f:facet>
+
+	</p:panel>
+	
+	<p:toolbar>
+		<p:toolbarGroup>
+			<p:commandButton icon="ui-icon-check" value="Salvar Senha" style="font-size:1.25em;"
+				action="#{usuarioMB.salvarSenha() }"
+				update="@form" 
+				oncomplete="if (args.sucessOnly) PF('DialogUsuario').hide();"
+				/>
+		</p:toolbarGroup>
+	</p:toolbar>
+</h:form>
+
+</ui:fragment>

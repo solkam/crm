@@ -1,0 +1,33 @@
+<!DOCTYPE html > 
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:tremn="http://java.sun.com/jsf/composite/components"
+      template="/WEB-INF/design/_template-main.xhtml">
+       
+<ui:define name="title">Ajustes</ui:define>       
+       
+<ui:define name="content">
+
+	<p:tabMenu activeIndex="#{param.idx}">
+		
+		<p:menuitem icon="fa fa-fw fa-heart" value="Áreas de Interesses" outcome="/paginas/area-interesse/area-interesse" >
+			<f:param name="idx" value="0" />
+		</p:menuitem>
+
+		<p:menuitem icon="fa fa-fw fa-gears" value="Profissões" outcome="/paginas/profissao/profissao" >
+			<f:param name="idx" value="1" />
+		</p:menuitem>
+
+	</p:tabMenu>
+	
+	<p:panel>
+		<ui:insert name="content-decorator">
+			(definir conteudo aqui)
+		</ui:insert>
+	</p:panel>
+		
+</ui:define>
+</ui:decorate>

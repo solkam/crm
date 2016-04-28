@@ -1,0 +1,101 @@
+<!DOCTYPE html > 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/components"
+      template="/WEB-INF/design/_decorate-adjust.xhtml">
+       
+<ui:define name="content-decorator">
+
+<h:form id="formNovaArea">
+
+	<p:fieldset legend="Nova" toggleable="true" collapsed="true">
+		
+			<h:panelGrid columns="7" cellpadding="5">
+		
+				<h:panelGrid>
+					<p:outputLabel for="inDesc" value="Descrição" styleClass="less2 req" />
+					<p:inputText id="inDesc" value="#{areaInteresseMB.novaAreaInteresse.descricao }"
+						required="true" size="40" maxlength="50" />
+					<p:message for="inDesc" />
+				</h:panelGrid>
+				
+				<p:commandButton icon="fa fa-check" value="Salvar" 
+						action="#{areaInteresseMB.salvar() }"
+						update="@form :formArea" 
+						/>
+
+			</h:panelGrid>
+	
+	</p:fieldset>
+</h:form>
+
+
+<p:spacer height="10" />
+
+	
+<h:form id="formArea">
+
+	<my:globalGrowl />
+	<my:globalMessages />
+
+	<p:outputPanel rendered="#{not empty areaInteresseMB.areasInteresse }">
+	
+		<p:dataTable value="#{areaInteresseMB.areasInteresse }" var="areaInteresseVar">
+			<p:column headerText="#" styleClass="colCenter col5p">
+				<h:outputText value="#{areaInteresseVar.id}" styleClass="less2" />
+			</p:column>
+			
+			<p:column headerText="Ativa?" styleClass="colCenter col10p">
+				<p:inputSwitch value="#{areaInteresseVar.flagAtivo }" offLabel="Não" onLabel="Sim" />
+			</p:column>
+
+			<p:column headerText="Descrição *" styleClass="colCenter col50p">
+				<p:inputText id="inDesc" value="#{areaInteresseVar.descricao }" size="40" maxlength="50" 
+					required="true" requiredMessage="Descrição é Obrigatório" 
+					/>
+				<p:message for="inDesc" />
+			</p:column>
+		
+			<p:column headerText="Criado em" styleClass="colCenter col10p">
+				<my:outputTimestamp value="#{areaInteresseVar.infoLog.criadoEm }" styleClass="less2" />
+			</p:column>
+		
+			<p:column headerText="Criado por" styleClass="col10p">
+				<h:outputText value="#{areaInteresseVar.infoLog.criadoPor }" styleClass="less2" />
+			</p:column>
+
+			<p:column headerText="Atualizado em" styleClass="colCenter col10p">
+				<my:outputTimestamp value="#{areaInteresseVar.infoLog.atualizadoEm }" styleClass="less2" />
+			</p:column>
+		
+			<p:column headerText="Atualizado por" styleClass="col10p">
+				<h:outputText value="#{areaInteresseVar.infoLog.atualizadoPor }" styleClass="less2" />
+			</p:column>
+			
+
+			<p:column styleClass="colCenter col10p">
+				<p:commandButton icon="ui-icon-trash" value="remover"
+					process="@this"
+					action="#{areaInteresseMB.remover(areaInteresseVar)}"
+					update="@form"
+					/>
+			</p:column>
+			
+			<f:facet name="footer">
+				<p:separator />
+				
+				<p:commandButton icon="ui-icon-check" value="Salvar todas" 
+					action="#{areaInteresseMB.salvarTudo() }"
+					update="@form"
+					/>
+			</f:facet>
+		</p:dataTable>
+	</p:outputPanel>
+
+</h:form>
+	
+</ui:define>
+</ui:composition>

@@ -1,0 +1,98 @@
+<!DOCTYPE html > 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/components"
+      template="/WEB-INF/design/_decorate-adjust.xhtml">
+<ui:define name="content-decorator">
+
+
+<h:form id="formNovaProfissao">
+
+	<p:fieldset legend="Nova" toggleable="true" collapsed="true">
+		<h:panelGrid columns="2" cellpadding="10">
+
+			<h:panelGrid>
+				<p:outputLabel for="inDesc" value="Descrição" styleClass="less2 req" />
+				<p:inputText id="inDesc" value="#{profissaoMB.novaProfissao.descricao }" 
+					size="40" maxlength="50" required="true" 
+					/>
+				<p:message for="inDesc" />
+			</h:panelGrid>
+
+			<p:commandButton icon="ui-icon-check" value="Salvar"  
+				action="#{profissaoMB.salvar() }"
+				update="@form :formProfissoes"
+				/>
+		</h:panelGrid>
+	</p:fieldset>
+
+</h:form>
+
+<p:spacer height="10" />
+
+<h:form id="formProfissoes">
+
+	<my:globalGrowl />
+	<my:globalMessages />
+	
+	<p:outputPanel rendered="#{not empty profissaoMB.profissoes }">
+	
+		<p:dataTable value="#{profissaoMB.profissoes }" var="profissaoVar">
+			<p:column headerText="#" styleClass="colCenter col5p">
+				<h:outputText value="#{profissaoVar.id}" styleClass="less2" />
+			</p:column>
+			
+			<p:column headerText="Ativo?" styleClass="colCenter col10p">
+				<p:inputSwitch value="#{profissaoVar.flagAtivo }" onLabel="Sim" offLabel="Não" />
+			</p:column>
+
+			<p:column headerText="Descrição *" styleClass="colCenter col50p">
+				<p:inputText id="inDesc" value="#{profissaoVar.descricao }" size="40" maxlength="50" 
+					required="true" requiredMessage="Descrição é Obrigatório" 
+					/>
+				<p:message for="inDesc" />
+			</p:column>
+			
+			<p:column headerText="Criado em" styleClass="colCenter col10p">
+				<my:outputTimestamp value="#{profissaoVar.infoLog.criadoEm }" styleClass="less2" />
+			</p:column>
+		
+			<p:column headerText="Criado por" styleClass="colCenter col10p">
+				<h:outputText value="#{profissaoVar.infoLog.criadoPor }" styleClass="less2" />
+			</p:column>
+
+			<p:column headerText="Atualizado em" styleClass="colCenter col10p">
+				<my:outputTimestamp value="#{profissaoVar.infoLog.atualizadoEm }" styleClass="less2" />
+			</p:column>
+
+			<p:column headerText="Atualizado por" styleClass="colCenter col10p">
+				<h:outputText value="#{profissaoVar.infoLog.atualizadoPor }" styleClass="less2" />
+			</p:column>
+
+			<p:column styleClass="colCenter col10p">
+				<p:commandButton icon="ui-icon-trash" value="remover" 
+					process="@this"
+					action="#{profissaoMB.remover(profissaoVar) }"
+					update="@form"
+					/>
+			</p:column>
+			
+			<f:facet name="footer">
+				<p:separator />
+			
+				<p:commandButton icon="ui-icon-check" value="Salvar todas"  
+					action="#{profissaoMB.salvarTudo() }"
+					update="@form"
+					/>
+			</f:facet>
+		</p:dataTable>
+	</p:outputPanel>
+
+	
+</h:form>
+	
+</ui:define>
+</ui:composition>

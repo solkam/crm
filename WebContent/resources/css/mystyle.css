@@ -1,0 +1,131 @@
+@CHARSET "UTF-8";
+
+.ui-widget, .ui-widget .ui-widget {
+	font-size: 105% !important;
+	font-family: Calibri !important;
+}
+
+
+.warn {
+	color: red;
+}
+
+.req {
+	color: red;
+}
+
+.less1 {
+	font-size: 0.7em;
+	font-weight: normal;
+}
+
+.less2 {
+	font-size: 0.8em;
+	font-weight: normal;
+}
+
+.less3 {
+	font-size: 0.9em;
+	font-weight: normal;
+}
+
+
+
+.destak1 {
+	font-weight: bold;
+	font-size: 1.5em;
+}
+
+.destak2 {
+	font-weight: bold;
+	font-size: 1.3em;
+}
+
+.destak3 {
+	font-weight: bold;
+	font-size: 1.0em;
+}
+
+.transp {
+	border: 1px solid transparent;
+}
+
+.scrollable1 {
+	height: 500px
+}
+
+.scrollable2 {
+	height: 400px
+}
+
+
+.colCenter {
+	text-align: center;
+}
+
+.colRight {
+	text-align: right;
+}
+
+.col5p {
+	width: 5%;
+}
+
+.col10p {
+	width: 10%;
+}
+
+.col50p {
+	width: 50%;
+}
+
+.col80p {
+	width: 80%;
+}
+
+.textCenter {
+	text-align: center;
+}
+
+.wrapable {
+	white-space: pre-wrap;
+}
+
+
+.menuitem {
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
+	
+	box-shadow: 0px 0px 20px #fff;
+	color: #bbb;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.menuitem:hover {
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
+	
+	box-shadow: 0px 0px 20px #444;
+	color: #222;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.menuOn {
+	border: 2px solid rgb(142,37,141);
+}
+
+.menuOff {
+	border: 2px solid #efefef;
+}
+
+
+
+#primefaces
+
+span.ui-button-text {
+	font-size: 1.5em;
+}
