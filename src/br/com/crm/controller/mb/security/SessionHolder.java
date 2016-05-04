@@ -6,6 +6,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 import br.com.crm.controller.util.JSFUtil;
+import br.com.crm.model.entity.Empresa;
 import br.com.crm.model.entity.Usuario;
 
 /**
@@ -58,6 +59,10 @@ public class SessionHolder implements Serializable {
 
 	public Usuario getUsuario() {
 		return usuario;
+	}
+	
+	public Empresa getEmpresa() {
+		return usuario.getEmpresa();
 	}
 
 

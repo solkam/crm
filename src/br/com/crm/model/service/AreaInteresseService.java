@@ -8,6 +8,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import br.com.crm.model.entity.AreaInteresse;
+import br.com.crm.model.entity.Empresa;
 import br.com.crm.model.entity.Usuario;
 import br.com.crm.model.exception.NegocioException;
 
@@ -28,20 +29,26 @@ public class AreaInteresseService {
 	 * @return
 	 */
 	public AreaInteresse salvarAreaInteresse(AreaInteresse area, Usuario usuario) {
-		verificaSeAreaInteresseDescricaoJaExiste(area);
+		verificaSeAreaInteresseDescricaoJaExiste(area, usuario.getEmpresa() );
 		inserirInfoLog( area, usuario );
+		referenciarEmpresa(area, usuario);
 		return manager.merge( area );
 	}
 	
 	
+	private void referenciarEmpresa(AreaInteresse area, Usuario usuario) {
+		area.setEmpresa( usuario.getEmpresa() );
+	}
+
+
 
 
 	/**
 	 * RN para garantir a unicidade da descrição de areas de interesse
 	 * @param area
 	 */
-	private void verificaSeAreaInteresseDescricaoJaExiste(AreaInteresse area) {
-		AreaInteresse foundArea = buscarAreaInteressePorDescricao(area.getDescricao() );
+	private void verificaSeAreaInteresseDescricaoJaExiste(AreaInteresse area, Empresa empresa) {
+		AreaInteresse foundArea = buscarAreaInteressePorDescricao(area.getDescricao(), empresa );
 		if (foundArea!=null && !foundArea.equals(area)) {
 			throw new NegocioException("Já existe área de interesse com esta descrição");
 		}
@@ -87,10 +94,11 @@ public class AreaInteresseService {
 	 * @param description
 	 * @return
 	 */
-	private AreaInteresse buscarAreaInteressePorDescricao(String description) {
+	private AreaInteresse buscarAreaInteressePorDescricao(String description, Empresa empresa) {
 		try {
 			return manager.createNamedQuery("buscarAreaInteressePorDescricao", AreaInteresse.class)
 					.setParameter("pDescricao", description)
+					.setParameter("pEmpresa", empresa)
 					.getSingleResult();
 		} catch (NoResultException e) {
 			return null;
@@ -100,19 +108,23 @@ public class AreaInteresseService {
 	
 	/**
 	 * Pesquisa por todas as areas de interesses
+	 * @param empresa 
 	 * @return
 	 */
-	public List<AreaInteresse> pesquisarAreaInteresse(){
+	public List<AreaInteresse> pesquisarAreaInteresse(Empresa empresa){
 		 return	 manager.createNamedQuery("pesquisarAreaInteresse", AreaInteresse.class)
+				 	.setParameter("pEmpresa", empresa)
 					.getResultList();			
 	}
 	
 	/**
 	 * Pesquisa pelas areas ativos somente.
+	 * @param empresa 
 	 * @return
 	 */
-	public List<AreaInteresse> pesquisarAreaInteresseAtiva() {
+	public List<AreaInteresse> pesquisarAreaInteresseAtiva(Empresa empresa) {
 		List<AreaInteresse> areas = manager.createNamedQuery("pesquisarAreaInteresseAtiva", AreaInteresse.class)
+				.setParameter("pEmpresa", empresa)
 				.getResultList();
 		
 		return areas;

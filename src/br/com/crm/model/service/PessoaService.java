@@ -16,11 +16,13 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import br.com.crm.model.entity.AreaInteresse;
+import br.com.crm.model.entity.Empresa;
 import br.com.crm.model.entity.Endereco;
 import br.com.crm.model.entity.Pessoa;
 import br.com.crm.model.entity.PessoaCartaoNegocio;
 import br.com.crm.model.entity.PessoaObservacao;
 import br.com.crm.model.entity.Profissao;
+import br.com.crm.model.entity.Usuario;
 import br.com.crm.model.exception.NegocioException;
 
 /**
@@ -43,8 +45,8 @@ public class PessoaService {
 	 * @param contact
 	 * @return
 	 */
-	public Pessoa salvarPessoa(Pessoa contact) {
-		verificarSeEmailEhUnico(contact);
+	public Pessoa salvarPessoa(Pessoa contact, Usuario usuario) {
+		verificarSeEmailEhUnico(contact, usuario.getEmpresa() );
 //		defineMaturity( contact );
 		return manager.merge( contact );
 	}
@@ -66,17 +68,28 @@ public class PessoaService {
 	 * @param c
 	 * @return
 	 */
-	public Pessoa salvarPessoaSemVerificar(Pessoa c) {
+	public Pessoa salvarPessoaSemVerificar(Pessoa c, Usuario usuario) {
+		referenciarEmpresa(c, usuario.getEmpresa() );
 		return manager.merge( c );
 	}
 	
 	/**
-	 * RN para garantir unicidade do email em contato
-	 * @param c
+	 * Resolve a referencia entre pessoa e empresa
+	 * @param pessoa
+	 * @param empresa
 	 */
-	private void verificarSeEmailEhUnico(Pessoa c) {
-		Pessoa foundPessoa = buscarPessoaPeloEmailPrincipal(c.getEmailPrincipal() );
-		if (foundPessoa!=null && !foundPessoa.equals(c)) {
+	private void referenciarEmpresa(Pessoa pessoa, Empresa empresa) {
+		pessoa.setEmpresa( empresa );
+	}
+
+
+	/**
+	 * RN para garantir unicidade do email em contato
+	 * @param pessoa
+	 */
+	private void verificarSeEmailEhUnico(Pessoa pessoa, Empresa empresa) {
+		Pessoa foundPessoa = buscarPessoaPeloEmailPrincipal(pessoa.getEmailPrincipal(), empresa );
+		if (foundPessoa!=null && !foundPessoa.equals(pessoa)) {
 			throw new NegocioException("Email já usado por outro contato");
 		}
 	}
@@ -131,12 +144,14 @@ public class PessoaService {
 	 * Encontra contato pelo email
 	 * (usado na RN para salvar contato)
 	 * @param email
+	 * @param empresa 
 	 * @return
 	 */
-	private Pessoa buscarPessoaPeloEmailPrincipal(String email) {
+	private Pessoa buscarPessoaPeloEmailPrincipal(String email, Empresa empresa) {
 		try {
 			return manager.createNamedQuery("buscarPessoaPeloEmailPrincipal", Pessoa.class)
 					.setParameter("pEmailPrincipal", email)
+					.setParameter("pEmpresa", empresa)
 					.getSingleResult()
 					;
 		} catch (NoResultException e) {
@@ -152,11 +167,12 @@ public class PessoaService {
 	 * @param cidade
 	 * @return
 	 */
-	public List<Pessoa> pesquisarPessoaPelosFiltros(String nome, String email, String cidade) {
+	public List<Pessoa> pesquisarPessoaPelosFiltros(Empresa empresa, String nome, String email, String cidade) {
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		CriteriaQuery<Pessoa> criteria = builder.createQuery(Pessoa.class);
 		Root<Pessoa> root = criteria.from(Pessoa.class);
 		
+		//TODO colocar empresa...
 		Predicate conjuction = builder.conjunction();
 		//1.name
 		if (isNotBlank(nome)) {
@@ -202,8 +218,9 @@ public class PessoaService {
 	 * @param cidadeNome
 	 * @return
 	 */
-	public List<Pessoa> pesquisarPessoaPeloPrimeiroNomeOrSobreNomeOrCidade(String nome, String cidadeNome) {
+	public List<Pessoa> pesquisarPessoaPeloPrimeiroNomeOrSobreNomeOrCidade(Empresa empresa, String nome, String cidadeNome) {
 		List<Pessoa> contacts = manager.createNamedQuery("pesquisarPessoaPeloPrimeiroNomeOrSobreNomeOrCidade", Pessoa.class)
+				.setParameter("pEmpresa", empresa)
 				.setParameter("pNome", toLikeMatchModeSTART(nome))
 				.setParameter("pCidadeNome", toLikeMatchModeSTART(cidadeNome))
 				.getResultList();

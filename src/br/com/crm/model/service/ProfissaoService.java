@@ -15,7 +15,7 @@ import br.com.crm.model.exception.NegocioException;
 /**
  * Serviços para Profissões
  * @author Solkam
- * @since 02 AGO 2015
+ * @since 02 mai 2015
  */
 @Stateless
 public class ProfissaoService {

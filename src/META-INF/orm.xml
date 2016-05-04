@@ -22,6 +22,7 @@
 		<query>
 			select ia
 			from AreaInteresse ia
+			where ia.empresa = :pEmpresa
 			order by ia.descricao
 		</query>
 	</named-query>
@@ -31,6 +32,7 @@
 			select ia
 			from AreaInteresse ia
 			where ia.flagAtivo = TRUE
+			and   ia.empresa   = :pEmpresa
 			order by ia.descricao
 		</query>
 	</named-query>
@@ -39,7 +41,8 @@
 		<query>
 			select ia
 			from AreaInteresse ia
-			where ia.descricao = :pDescricao
+			where ia.empresa   = :pEmpresa
+			and   ia.descricao = :pDescricao
 		</query>
 	</named-query>
 
@@ -51,6 +54,7 @@
 		<query>
 			select p
 			from Profissao p
+			where p.empresa = :pEmpresa
 			order by p.descricao
 		</query>
 	</named-query>
@@ -59,7 +63,8 @@
 		<query>
 			select p
 			from Profissao p
-			where p.flagAtivo = TRUE
+			where p.empresa = :pEmpresa
+			and   p.flagAtivo = TRUE
 			order by p.descricao
 		</query>
 	</named-query>
@@ -68,7 +73,8 @@
 		<query>
 			select p
 			from Profissao p
-			where p.descricao = :pDescricao
+			where p.empresa  = :pEmpresa
+			and  p.descricao = :pDescricao
 		</query>
 	</named-query>
 	
@@ -80,6 +86,7 @@
 		<query>
 			select c
 			from Pessoa c
+			where c.empresa = :pEmpresa
 			order by c.primeiroNome, c.sobreNome
 		</query>
 	</named-query>
@@ -88,9 +95,11 @@
 		<query>
 			select distinct c
 			from Pessoa c
-			where c.primeiroNome           like :pNome
-			or   c.sobreNome               like :pNome
-			or   c.endereco.enderecoCidade like :pCidadeNome
+			where c.empresa = :pEmpresa 
+			and  (c.primeiroNome               like :pNome
+			      or c.sobreNome               like :pNome
+			      or c.endereco.enderecoCidade like :pCidadeNome
+			     )
 			order by c.primeiroNome, c.sobreNome
 		</query>
 	</named-query>
@@ -99,7 +108,8 @@
 		<query>
 			select c
 			from Pessoa c
-			where c.imagemBinario IS NOT NULL
+			where c.empresa = :pEmpresa
+			and   c.imagemBinario IS NOT NULL
 		</query>
 	</named-query>
 	
@@ -107,7 +117,8 @@
 		<query>
 			select c
 			from Pessoa c
-			where c.emailPrincipal = :pEmailPrincipal
+			where c.empresa = :pEmpresa
+			and   c.emailPrincipal = :pEmailPrincipal
 		</query>
 	</named-query>
 	
@@ -116,7 +127,8 @@
 			select c
 			from Pessoa c
 				join c.areasInteresse area
-			where area = :pAreaInteresse
+			where area      = :pAreaInteresse
+			and   c.empresa = :pEmpresa
 			order by c.primeiroNome, c.sobreNome
 		</query>
 	</named-query>
@@ -126,7 +138,8 @@
 			select c
 			from Pessoa c
 				join c.profissoes p
-			where p = :pProfissao
+			where p         = :pProfissao
+			and   c.empresa = :pEmpresa
 			order by c.primeiroNome, c.sobreNome
 		</query>
 	</named-query>

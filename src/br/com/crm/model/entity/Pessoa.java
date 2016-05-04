@@ -1,6 +1,7 @@
 package br.com.crm.model.entity;
 
 import java.io.Serializable;
+
 import java.util.Date;
 import java.util.List;
 
@@ -35,6 +36,10 @@ public class Pessoa implements Serializable {
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 
+	@ManyToOne
+	@NotNull
+	private Empresa empresa;
+	
 	/**
 	 * Primeiro nome
 	 */
@@ -113,32 +118,18 @@ public class Pessoa implements Serializable {
 	
 	
 	/**
-	 * Profissoes desempenhadas
+	 * Empresa em que trabalha
 	 */
-	@ManyToMany
-	@JoinTable(name="Pessoa_x_Profession"
-		,joinColumns=@JoinColumn(name="pessoa_id")
-		,inverseJoinColumns=@JoinColumn(name="profissao_id")
-	)
-	private List<Profissao> profissoes;
-	
+	@Size(max=100)
+	private String empregadoEm;
 	
 	/**
-	 * Areas de interesse (hobbies)
+	 * Função na empresa
 	 */
-	@ManyToMany
-	@JoinTable(name="Pessoa_x_AreaInteresse"
-		,joinColumns=@JoinColumn(name="pessoa_id")
-		,inverseJoinColumns=@JoinColumn(name="areaInteresse_id")
-	)
-	private List<AreaInteresse> areasInteresse;
-
-
-	/**
-	 * Empresa em trbalha e funcao
-	 */
-	@Embedded
-	private Empresa empresa;
+	@Size(max=100)
+	private String empregadoComo;
+	
+	
 	
 
 	/**
@@ -164,6 +155,28 @@ public class Pessoa implements Serializable {
 	private String imagemExtensao;
 	
 	
+	/**
+	 * Profissoes desempenhadas
+	 */
+	@ManyToMany
+	@JoinTable(name="Pessoa_x_Profissao"
+		,joinColumns=@JoinColumn(name="pessoa_id")
+		,inverseJoinColumns=@JoinColumn(name="profissao_id")
+	)
+	private List<Profissao> profissoes;
+	
+	
+	/**
+	 * Areas de interesse (hobbies)
+	 */
+	@ManyToMany
+	@JoinTable(name="Pessoa_x_AreaInteresse"
+		,joinColumns=@JoinColumn(name="pessoa_id")
+		,inverseJoinColumns=@JoinColumn(name="areaInteresse_id")
+	)
+	private List<AreaInteresse> areasInteresse;
+	
+	
 	//observacoes
 	@OneToMany(mappedBy="pessoa")
 	private List<PessoaObservacao> observacoes;
@@ -172,11 +185,6 @@ public class Pessoa implements Serializable {
 	//business card
 	@OneToMany(mappedBy="pessoa")
 	private List<PessoaCartaoNegocio> cartoesNegocio;
-	
-	
-	//fichas de inscrição
-//	@OneToMany(mappedBy="contact")
-//	private List<ContactInscriptionForm> inscriptionForms;
 	
 	
 	
@@ -198,6 +206,13 @@ public class Pessoa implements Serializable {
 		this.id = id;
 	}
 
+	public Empresa getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(Empresa empresa) {
+		this.empresa = empresa;
+	}
 
 	public String getPrimeiroNome() {
 		return primeiroNome;
@@ -322,13 +337,20 @@ public class Pessoa implements Serializable {
 		this.profissoes = profissoes;
 	}
 
-
-	public Empresa getEmpresa() {
-		return empresa;
+	public String getEmpregadoEm() {
+		return empregadoEm;
 	}
 
-	public void setEmpresa(Empresa empresa) {
-		this.empresa = empresa;
+	public void setEmpregadoEm(String empregadoEm) {
+		this.empregadoEm = empregadoEm;
+	}
+
+	public String getEmpregadoComo() {
+		return empregadoComo;
+	}
+
+	public void setEmpregadoComo(String empregadoComo) {
+		this.empregadoComo = empregadoComo;
 	}
 
 	public String getIndicadoPor() {
@@ -419,7 +441,7 @@ public class Pessoa implements Serializable {
 	 * Monta um Date a partir dos campos individuais de ano, mes e dia
 	 * @return
 	 */
-	public Date getDataNascimento() {
+	public Date getDataNascimentoCompleta() {
 		return DateUtil.buildDate(getNascimentoAno(), getNascimentoMes(), getNascimentoDia() );
 	}
 	
@@ -428,8 +450,8 @@ public class Pessoa implements Serializable {
 	 * @return
 	 */
 	public Integer getIdadeCalculada() {
-		if (getDataNascimento()!=null) {
-			return DateUtil.calculateAge( getDataNascimento() );
+		if (getDataNascimentoCompleta()!=null) {
+			return DateUtil.calculateAge( getDataNascimentoCompleta() );
 		}
 		return null;
 	}
@@ -438,7 +460,7 @@ public class Pessoa implements Serializable {
 	 * Monta o nome completo juntando o primeiro e ultimo nomes.
 	 * @return
 	 */
-	public String getFullName() {
+	public String getNomeCompleto() {
 		return String.format("%s %s", getPrimeiroNome(), getSobreNome() );
 	}
 

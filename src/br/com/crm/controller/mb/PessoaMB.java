@@ -18,6 +18,7 @@ import br.com.crm.controller.mb.security.SessionHolder;
 import br.com.crm.controller.util.ImageStreamUtil;
 import br.com.crm.controller.util.JSFUtil;
 import br.com.crm.model.entity.AreaInteresse;
+import br.com.crm.model.entity.Empresa;
 import br.com.crm.model.entity.Pessoa;
 import br.com.crm.model.entity.PessoaCartaoNegocio;
 import br.com.crm.model.entity.PessoaObservacao;
@@ -68,7 +69,8 @@ public class PessoaMB implements Serializable {
 	
 
 	private void initPessoas() {
-		pessoas = pessoaService.pesquisarPessoaPelosFiltros(filtroNome, filtroEmail, filterCidade);
+		Empresa empresa = sessionHolder.getEmpresa();
+		pessoas = pessoaService.pesquisarPessoaPelosFiltros(empresa, filtroNome, filtroEmail, filterCidade);
 	}
 	
 	
@@ -92,7 +94,7 @@ public class PessoaMB implements Serializable {
 		pessoa.validarDataNascimento();
 		pessoa.validarDocumentos();
 		//salva
-		pessoa = pessoaService.salvarPessoa(pessoa);
+		pessoa = pessoaService.salvarPessoa(pessoa, sessionHolder.getUsuario() );
 		//prepara exibicao
 		initPessoas();
 		recarregar();
@@ -111,11 +113,11 @@ public class PessoaMB implements Serializable {
 	private List<AreaInteresse> comboAreasInteresse;
 	
 	private void initComboAreasInteresse() {
-		comboAreasInteresse = areaInteresseService.pesquisarAreaInteresseAtiva();
+		comboAreasInteresse = areaInteresseService.pesquisarAreaInteresseAtiva(sessionHolder.getEmpresa() );
 	}
 	
 	public void salvarAreasInteresseDaPessoa() {
-		pessoa = pessoaService.salvarPessoa(pessoa);
+		pessoa = pessoaService.salvarPessoa(pessoa, sessionHolder.getUsuario() );
 		recarregar();
 		JSFUtil.addInfoMessage("Áreas de Interesse salvas com sucesso");
 	}
@@ -129,7 +131,7 @@ public class PessoaMB implements Serializable {
 	}
 	
 	public void salvarProfissoesDaPessoa() {
-		pessoa = pessoaService.salvarPessoa(pessoa);
+		pessoa = pessoaService.salvarPessoa(pessoa, sessionHolder.getUsuario() );
 		recarregar();
 		JSFUtil.addInfoMessage("Profissões salvas com sucesso");
 	}
@@ -179,7 +181,7 @@ public class PessoaMB implements Serializable {
 	
 	//autocomplete
 	public List<Pessoa> completarPessoa(String frag) {
-		List<Pessoa> pessoas = pessoaService.pesquisarPessoaPeloPrimeiroNomeOrSobreNomeOrCidade(frag, frag);
+		List<Pessoa> pessoas = pessoaService.pesquisarPessoaPeloPrimeiroNomeOrSobreNomeOrCidade(sessionHolder.getEmpresa(), frag, frag);
 		return pessoas;
 	}
 	
@@ -236,7 +238,7 @@ public class PessoaMB implements Serializable {
 	 * Salva o contact que implicitamente salvara sua imagem
 	 */
 	public void salvarImagemNoDB() {
-		pessoa = pessoaService.salvarPessoa( pessoa );
+		pessoa = pessoaService.salvarPessoa( pessoa, sessionHolder.getUsuario() );
 		recarregar();
 		initPessoas();
 		JSFUtil.addInfoMessage("Foto salva com sucesso");
@@ -250,7 +252,7 @@ public class PessoaMB implements Serializable {
 	public void removeImage() {
 		pessoa.setImagemBinario( null );
 		pessoa.setImagemExtensao( null );
-		pessoa = pessoaService.salvarPessoa( pessoa );
+		pessoa = pessoaService.salvarPessoa( pessoa, sessionHolder.getUsuario() );
 		recarregar();
 		initPessoas();
 		JSFUtil.addInfoMessage("Foto removida");

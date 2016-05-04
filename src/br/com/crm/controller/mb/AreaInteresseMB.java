@@ -38,7 +38,7 @@ public class AreaInteresseMB implements Serializable {
 	}
 	
 	private void initAreasInteresse() {
-		areasInteresse = service.pesquisarAreaInteresse();
+		areasInteresse = service.pesquisarAreaInteresse(sessionHolder.getEmpresa() );
 	}
 	
 	

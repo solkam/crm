@@ -10,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.validation.constraints.NotNull;
@@ -26,6 +27,10 @@ public class Usuario implements Serializable {
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 
+	@ManyToOne
+	@NotNull
+	private Empresa empresa;
+	
 	
 	@NotNull
 	@Size(max=100)
@@ -71,6 +76,14 @@ public class Usuario implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public Empresa getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(Empresa empresa) {
+		this.empresa = empresa;
 	}
 
 	public String getEmail() {

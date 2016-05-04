@@ -2,6 +2,7 @@ package br.com.crm.model.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * Profissao de uma pessos
@@ -14,7 +15,10 @@ public class Profissao implements Serializable {
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
-
+	@ManyToOne
+	@NotNull
+	private Empresa empresa;
+	
 	@Column(length=100, nullable=false, unique=true)
 	private String descricao;
 	
@@ -35,6 +39,16 @@ public class Profissao implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+
+	public Empresa getEmpresa() {
+		return empresa;
+	}
+
+
+	public void setEmpresa(Empresa empresa) {
+		this.empresa = empresa;
 	}
 
 
