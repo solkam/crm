@@ -1,13 +1,17 @@
 package br.com.crm.model.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
 
 /**
  * Empresa onde estão vinculado todos as entidades do sistema.
@@ -31,6 +35,20 @@ public class Empresa implements Serializable {
 	@NotNull
 	private String cnpj;
 	
+	@NotNull
+	private Boolean flagAtivo = true;
+	
+	
+	@OneToMany(mappedBy="empresa")
+	private List<Usuario> usuarios;
+	
+	
+	
+	
+	@Embedded
+	private InfoLog infoLog;
+	
+	
 	
 	//acessores...
 	private static final long serialVersionUID = -3739150312983609101L;
@@ -40,6 +58,33 @@ public class Empresa implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+	public Boolean getFlagAtivo() {
+		return flagAtivo;
+	}
+
+	public void setFlagAtivo(Boolean flagAtivo) {
+		this.flagAtivo = flagAtivo;
+	}
+
+	public List<Usuario> getUsuarios() {
+		return usuarios;
+	}
+
+	public void setUsuarios(List<Usuario> usuarios) {
+		this.usuarios = usuarios;
+	}
+
+	public InfoLog getInfoLog() {
+		if (infoLog==null) {
+			infoLog = new InfoLog();
+		}
+		return infoLog;
+	}
+
+	public void setInfoLog(InfoLog infoLog) {
+		this.infoLog = infoLog;
 	}
 
 	public String getNome() {
@@ -91,7 +136,5 @@ public class Empresa implements Serializable {
 	public boolean isTransient() {
 		return getId()==null;
 	}
-
-
 	
 }

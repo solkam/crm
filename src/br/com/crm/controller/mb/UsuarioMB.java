@@ -8,10 +8,13 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
+import br.com.crm.controller.mb.security.SessionHolder;
 import br.com.crm.controller.util.JSFUtil;
+import br.com.crm.model.entity.Empresa;
 import br.com.crm.model.entity.Perfil;
 import br.com.crm.model.entity.Usuario;
 import br.com.crm.model.exception.NegocioException;
+import br.com.crm.model.service.EmpresaService;
 import br.com.crm.model.service.UsuarioService;
 
 /**
@@ -25,9 +28,15 @@ public class UsuarioMB implements Serializable {
 	
 	@Inject UsuarioService usuarioService;
 	
+	@Inject EmpresaService empresaService;
+	
+	@Inject SessionHolder sessionHolder;
+	
+	
 	private Usuario usuario;
 	
 	private List<Usuario> usuarios;
+	
 	
 	//filtros
 	private String filtroEmail;
@@ -37,13 +46,20 @@ public class UsuarioMB implements Serializable {
 	private String senha1;
 	private String senha2;
 	
+	//combos
+	private List<Empresa> comboEmpresas;
 	
 	@PostConstruct void init() {
 		pesquisar();
+		initComboEmpresas();
 	}
 	
 	private void initUsuarios() {
 		usuarios = usuarioService.pesquisarUsuarioPelosFiltros(filtroEmail, filtroPerfil);
+	}
+	
+	private void initComboEmpresas() {
+		comboEmpresas = empresaService.pesquisarEmpresasAtivas();
 	}
 	
 	public void pesquisar() {
@@ -53,6 +69,7 @@ public class UsuarioMB implements Serializable {
 	
 	public void novo() {
 		usuario = new Usuario();
+		usuario.setEmpresa( new Empresa() );
 	}
 	
 	public void gerenciar(Usuario usuarioSelecionado) {
@@ -60,7 +77,7 @@ public class UsuarioMB implements Serializable {
 	}
 	
 	public void salvar() {
-		usuario = usuarioService.salvarUsuario(usuario);
+		usuario = usuarioService.salvarUsuario(usuario, sessionHolder.getUsuario() );
 		initUsuarios();
 		JSFUtil.addInfoMessage("Usuário salvo com sucesso");
 		
@@ -75,7 +92,7 @@ public class UsuarioMB implements Serializable {
 	public void salvarSenha() {
 		validarSenhas();
 		usuario.setSenha( senha1 );
-		usuarioService.salvarUsuario(usuario);
+		usuarioService.salvarUsuario(usuario, sessionHolder.getUsuario() );
 		JSFUtil.addInfoMessage("Senha salva com sucesso");
 	}
 	
@@ -134,6 +151,10 @@ public class UsuarioMB implements Serializable {
 
 	public List<Usuario> getUsuarios() {
 		return usuarios;
+	}
+
+	public List<Empresa> getComboEmpresas() {
+		return comboEmpresas;
 	}
 	
 	

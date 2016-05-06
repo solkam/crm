@@ -14,6 +14,15 @@
 			and   u.senha = :pSenha
 		</query>
 	</named-query>
+	
+	<named-query name="pesquisarEmpresaAtiva">
+		<query>
+			select e
+			from Empresa e
+			where e.flagAtivo = TRUE
+			order by e.nome
+		</query>
+	</named-query>
 
 
 	<!-- area de interesse -->

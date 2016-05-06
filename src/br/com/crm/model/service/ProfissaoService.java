@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
+import br.com.crm.model.entity.Empresa;
 import br.com.crm.model.entity.Profissao;
 import br.com.crm.model.entity.Usuario;
 import br.com.crm.model.exception.NegocioException;
@@ -22,26 +23,30 @@ public class ProfissaoService {
 	
 	@PersistenceContext EntityManager manager;
 	
-//	@EJB ContactService contactService;
 	
 	/**
 	 * Salva uma profissoa aplicando RN
-	 * @param p
+	 * @param profissao
 	 * @return
 	 */
-	public Profissao salvarProfissao(Profissao p, Usuario usuario) {
-		verifcarSeProfissaoDescricaoJaExiste(p);
-		inserirLog(p, usuario);
-		return manager.merge( p );
+	public Profissao salvarProfissao(Profissao profissao, Usuario usuario) {
+		verifcarSeProfissaoDescricaoJaExiste( usuario.getEmpresa(), profissao );
+		inserirLog(profissao, usuario);
+		referenciarEmpresaEProfissao(profissao, usuario.getEmpresa() );
+		return manager.merge( profissao );
 	}
 	
+	private void referenciarEmpresaEProfissao(Profissao profissao, Empresa empresa) {
+		profissao.setEmpresa( empresa );
+	}
+
 	/**
 	 * RN que verifica se nome da profissao é unico
-	 * @param p
+	 * @param profissao
 	 */
-	private void verifcarSeProfissaoDescricaoJaExiste(Profissao p) {
-		Profissao ProfissaoFound = buscarProfissaoPelaDescricao( p.getDescricao() );
-		if (ProfissaoFound!=null && !ProfissaoFound.equals(p)) {
+	private void verifcarSeProfissaoDescricaoJaExiste(Empresa empresa, Profissao profissao) {
+		Profissao ProfissaoFound = buscarProfissaoPelaDescricao( empresa, profissao.getDescricao() );
+		if (ProfissaoFound!=null && !ProfissaoFound.equals(profissao)) {
 			throw new NegocioException("Já existe Profissão com este nome");
 		}
 	}
@@ -62,20 +67,9 @@ public class ProfissaoService {
 	 * @param p
 	 */
 	public void removerProfissao(Profissao p) {
-		verificarSeExistePessoaDaProfissao(p);
 		manager.remove( manager.merge(p) );
 	}
 	
-	/**
-	 * Verifica se algum contato está associado a esta profissão
-	 * @param p
-	 */
-	private void verificarSeExistePessoaDaProfissao(Profissao p) {
-//		List<Contact> contatsFound = contactService.pesquisarContactByProfissao(p);
-//		if (!contatsFound.isEmpty()) {
-//			throw new NegocioException("Existem Contatos associados a esta Profissão");
-//		}
-	}
 
 	/**
 	 * Busca profissao pela PK
@@ -92,10 +86,11 @@ public class ProfissaoService {
 	 * @param descricao
 	 * @return null se nao encontrar
 	 */
-	public Profissao buscarProfissaoPelaDescricao(String descricao) {
+	public Profissao buscarProfissaoPelaDescricao(Empresa empresa, String descricao) {
 		try {
 			return manager.createNamedQuery("buscarProfissaoPelaDescricao", Profissao.class)
 					.setParameter("pDescricao", descricao)
+					.setParameter("pEmpresa", empresa )
 					.getSingleResult();
 		} catch (NoResultException e) {
 			return null;
@@ -106,8 +101,9 @@ public class ProfissaoService {
 	 * Pesquisar todas as profissoes
 	 * @return
 	 */
-	public List<Profissao> pesquisarProfissao() {
+	public List<Profissao> pesquisarProfissao(Empresa empresa) {
 		return manager.createNamedQuery("pesquisarProfissao", Profissao.class)
+				.setParameter("pEmpresa", empresa)
 				.getResultList();
 	}
 	
@@ -115,8 +111,9 @@ public class ProfissaoService {
 	 * Pesquisa professoes ativas (para serem usadas em combo)
 	 * @return
 	 */
-	public List<Profissao> pesquisarProfissaoAtiva() {
+	public List<Profissao> pesquisarProfissaoAtiva(Empresa empresa) {
 		List<Profissao> Profissaos = manager.createNamedQuery("pesquisarProfissaoAtiva", Profissao.class)
+				.setParameter("pEmpresa", empresa)
 				.getResultList();
 		
 		return Profissaos;

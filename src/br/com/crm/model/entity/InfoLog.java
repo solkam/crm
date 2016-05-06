@@ -64,7 +64,14 @@ public class InfoLog implements Serializable {
 	public void setAtualizadoPor(String atualizadoPor) {
 		this.atualizadoPor = atualizadoPor;
 	}
+
 	
+	
+	//flag dinamicas...
+	
+	public Boolean getFlagJaFoiAtualizado() {
+		return getAtualizadoEm() != null;
+	}
 	
    
 }

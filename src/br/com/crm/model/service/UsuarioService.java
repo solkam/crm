@@ -1,5 +1,10 @@
 package br.com.crm.model.service;
 
+import static br.com.crm.model.util.QueryUtil.isNotBlank;
+import static br.com.crm.model.util.QueryUtil.isNotNull;
+import static br.com.crm.model.util.QueryUtil.toLikeMatchModeANY;
+
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -13,7 +18,6 @@ import javax.persistence.criteria.Root;
 
 import br.com.crm.model.entity.Perfil;
 import br.com.crm.model.entity.Usuario;
-import static br.com.crm.model.util.QueryUtil.*;
 
 
 /**
@@ -31,11 +35,23 @@ public class UsuarioService {
 	 * @param usuario
 	 * @return
 	 */
-	public Usuario salvarUsuario(Usuario usuario) {
+	public Usuario salvarUsuario(Usuario usuario, Usuario usuarioSalvador) {
+		inserirInfoLog(usuario, usuarioSalvador);
 		return manager.merge(usuario);
 	}
 	
 	
+	private void inserirInfoLog(Usuario usuario, Usuario usuarioSalvador) {
+		if (usuario.isTransient()) {
+			usuario.getInfoLog().setCriadoEm( new Date() );
+			usuario.getInfoLog().setCriadoPor( usuarioSalvador.getEmail() );
+		} else {
+			usuario.getInfoLog().setAtualizadoEm( new Date() );
+			usuario.getInfoLog().setAtualizadoPor( usuarioSalvador.getEmail() );
+		}
+	}
+
+
 	/**
 	 * Remove instancia de usuario
 	 * @param usuario

@@ -1,7 +1,6 @@
 package br.com.crm.model.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -11,13 +10,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- * Usuario para acesso ao sistema com email, senha e perfil
+ * Usuario para acesso ao sistema com email, senha, perfil e empresa
  * @author Solkam
  * @since 26 ABR 2016
  */
@@ -54,18 +51,6 @@ public class Usuario implements Serializable {
 	private InfoLog infoLog;
 	
 	
-	
-	//listeners
-	@PrePersist void onPersist() {
-		getInfoLog().setCriadoEm( new Date() );
-	}
-	
-	@PreUpdate void onUpdate() {
-		getInfoLog().setAtualizadoEm( new Date() );
-	}
-	
-
-
 	
 	//acessores...
 	private static final long serialVersionUID = 380973725983130162L;

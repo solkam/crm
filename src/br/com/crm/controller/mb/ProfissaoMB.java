@@ -39,7 +39,7 @@ public class ProfissaoMB implements Serializable {
 	
 	
 	private void initProfissoes() {
-		profissoes = service.pesquisarProfissao();
+		profissoes = service.pesquisarProfissao( sessionHolder.getEmpresa() );
 	}
 	
 	

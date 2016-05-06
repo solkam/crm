@@ -127,7 +127,7 @@ public class PessoaMB implements Serializable {
 	private List<Profissao> comboProfissoes;
 
 	private void initComboProfissoes() {
-		comboProfissoes = profissaoService.pesquisarProfissaoAtiva();
+		comboProfissoes = profissaoService.pesquisarProfissaoAtiva( sessionHolder.getEmpresa() );
 	}
 	
 	public void salvarProfissoesDaPessoa() {

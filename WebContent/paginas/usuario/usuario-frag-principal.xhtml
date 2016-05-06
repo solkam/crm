@@ -4,23 +4,25 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:tremn="http://java.sun.com/jsf/composite/components">
+      xmlns:my="http://java.sun.com/jsf/composite/components">
        
 <h:form id="formUsuario">
 
-	<tremn:globalMessages />
+	<my:globalMessages />
 
 	<p:panel>
+		<h:outputText value="Dados gerais" styleClass="destak3" />
+		<p:separator />
 
 		<h:panelGrid columns="2" cellpadding="10">
+			<p:outputLabel for="inEmail" value="Email" styleClass="req" />
 			<h:panelGrid>
-				<p:outputLabel for="inEmail" value="Email" styleClass="req" />
 				<p:inputText id="inEmail" value="#{usuarioMB.usuario.email}" size="50" required="true" placeholder="Email" />
 				<p:message for="inEmail" />
 			</h:panelGrid>
 
+			<p:outputLabel for="inPerfil" value="Perfil" styleClass="req" />
 			<h:panelGrid>
-				<p:outputLabel for="inPerfil" value="Perfil" styleClass="req" />
 				<p:selectOneRadio id="inPerfil" value="#{usuarioMB.usuario.perfil }" required="true" layout="pageDirection" >
 					<f:selectItems value="#{enumHelper.perfils }" var="perfilVar" 
 						itemValue="#{perfilVar}" itemLabel="#{perfilVar.descricao }" />
@@ -28,8 +30,44 @@
 				<p:message for="inPerfil" />
 			</h:panelGrid>
 
-		</h:panelGrid>
+			<p:outputLabel for="inEmpresa" value="Empresa" styleClass="req" />
+			<h:panelGrid>
+				<p:selectOneMenu id="inEmpresa" value="#{usuarioMB.usuario.empresa.id }" required="true" >
+					<f:selectItems value="#{usuarioMB.comboEmpresas }" var="empresaVar" 
+						itemValue="#{empresaVar.id}" itemLabel="#{empresaVar.nome }" />
+				</p:selectOneMenu>
+				<p:message for="inEmpresa" />
+			</h:panelGrid>
 
+		</h:panelGrid>
+	</p:panel>
+
+	
+	<p:panel rendered="#{not usuarioMB.usuario.transient}">
+		<h:outputText value="Histórico" styleClass="destak3" />
+		<p:separator />
+	
+		<h:panelGrid columns="5" cellpadding="5">
+		
+			<p:panelGrid columns="2" >
+				<h:outputText value="Criado em" styleClass="less2" />
+				<my:outputTimestamp value="#{usuarioMB.usuario.infoLog.criadoEm}" styleClass="destak3 less2" />
+			
+				<h:outputText value="Criado por" styleClass="less2" />
+				<h:outputText value="#{usuarioMB.usuario.infoLog.criadoPor}" styleClass="destak3 less2" />
+			</p:panelGrid>
+		
+			<p:panelGrid columns="2" rendered="#{usuarioMB.usuario.infoLog.flagJaFoiAtualizado}">
+				<h:outputText value="Atualizado em" styleClass="less2" />
+				<my:outputTimestamp value="#{usuarioMB.usuario.infoLog.atualizadoEm }" styleClass="destak3 less2" />
+			
+				<h:outputText value="Atualizado por" styleClass="less2" />
+				<h:outputText value="#{usuarioMB.usuario.infoLog.atualizadoPor }" styleClass="destak3 less2" />
+			</p:panelGrid>
+
+		</h:panelGrid>
+	
+	
 	</p:panel>
 	
 	<p:toolbar>

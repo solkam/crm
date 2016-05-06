@@ -60,14 +60,18 @@
 				<h:outputText value="#{usuarioVar.id }" styleClass="less2" />
 			</p:column>
 
-			<p:column headerText="Email" styleClass="col40p">
+			<p:column headerText="Email" styleClass="col30p">
 				<h:outputText value="#{usuarioVar.email }" styleClass="destak2" />
 			</p:column>
 	
-			<p:column headerText="Perfil" styleClass="col40p">
+			<p:column headerText="Perfil" styleClass="col20p">
 				<h:outputText value="#{usuarioVar.perfil.descricao }" styleClass="destak3" />
 			</p:column>
 			
+			<p:column headerText="Empresa" styleClass="col20p">
+				<h:outputText value="#{usuarioVar.empresa.nome }" />
+			</p:column>
+
 			<p:column styleClass="col10p colCenter">
 				<p:commandButton icon="fa fa-edit" value="Editar"
 					process="@this"
