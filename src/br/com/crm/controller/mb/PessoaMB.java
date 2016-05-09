@@ -1,6 +1,7 @@
 package br.com.crm.controller.mb;
 
 import java.io.IOException;
+
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -56,7 +57,7 @@ public class PessoaMB implements Serializable {
 	//filtros
 	private String filtroNome;
 	private String filtroEmail;
-	private String filterCidade;
+	private String filtroCidade;
 	
 
 	//inits..
@@ -70,13 +71,14 @@ public class PessoaMB implements Serializable {
 
 	private void initPessoas() {
 		Empresa empresa = sessionHolder.getEmpresa();
-		pessoas = pessoaService.pesquisarPessoaPelosFiltros(empresa, filtroNome, filtroEmail, filterCidade);
+		pessoas = pessoaService.pesquisarPessoaPelosFiltros(empresa, filtroNome, filtroEmail, filtroCidade);
 	}
 	
 	
 	//actions...
 	public void novo() {
 		pessoa = new Pessoa();
+		
 	}
 	
 	public void pesquisar() {
@@ -89,7 +91,7 @@ public class PessoaMB implements Serializable {
 		recarregar();
 	}
 	
-	public void save() {
+	public void salvar() {
 		//validacoes
 		pessoa.validarDataNascimento();
 		pessoa.validarDocumentos();
@@ -165,7 +167,7 @@ public class PessoaMB implements Serializable {
 	
 	//util
 	private void recarregar() {
-		pessoa = pessoaService.refreshPessoa(pessoa); 
+		pessoa = pessoaService.recarregarPessoa(pessoa); 
 		
 		//area de interesse (para evitar LIE)
 		List<AreaInteresse> areas = new ArrayList<>();
@@ -226,7 +228,7 @@ public class PessoaMB implements Serializable {
 	 * @param produto
 	 */
 	private void salvarImagemNoFS() throws IOException {
-		if (pessoa.getFlagImageOK() ) {
+		if (pessoa.getFlagImagemOK() ) {
 			byte[] imageBinary = pessoa.getImagemBinario();
 			String imageName = pessoa.getImagemNome();
 		
@@ -300,14 +302,14 @@ public class PessoaMB implements Serializable {
 	
 	
 	private PessoaCartaoNegocio salvarCartaoNegocio(PessoaCartaoNegocio newCartaoNegocio) {
-		newCartaoNegocio = pessoaService.savePessoaCartaoNegocio(newCartaoNegocio);
+		newCartaoNegocio = pessoaService.salvarPessoaCartaoNegocio(newCartaoNegocio, sessionHolder.getUsuario() );
 		recarregar();
 		return newCartaoNegocio;
 	}
 	
 	
 	public void removerCartaoNegocio(PessoaCartaoNegocio card) {
-		pessoaService.removePessoaCartaoNegocio(card);
+		pessoaService.removerPessoaCartaoNegocio(card);
 		recarregar();
 		JSFUtil.addInfoMessage("Cartão de Negócio removido");
 	}
@@ -349,13 +351,13 @@ public class PessoaMB implements Serializable {
 	}
 
 
-	public String getFilterCidade() {
-		return filterCidade;
+	public String getFiltroCidade() {
+		return filtroCidade;
 	}
 
 
-	public void setFilterCidade(String filterCidade) {
-		this.filterCidade = filterCidade;
+	public void setFiltroCidade(String filtroCidade) {
+		this.filtroCidade = filtroCidade;
 	}
 
 

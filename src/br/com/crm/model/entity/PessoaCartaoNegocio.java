@@ -9,16 +9,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Cartão de negocio da pessoa.
- * Uma pessoa pode ter vários
+ * Uma pessoa pode ter vários.
  * @author Solkam
- * @since 28 abr 2016
+ * @since 09 mai 2016
  */
 @Entity
 public class PessoaCartaoNegocio implements Serializable {
@@ -44,21 +44,21 @@ public class PessoaCartaoNegocio implements Serializable {
 	private String imagemExtensao;
 
 	
+	/**
+	 * Quando foi feito o upload
+	 */
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataUpload;
+	private Date subidoEm;
+	
+	/**
+	 * Quem fez o upload
+	 */
+	@Size(max=100)
+	private String subidoPor;
 
 
-	//listener
-	@PrePersist void onPersist() {
-		this.dataUpload = new Date();
-	}
-	
-	
 	//acessores...
 	private static final long serialVersionUID = -8031471673434804961L;
-	
-	
-	
 	public Integer getId() {
 		return id;
 	}
@@ -83,12 +83,19 @@ public class PessoaCartaoNegocio implements Serializable {
 	public void setImagemExtensao(String imagemExtensao) {
 		this.imagemExtensao = imagemExtensao;
 	}
-	public Date getDataUpload() {
-		return dataUpload;
+	public Date getSubidoEm() {
+		return subidoEm;
 	}
-	public void setDataUpload(Date dataUpload) {
-		this.dataUpload = dataUpload;
+	public void setSubidoEm(Date subidoEm) {
+		this.subidoEm = subidoEm;
 	}
+	public String getSubidoPor() {
+		return subidoPor;
+	}
+	public void setSubidoPor(String subidoPor) {
+		this.subidoPor = subidoPor;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -121,7 +128,7 @@ public class PessoaCartaoNegocio implements Serializable {
 	
 	//runtime
 	public String getImagemNome() {
-		return String.format("businessCard_%s.%s", getId(), getImagemExtensao() );
+		return String.format("cartaoNegocio_%s.%s", getId(), getImagemExtensao() );
 	}
 	
 }

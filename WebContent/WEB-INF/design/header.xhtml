@@ -5,45 +5,49 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"> 
 
+<h:form>
 	<p:toolbar>
-		<p:toolbarGroup>
-			<h:panelGrid columns="3" cellpadding="5" >
-
-				<h:graphicImage library="img" name="logo_tremncrm_32.png" />
-				
-				
+		<f:facet name="left">
+			<h:panelGrid columns="2" cellpadding="5">
+				<h:graphicImage library="img" name="logo_flormaq.png" />
+	
+				<h:outputText value="CRM na Nuvem" styleClass="destak1" />
 			</h:panelGrid>
-		</p:toolbarGroup>
+		</f:facet>
 		
 
 
 
-		<p:toolbarGroup align="right" >
-			<h:form>
-				<h:panelGrid columns="3" cellpadding="5" >
+		<f:facet name="right">
+				<h:panelGrid columns="5" cellpadding="5" >
 
 					<h:panelGrid columns="2" rendered="#{sessionHolder.flagLogged}" >
-						<span class="ui-icon ui-icon-person" />
+						<span class="fa fa-user" />
 						<h:outputText value="#{sessionHolder.usuario.email}" styleClass="less2" />
 					</h:panelGrid>
 	
 					<h:panelGrid columns="2" rendered="#{sessionHolder.flagLogged}" >
-						<span class="ui-icon ui-icon-key" />
+						<span class="fa fa-key" />
 						<h:outputText value="#{sessionHolder.usuario.perfil.descricao }" styleClass="less2" />
 					</h:panelGrid>
 
-					<p:commandButton icon="ui-icon-key" value="Trocar senha" 
+					<h:panelGrid columns="2" rendered="#{sessionHolder.flagLogged}" >
+						<span class="fa fa-bank" />
+						<h:outputText value="#{sessionHolder.empresa.nome }" styleClass="less2" />
+					</h:panelGrid>
+
+					<p:commandButton icon="fa fa-key" value="Trocar senha" 
 						rendered="false"
 						/>
 					
-					<p:commandButton icon="ui-icon-power" value="Sair" ajax="false" 
+					<p:commandButton icon="fa fa-power-off" value="Sair" ajax="false" 
 						rendered="#{sessionHolder.flagLogged}"
 						action="#{accessMB.doLogout() }"
 						/>
 				</h:panelGrid>
-			</h:form>
-		</p:toolbarGroup>
+		</f:facet>
 	</p:toolbar>
+</h:form>
 	
 
 </ui:fragment>

@@ -3,6 +3,7 @@ package br.com.crm.model.service;
 import static br.com.crm.model.util.QueryUtil.isNotBlank;
 import static br.com.crm.model.util.QueryUtil.toLikeMatchModeSTART;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -42,24 +43,35 @@ public class PessoaService {
 
 	/**
 	 * Salva contato aplicando RN
-	 * @param contact
+	 * @param pessoa
 	 * @return
 	 */
-	public Pessoa salvarPessoa(Pessoa contact, Usuario usuario) {
-		verificarSeEmailEhUnico(contact, usuario.getEmpresa() );
+	public Pessoa salvarPessoa(Pessoa pessoa, Usuario usuario) {
+		verificarSeEmailEhUnico(pessoa, usuario.getEmpresa() );
+		referenciarEmpresaEPessoa(pessoa, usuario.getEmpresa() );
 //		defineMaturity( contact );
-		return manager.merge( contact );
+		return manager.merge( pessoa );
 	}
 	
 
 	/**
 	 * Calcula a maturidade do contato segundo sua idade
-	 * @param contact
+	 * @param pessoa
 	 */
 //	private void defineMaturity(Pessoa contact) {
 //		Maturity maturity = maturityService.findMaturityByAge( contact.getCalculatedAge() );
 //		contact.setMaturity(maturity);
 //	}
+
+
+	/**
+	 * Seta a referencia de empresa na instancia de pessoa.
+	 * @param pessoa
+	 * @param empresa
+	 */
+	private void referenciarEmpresaEPessoa(Pessoa pessoa, Empresa empresa) {
+		pessoa.setEmpresa(empresa);
+	}
 
 
 	/**
@@ -69,18 +81,10 @@ public class PessoaService {
 	 * @return
 	 */
 	public Pessoa salvarPessoaSemVerificar(Pessoa c, Usuario usuario) {
-		referenciarEmpresa(c, usuario.getEmpresa() );
+		referenciarEmpresaEPessoa(c, usuario.getEmpresa() );
 		return manager.merge( c );
 	}
 	
-	/**
-	 * Resolve a referencia entre pessoa e empresa
-	 * @param pessoa
-	 * @param empresa
-	 */
-	private void referenciarEmpresa(Pessoa pessoa, Empresa empresa) {
-		pessoa.setEmpresa( empresa );
-	}
 
 
 	/**
@@ -118,14 +122,13 @@ public class PessoaService {
 	 * @param contact
 	 * @return
 	 */
-	public Pessoa refreshPessoa(Pessoa contact) {
+	public Pessoa recarregarPessoa(Pessoa contact) {
 		contact = manager.find(Pessoa.class, contact.getId() );
 		
 		contact.getAreasInteresse().size();
 		contact.getProfissoes().size();
 		contact.getObservacoes().size();
 		contact.getCartoesNegocio().size();
-//		contact.getInscriptionForms().size();
 		
 		return contact;
 	}
@@ -136,7 +139,7 @@ public class PessoaService {
 	 * @param contactId
 	 * @return
 	 */
-	public Pessoa buscarPessoaPeloId(long contactId) {
+	public Pessoa buscarPessoaPeloId(Integer contactId) {
 		return manager.find(Pessoa.class, contactId);
 	}
 	
@@ -232,8 +235,8 @@ public class PessoaService {
 	 * Pesquisa todos os contatos que tem imagem
 	 * @return
 	 */
-	public List<Pessoa> pesquisarPessoaSemImagem() {
-		return manager.createNamedQuery("pesquisarPessoaSemImagem", Pessoa.class)
+	public List<Pessoa> pesquisarPessoaComImagem() {
+		return manager.createNamedQuery("pesquisarPessoaComImagem", Pessoa.class)
 				.getResultList();
 	}
 	
@@ -279,18 +282,32 @@ public class PessoaService {
 	/* *************
 	 * Business Card
 	 ***************/
-	public PessoaCartaoNegocio savePessoaCartaoNegocio(PessoaCartaoNegocio card) {
-		return manager.merge( card );
+	public PessoaCartaoNegocio salvarPessoaCartaoNegocio(PessoaCartaoNegocio cartao, Usuario usuario) {
+		inserirInfoUpload(cartao, usuario);
+		return manager.merge( cartao );
 	}
 	
-	public void removePessoaCartaoNegocio(PessoaCartaoNegocio card) {
+	private void inserirInfoUpload(PessoaCartaoNegocio cartao, Usuario usuario) {
+		cartao.setSubidoEm( new Date() );
+		cartao.setSubidoPor( usuario.getEmail() );
+	}
+
+
+	public void removerPessoaCartaoNegocio(PessoaCartaoNegocio card) {
 		manager.remove( manager.merge(card) );
 	}
 	
-	public List<PessoaCartaoNegocio> searchPessoaCartaoNegocio() {
-		return manager.createNamedQuery("searchPessoaCartaoNegocio", PessoaCartaoNegocio.class)
+	
+	/**
+	 * Pesquisar todos os cartoes de negocio.
+	 * Usado para grava as imagens em disco.
+	 * @return
+	 */
+	public List<PessoaCartaoNegocio> pesquisarPessoaCartaoNegocio() {
+		return manager.createNamedQuery("pesquisarPessoaCartaoNegocio", PessoaCartaoNegocio.class)
 				.getResultList();
 	}
+	
 	
 	
 	

@@ -1,10 +1,14 @@
 package br.com.crm.controller.helper;
 
 import javax.faces.bean.ApplicationScoped;
-
 import javax.faces.bean.ManagedBean;
 
+import br.com.crm.model.entity.DiaDoMes;
+import br.com.crm.model.entity.EnderecoTipo;
+import br.com.crm.model.entity.Genero;
+import br.com.crm.model.entity.MesDoAno;
 import br.com.crm.model.entity.Perfil;
+import br.com.crm.model.entity.TelefoneOperadora;
 
 /**
  * Helper para enum serem visualizados em componentes Select
@@ -19,28 +23,29 @@ public class EnumHelper {
 		return Perfil.values();
 	}
 	
+	public Genero[] getGeneros() {
+		return Genero.values();
+	}
 
-//	public AddressType[] getAddressTypes() {
-//		return AddressType.values();
-//	}
-//	
-//	public Gender[] getGenders() {
-//		return Gender.values();
-//	}
-//	
-//	
-//	public DateDay[] getDays() {
-//		return DateDay.values();
-//	}
-//	
-//	public DateMonth[] getMonths() {
-//		return DateMonth.values();
-//	}
-//
-//	public TelephoneMobileCompany[] getTelephoneMobileCompanies() {
-//		return TelephoneMobileCompany.values();
-//	}
-//	
+	public EnderecoTipo[] getEnderecoTipos() {
+		return EnderecoTipo.values();
+	}
+	
+	public TelefoneOperadora[] getTelefoneOperadoras() {
+		return TelefoneOperadora.values();
+	}
+
+	
+	public DiaDoMes[] getDiasDoMes() {
+		return DiaDoMes.values();
+	}
+
+	public MesDoAno[] getMesesDoAno() {
+		return MesDoAno.values();
+	}
+	
+	
+	//	
 //	public ParticipationCategory[] getParticipationCategories() {
 //		return ParticipationCategory.values();
 //	}

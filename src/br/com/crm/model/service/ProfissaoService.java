@@ -76,7 +76,7 @@ public class ProfissaoService {
 	 * @param id
 	 * @return
 	 */
-	public Profissao buscarProfissaoPorId(Long id) {
+	public Profissao buscarProfissaoPorId(Integer id) {
 		return manager.find(Profissao.class, id);
 	}
 	

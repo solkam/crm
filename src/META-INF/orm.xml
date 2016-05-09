@@ -114,11 +114,23 @@
 	</named-query>
 	
 	<named-query name="pesquisarPessoaComImagem">
+		<description>
+			Não precisa de empresa pois é restrito à equipe de tecnologia
+		</description>
 		<query>
 			select c
 			from Pessoa c
-			where c.empresa = :pEmpresa
-			and   c.imagemBinario IS NOT NULL
+			where c.imagemBinario IS NOT NULL
+		</query>
+	</named-query>
+	
+	<named-query name="pesquisarPessoaCartaoNegocio">
+		<description>
+			Não precisa de empresa pois é restrito à equipe de tecnologia
+		</description>
+		<query>
+			select cartao
+			from PessoaCartaoNegocio cartao
 		</query>
 	</named-query>
 	

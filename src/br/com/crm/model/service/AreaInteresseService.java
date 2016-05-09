@@ -84,7 +84,7 @@ public class AreaInteresseService {
 	 * @param id
 	 * @return
 	 */
-	public AreaInteresse buscarAreaInteressePorId(Long id) {
+	public AreaInteresse buscarAreaInteressePorId(Integer id) {
 		return manager.find(AreaInteresse.class, id);
 	}
 	

@@ -38,7 +38,6 @@
 	
 <h:form id="formArea">
 
-	<my:globalGrowl />
 	<my:globalMessages />
 
 	<p:outputPanel rendered="#{not empty areaInteresseMB.areasInteresse }">
@@ -77,7 +76,7 @@
 			
 
 			<p:column styleClass="colCenter col10p">
-				<p:commandButton icon="ui-icon-trash" value="remover"
+				<p:commandButton icon="fa fa-trash" value="remover"
 					process="@this"
 					action="#{areaInteresseMB.remover(areaInteresseVar)}"
 					update="@form"
@@ -87,7 +86,7 @@
 			<f:facet name="footer">
 				<p:separator />
 				
-				<p:commandButton icon="ui-icon-check" value="Salvar todas" 
+				<p:commandButton icon="fa fa-check" value="Salvar todas" 
 					action="#{areaInteresseMB.salvarTudo() }"
 					update="@form"
 					/>

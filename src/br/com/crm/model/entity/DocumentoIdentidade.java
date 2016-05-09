@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
  * Classe embutivel com os possiveis documentos de
  * um contato.
  * @author Solkam
- * @since 01 FEV 2015
+ * @since 28 abr 2016
  */
 @Embeddable
 public class DocumentoIdentidade implements Serializable {

@@ -37,7 +37,7 @@ public class Endereco implements Serializable {
 	private String enderecoUF;
 	
 	@Size(max=20)
-	private String enderedoCep;
+	private String enderecoCep;
 
 
 	//acessores...
@@ -114,13 +114,13 @@ public class Endereco implements Serializable {
 	}
 
 
-	public String getEnderedoCep() {
-		return enderedoCep;
+	public String getEnderecoCep() {
+		return enderecoCep;
 	}
 
 
-	public void setEnderedoCep(String enderedoCep) {
-		this.enderedoCep = enderedoCep;
+	public void setEnderecoCep(String enderecoCep) {
+		this.enderecoCep = enderecoCep;
 	}
 	
 	

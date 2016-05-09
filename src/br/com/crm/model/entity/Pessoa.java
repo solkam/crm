@@ -2,6 +2,7 @@ package br.com.crm.model.entity;
 
 import java.io.Serializable;
 
+
 import java.util.Date;
 import java.util.List;
 
@@ -26,9 +27,9 @@ import br.com.crm.model.util.DateUtil;
 
 
 /**
- * Representa um contato ou pessoa
+ * Dados de contato de uma pessoa
  * @author Solkam
- * @since 21 JAN 2015
+ * @since 09 mai 2016
  */
 @Entity
 public class Pessoa implements Serializable {
@@ -55,7 +56,7 @@ public class Pessoa implements Serializable {
 	private String sobreNome;
 	
 	/**
-	 * Email principal, mais usado
+	 * Email principal (mais usado)
 	 */
 	@NotNull
 	@Size(max=100)
@@ -290,6 +291,9 @@ public class Pessoa implements Serializable {
 	}
 
 	public Endereco getEndereco() {
+		if (endereco==null) {
+			endereco = new Endereco();
+		}
 		return endereco;
 	}
 
@@ -298,6 +302,9 @@ public class Pessoa implements Serializable {
 	}
 
 	public DocumentoIdentidade getDocumento() {
+		if (documento==null) {
+			documento = new DocumentoIdentidade();
+		}
 		return documento;
 	}
 
@@ -306,6 +313,9 @@ public class Pessoa implements Serializable {
 	}
 
 	public Telefone getTelefone() {
+		if (telefone==null) {
+			telefone = new Telefone();
+		}
 		return telefone;
 	}
 
@@ -362,6 +372,9 @@ public class Pessoa implements Serializable {
 	}
 
 	public RedeSocial getRedeSocial() {
+		if (redeSocial==null) {
+			redeSocial=new RedeSocial();
+		}
 		return redeSocial;
 	}
 
@@ -469,7 +482,7 @@ public class Pessoa implements Serializable {
 	 * Flag que valida que tanto extensao e binario da imagem estao preenchido
 	 * @return
 	 */
-	public Boolean getFlagImageOK() {
+	public Boolean getFlagImagemOK() {
 		return getImagemExtensao()!=null 
 			&& !getImagemExtensao().trim().isEmpty() 
 			&& getImagemBinario()!=null;

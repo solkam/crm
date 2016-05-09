@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
 /**
  * Area de interesse (hobby ou trabalho)
  * @author Solkam
- * @since 26 JUL 2015
+ * @since 28 abr 2016
  */
 @Entity
 public class AreaInteresse implements Serializable {

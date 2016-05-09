@@ -2,6 +2,7 @@ package br.com.crm.model.entity;
 
 import java.io.Serializable;
 
+
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -16,7 +17,7 @@ import javax.validation.constraints.Size;
 /**
  * Usuario para acesso ao sistema com email, senha, perfil e empresa
  * @author Solkam
- * @since 26 ABR 2016
+ * @since 26 abr 2016
  */
 @Entity
 public class Usuario implements Serializable {

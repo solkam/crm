@@ -22,7 +22,7 @@ public class Profissao implements Serializable {
 	@Column(length=100, nullable=false, unique=true)
 	private String descricao;
 	
-	
+	@NotNull
 	private Boolean flagAtivo=true;
 	
 	

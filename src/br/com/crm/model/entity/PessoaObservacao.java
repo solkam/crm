@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 /**
  * Observação sobre o contato com data e responsável
  * @author Solkam
- * @since 26 OUT 2016
+ * @since 26 abr 2016
  */
 @Entity
 public class PessoaObservacao implements Serializable {
