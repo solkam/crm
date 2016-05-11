@@ -21,8 +21,12 @@
 			<f:param name="idx" value="1" />
 		</p:menuitem>
 
-		<p:menuitem icon="fa fa-flash" value="Gravar Imagens" outcome="/paginas/gravador/gravador-imagem" rendered="#{sessionHolder.flagTecnologia}" >
+		<p:menuitem icon="fa fa-fw fa-calendar" value="Maturidades" outcome="/paginas/maturidade/maturidade" >
 			<f:param name="idx" value="2" />
+		</p:menuitem>
+
+		<p:menuitem icon="fa fa-flash" value="Gravar Imagens" outcome="/paginas/gravador/gravador-imagem" rendered="#{sessionHolder.flagTecnologia}" >
+			<f:param name="idx" value="3" />
 		</p:menuitem>
 
 	</p:tabMenu>

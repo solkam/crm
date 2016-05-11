@@ -17,16 +17,28 @@ public class Maturidade implements Serializable {
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Size(max=20)
+	
+	@ManyToOne
+	@NotNull
+	private Empresa empresa;
+	
+	
+	@Size(max=30)
 	@NotNull
 	private String descricao;
+	
 	
 	@NotNull
 	private Integer minIdade;
 	
+	
 	@NotNull
 	private Integer maxIdade;
+	
+	
 
+	//log
+	private InfoLog infoLog;
 
 	
 	//acessores...
@@ -38,6 +50,25 @@ public class Maturidade implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+	public InfoLog getInfoLog() {
+		if (infoLog==null) {
+			infoLog=new InfoLog();
+		}
+		return infoLog;
+	}
+
+	public void setInfoLog(InfoLog infoLog) {
+		this.infoLog = infoLog;
+	}
+
+	public Empresa getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(Empresa empresa) {
+		this.empresa = empresa;
 	}
 
 	public String getDescricao() {
@@ -90,12 +121,17 @@ public class Maturidade implements Serializable {
 	}
 
 	
+	public boolean isTransient() {
+		return getId()==null;
+	}
+
+	
 	/**
 	 * Verifica se uma idade está dentro do min e max da maturidade
 	 * @param address
 	 * @return
 	 */
-	public boolean getFlagInsideAges(Integer idade) {
+	public boolean getFlagDentroDasIdades(Integer idade) {
 		if (idade==null) return false;
 		
 		if (minIdade <= idade && idade <= maxIdade) {
@@ -105,7 +141,7 @@ public class Maturidade implements Serializable {
 		}
 	}
 	
-	public String getFullDesc() {
+	public String getDescricaoCompleta() {
 		return String.format("%s (de %d a %d)", getDescricao(), getMinIdade(), getMaxIdade() );
 	}
 	

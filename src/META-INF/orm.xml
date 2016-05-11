@@ -15,6 +15,10 @@
 		</query>
 	</named-query>
 	
+	
+	
+	<!-- empresa -->
+	
 	<named-query name="pesquisarEmpresaAtiva">
 		<query>
 			select e
@@ -23,6 +27,23 @@
 			order by e.nome
 		</query>
 	</named-query>
+	
+	<named-query name="buscarEmpresaPeloNome">
+		<query>
+			select e
+			from Empresa e
+			where e.nome = :pNome
+		</query>
+	</named-query>
+	
+	<named-query name="buscarEmpresaPeloCnpj">
+		<query>
+			select e
+			from Empresa e
+			where e.cnpj = :pCnpj
+		</query>
+	</named-query>
+
 
 
 	<!-- area de interesse -->
@@ -165,6 +186,66 @@
 		</query>
 	</named-query>
 	
+	<named-query name="pesquisarPessoaPelaMaturidade">
+		<query>
+			select p
+			from Pessoa p
+			where p.maturidade = :pMaturidade
+		</query>
+	</named-query>
+	
+
+	<!-- maturidade -->
+	
+	<named-query name="pesquisarMaturidade">
+		<query>
+			select m
+			from Maturidade m
+			where m.empresa = :pEmpresa
+			order by m.minIdade
+		</query>
+	</named-query>
+	
+	<named-query name="buscarMaturidadePelaIdade">
+		<query>
+			select m
+			from Maturidade m
+			where :pIdade between m.minIdade and m.maxIdade
+			order by m.minIdade
+		</query>
+	</named-query>
+
+
+	<!-- produto -->
+	
+	<named-query name="buscarProdutoPelaDescricao">
+		<query>
+			select p
+			from Produto p
+			where p.empresa   = :pEmpresa 
+			and   p.descricao = :pDescricao
+			
+		</query>
+	</named-query>
+
+	<named-query name="pesquisarProduto">
+		<query>
+			select p
+			from Produto p
+			where p.empresa = :pEmpresa
+			order by p.descricao
+		</query>
+	</named-query>
+	
+	<named-query name="pesquisarProdutoAtivo">
+		<query>
+			select p
+			from Produto p
+			where p.empresa   = :pEmpresa 
+			and   p.flagAtivo = TRUE
+			order by p.descricao
+		</query>
+	</named-query>
 
 
 </entity-mappings>

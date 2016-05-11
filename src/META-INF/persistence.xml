@@ -22,6 +22,9 @@
 		<class>br.com.crm.model.entity.Maturidade</class>
 		<class>br.com.crm.model.entity.PessoaObservacao</class>
 		<class>br.com.crm.model.entity.PessoaCartaoNegocio</class>
+		<class>br.com.crm.model.entity.Produto</class>
+		<class>br.com.crm.model.entity.Campanha</class>
+		<class>br.com.crm.model.entity.InteracaoCampanhaPessoa</class>
 
 		<properties>
 			<property name="hibernate.show_sql" value="false" />

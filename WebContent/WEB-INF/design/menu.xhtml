@@ -6,7 +6,7 @@
       xmlns:p="http://primefaces.org/ui"> 
 
 	<center>
-		<h:panelGrid columns="6" cellpadding="5">
+		<h:panelGrid columns="10" cellpadding="5">
 		
 			<h:link outcome="/paginas/usuario/usuario.xhtml" styleClass="menuitem">
 				<h:panelGrid cellpadding="5" cellspacing="5" styleClass="menuitem">
@@ -28,6 +28,30 @@
 				</h:panelGrid>
 			</h:link>
 
+			<h:link outcome="/paginas/produto/produto.xhtml" styleClass="menuitem">
+				<h:panelGrid cellpadding="5" cellspacing="5" styleClass="menuitem">
+					<p:graphicImage library="img" name="icone_menu_produto_96.png"  />
+				</h:panelGrid>
+			</h:link>
+
+
+			<h:link outcome="/paginas/relatorio/relatorio-pessoa.xhtml" styleClass="menuitem">
+				<h:panelGrid cellpadding="5" cellspacing="5" styleClass="menuitem">
+					<p:graphicImage library="img" name="icone_menu_relatorio_96.png"  />
+				</h:panelGrid>
+			</h:link>
+
+			<h:link outcome="/paginas/campanha/campanha.xhtml" styleClass="menuitem">
+				<h:panelGrid cellpadding="5" cellspacing="5" styleClass="menuitem">
+					<p:graphicImage library="img" name="icone_menu_campanha_96.png"  />
+				</h:panelGrid>
+			</h:link>
+
+			<h:link outcome="/paginas/campanha/minha-campanha.xhtml" styleClass="menuitem">
+				<h:panelGrid cellpadding="5" cellspacing="5" styleClass="menuitem">
+					<p:graphicImage library="img" name="icone_menu_minha_campanha_96.png"  />
+				</h:panelGrid>
+			</h:link>
 
 			<h:link outcome="/paginas/area-interesse/area-interesse.xhtml" styleClass="menuitem">
 				<f:param name="idx" value="0" />

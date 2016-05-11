@@ -19,6 +19,7 @@ import javax.persistence.criteria.Root;
 import br.com.crm.model.entity.AreaInteresse;
 import br.com.crm.model.entity.Empresa;
 import br.com.crm.model.entity.Endereco;
+import br.com.crm.model.entity.Maturidade;
 import br.com.crm.model.entity.Pessoa;
 import br.com.crm.model.entity.PessoaCartaoNegocio;
 import br.com.crm.model.entity.PessoaObservacao;
@@ -39,7 +40,7 @@ public class PessoaService {
 	
 	@EJB UsuarioService userService;
 	
-//	@EJB MaturityService maturityService;
+	@EJB MaturidadeService maturidadeService;
 
 	/**
 	 * Salva contato aplicando RN
@@ -49,19 +50,19 @@ public class PessoaService {
 	public Pessoa salvarPessoa(Pessoa pessoa, Usuario usuario) {
 		verificarSeEmailEhUnico(pessoa, usuario.getEmpresa() );
 		referenciarEmpresaEPessoa(pessoa, usuario.getEmpresa() );
-//		defineMaturity( contact );
+		definirMaturidade( pessoa );
 		return manager.merge( pessoa );
 	}
 	
 
 	/**
-	 * Calcula a maturidade do contato segundo sua idade
+	 * Calcula a maturidade da pessoa segundo sua idade
 	 * @param pessoa
 	 */
-//	private void defineMaturity(Pessoa contact) {
-//		Maturity maturity = maturityService.findMaturityByAge( contact.getCalculatedAge() );
-//		contact.setMaturity(maturity);
-//	}
+	private void definirMaturidade(Pessoa pessoa) {
+		Maturidade maturidade = maturidadeService.buscarMaturidadePelaIdade( pessoa.getIdadeCalculada() );
+		pessoa.setMaturidade( maturidade );
+	}
 
 
 	/**
@@ -261,6 +262,17 @@ public class PessoaService {
 	public List<Pessoa> pesquisarPessoaPelaProfissao(Profissao p) {
 		return manager.createNamedQuery("pesquisarPessoaPelaProfissao", Pessoa.class)
 				.setParameter("pProfissao", p)
+				.getResultList();
+	}
+
+	/**
+	 * Pesquisa as pessoas de uma maturidade
+	 * @param maturidade
+	 * @return
+	 */
+	public List<Pessoa> pesquisarPessoaPelaMaturidade(Maturidade maturidade) {
+		return manager.createNamedQuery("pesquisarPessoaPelaMaturidade", Pessoa.class)
+				.setParameter("pMaturidade", maturidade)
 				.getResultList();
 	}
 	

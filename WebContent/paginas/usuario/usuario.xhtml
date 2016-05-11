@@ -29,7 +29,7 @@
 					</p:selectOneRadio>
 				</h:panelGrid>
 				
-				<p:commandButton icon="ui-icon-search" value="Pesquisar" 
+				<p:commandButton icon="fa fa-search" value="Pesquisar" 
 					action="#{usuarioMB.pesquisar() }"
 					update=":formUsuarios" 
 					/>
@@ -73,7 +73,7 @@
 			</p:column>
 
 			<p:column styleClass="col10p colCenter">
-				<p:commandButton icon="fa fa-edit" value="Editar"
+				<p:commandButton icon="fa fa-fw fa-edit" value="Editar"
 					process="@this"
 					action="#{usuarioMB.gerenciar(usuarioVar) }"
 					update=":regiaoUsuario"

@@ -47,29 +47,11 @@
 		<h:outputText value="Histórico" styleClass="destak3" />
 		<p:separator />
 	
-		<h:panelGrid columns="5" cellpadding="5">
-		
-			<p:panelGrid columns="2" >
-				<h:outputText value="Criado em" styleClass="less2" />
-				<my:outputTimestamp value="#{usuarioMB.usuario.infoLog.criadoEm}" styleClass="destak3 less2" />
-			
-				<h:outputText value="Criado por" styleClass="less2" />
-				<h:outputText value="#{usuarioMB.usuario.infoLog.criadoPor}" styleClass="destak3 less2" />
-			</p:panelGrid>
-		
-			<p:panelGrid columns="2" rendered="#{usuarioMB.usuario.infoLog.flagJaFoiAtualizado}">
-				<h:outputText value="Atualizado em" styleClass="less2" />
-				<my:outputTimestamp value="#{usuarioMB.usuario.infoLog.atualizadoEm }" styleClass="destak3 less2" />
-			
-				<h:outputText value="Atualizado por" styleClass="less2" />
-				<h:outputText value="#{usuarioMB.usuario.infoLog.atualizadoPor }" styleClass="destak3 less2" />
-			</p:panelGrid>
-
-		</h:panelGrid>
-	
+		<my:panelGridInfoLog infoLog="#{usuarioMB.usuario.infoLog}" />
 	
 	</p:panel>
 	
+
 	<p:toolbar>
 		<p:toolbarGroup>
 			<p:commandButton icon="ui-icon-check" value="Salvar Usuário" 

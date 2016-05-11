@@ -13,9 +13,16 @@
 <ui:define name="content" >
 
 	<div style="width:700px;margin:auto">
+
+
 		<h:form>
-		
-			<p:panel header="Autenticação">
+			<p:panel>
+				<f:facet name="header">
+					<h:panelGrid columns="2" cellpadding="0">
+						<span class="fa fa-key"/>
+						<h:outputText value="Login" styleClass="destak2" />
+					</h:panelGrid>
+				</f:facet>
 			
 				<h:panelGrid cellpadding="10" style="margin:auto;" >
 
