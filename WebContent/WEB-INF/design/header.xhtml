@@ -8,15 +8,13 @@
 <h:form>
 	<p:toolbar>
 		<f:facet name="left">
-			<h:panelGrid columns="2" cellpadding="5">
-				<h:outputText value="CRM na Nuvem" styleClass="destak1" />
-			</h:panelGrid>
-		</f:facet>
-
-
-		<f:facet name="right">
-				<h:panelGrid columns="5" cellpadding="5" >
-
+			<h:panelGrid columns="2" rules="cols">
+				<h:panelGrid columns="2">
+					<p:graphicImage library="img" name="logo_principal_v1_64.png" cache="true" />
+					<h:outputText value="CRM na Nuvem" styleClass="destak1" />
+				</h:panelGrid>
+				
+				<h:panelGrid columns="3" cellpadding="5">
 					<h:panelGrid columns="2" rendered="#{sessionHolder.flagLogged}" >
 						<span class="fa fa-user" />
 						<h:outputText value="#{sessionHolder.usuario.email}" styleClass="less2" />
@@ -31,6 +29,16 @@
 						<span class="fa fa-bank" />
 						<h:outputText value="#{sessionHolder.empresa.nome }" styleClass="less2" />
 					</h:panelGrid>
+				</h:panelGrid>
+				
+			
+			</h:panelGrid>
+		</f:facet>
+
+
+		<f:facet name="right">
+				<h:panelGrid columns="5" cellpadding="5" >
+
 
 					<p:commandButton icon="fa fa-key" value="Trocar senha" 
 						rendered="false"

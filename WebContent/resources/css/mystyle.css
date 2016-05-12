@@ -1,7 +1,7 @@
 @CHARSET "UTF-8";
 
 .ui-widget, .ui-widget .ui-widget {
-	font-size: 105% !important;
+	font-size: 100% !important;
 	font-family: Calibri !important;
 }
 

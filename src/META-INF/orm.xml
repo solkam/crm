@@ -248,4 +248,27 @@
 	</named-query>
 
 
+	<!-- campanha -->
+	
+	<named-query name="buscarCampanhaPelaDescricao">
+		<query>
+			select c
+			from Campanha c
+			where c.empresa   = :pEmpresa
+			and   c.descricao = :pDescricao
+		</query>
+	</named-query>
+	
+	<named-query name="pesquisarCampanhaAtivaPeloResponsavel">
+		<query>
+			select c
+			from Campanha c
+				join c.responsaveis r
+			where r = :pResponsavel
+			and   c.flagAtivo = TRUE
+			order by c.dataInicio
+		</query>
+	</named-query>
+
+
 </entity-mappings>

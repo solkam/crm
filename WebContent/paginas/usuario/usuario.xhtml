@@ -22,11 +22,11 @@
 	
 				<h:panelGrid>
 					<p:outputLabel value="Perfil" />
-					<p:selectOneRadio value="#{usuarioMB.filtroPerfil }" layout="lineDirection" >
+					<p:selectOneButton value="#{usuarioMB.filtroPerfil }" layout="lineDirection" >
 						<f:selectItem itemLabel="TODOS" itemValue="" noSelectionOption="true" />
 						<f:selectItems value="#{enumHelper.perfils }" var="profileVar"
 							itemValue="#{profileVar}" itemLabel="#{profileVar.descricao }" />				
-					</p:selectOneRadio>
+					</p:selectOneButton>
 				</h:panelGrid>
 				
 				<p:commandButton icon="fa fa-search" value="Pesquisar" 
