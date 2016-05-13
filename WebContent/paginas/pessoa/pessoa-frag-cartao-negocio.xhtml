@@ -1,0 +1,59 @@
+<!DOCTYPE html > 
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:tremn="http://java.sun.com/jsf/composite/components">
+       
+<h:form enctype="multipart/form-data">
+
+	<p:panel>
+	
+		<p:dataTable value="#{pessoaMB.pessoa.cartoesNegocio }" var="cartaoVar"
+			rendered="#{not empty pessoaMB.pessoa.cartoesNegocio}" >
+			
+			<p:column headerText="Imagem">
+				<p:graphicImage library="upload_img" name="#{cartaoVar.imagemNome }" cache="false" />
+			</p:column>
+
+			<p:column headerText="Upload Em" styleClass="col10p colCentro">
+				<tremn:outputTimestamp value="#{cartaoVar.subidoEm }" styleClass="less2" />
+			</p:column>
+			
+			<p:column headerText="Upload Por" styleClass="col10p">
+				<h:outputText value="#{cartaoVar.subidoPor }" styleClass="less2" />
+			</p:column>
+
+			<p:column styleClass="col10p colCentro">
+				<p:commandButton icon="fa fa-trash" value="Remover"
+					action="#{pessoaMB.removerCartaoNegocio(cartaoVar) }"
+					process="@this"
+					update="@form"
+					/>
+			</p:column>
+		</p:dataTable>
+		
+		<h:outputText value="Não há Cartões de Negócio" styleClass="warn less2" 
+			rendered="#{empty pessoaMB.pessoa.cartoesNegocio }"  
+			/>		
+
+		
+		<p:spacer height="10" style="display:block" />		
+		
+	
+		<p:fileUpload id="inImagem" fileUploadListener="#{pessoaMB.onCartaoNegocioUpload }" 
+			multiple="false" auto="true"
+			update="@form"
+            label="Escolher o cartão de negócio"
+            invalidFileMessage="Tipo não permitido"
+            invalidSizeMessage="Tamanho acima do permitido"
+            cancelLabel="Cancelar"
+            uploadLabel="Enviar"
+            sizeLimit="15000000"
+            allowTypes="/(\.|\/)(gif|jpeg|jpg|png)$/"      				
+			/>
+	</p:panel>
+</h:form>
+
+</ui:fragment>

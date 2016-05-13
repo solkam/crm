@@ -1,0 +1,149 @@
+<!DOCTYPE html > 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/components"
+      template="/WEB-INF/design/_template-main.xhtml">
+       
+<ui:define name="title">Campanhas</ui:define>       
+       
+<ui:define name="content">
+
+	<h:form>
+		<p:fieldset legend="Pesquisa" toggleable="true">
+		
+			<h:panelGrid columns="4" cellpadding="10">
+				<h:panelGrid>
+					<p:outputLabel value="Descrição" />
+					<p:inputText value="#{campanhaMB.filtroDescricao }" size="40" />
+				</h:panelGrid>
+			
+				<h:panelGrid>
+					<p:outputLabel value="Ativa?" />
+					<p:inputSwitch value="#{campanhaMB.filtroFlagAtivo }" onLabel="Sim" offLabel="Não"/>
+				</h:panelGrid>
+				
+				<p:commandButton id="btnSearch" icon="fa fa-search" value="Pesquisar" 
+					action="#{campanhaMB.pesquisar() }"
+					update=":formCampanhas"
+					/>
+			</h:panelGrid>
+		
+		</p:fieldset>
+	</h:form>
+
+
+	<p:spacer height="10" />
+
+
+	<h:form id="formCampanhas">
+		<p:panel>
+
+			<my:globalMessages />
+			
+			<p:commandButton id="btnNew" icon="fa fa-plus" value="Nova Campanha" 
+				process="@this"
+				action="#{campanhaMB.novo() }"
+				oncomplete="PF('DialogCampanha').show();"
+				update=":regiaoCampanha"
+				/>
+			
+			<p:dataTable value="#{campanhaMB.campanhas }" var="campanhaVar"
+				rendered="#{not empty campanhaMB.campanhas }">
+				
+				<p:column headerText="ID" styleClass="col5p colCenter">
+					#{campanhaVar.id}
+				</p:column>
+
+				<p:column headerText="Descrição" styleClass="col40p">
+					<h:outputText value="#{campanhaVar.descricao }" styleClass="destak3" />
+				</p:column>
+				
+				<p:column headerText="Data Início" styleClass="col10p colCenter">
+					<my:outputDate value="#{campanhaVar.dataInicio}" />
+				</p:column>
+				
+				<p:column headerText="Data Fim" styleClass="col10p colCenter">
+					<my:outputDate value="#{campanhaVar.dataFim }" />
+				</p:column>
+
+				<p:column headerText="Ativa?" styleClass="col10p colCenter">
+					<my:displayFlag flag="#{campanhaVar.flagAtivo}" />
+				</p:column>
+				
+
+				<p:column headerText="Observação" styleClass="colCenter col5p">
+					<my:displayNote value="#{campanhaVar.observacao}" />
+				</p:column>
+				
+
+				<p:column styleClass="col10p colCenter">
+					<p:commandButton id="btnEdit" icon="fa fa-fw fa-edit" value="Editar" 
+						process="@this"
+						action="#{campanhaMB.gerenciar(campanhaVar) }"
+						oncomplete="PF('DialogCampanha').show();"
+						update=":regiaoCampanha"
+						/>
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+	
+	
+	
+	<!-- dialog campanha -->
+	<p:dialog widgetVar="DialogCampanha" header="Campanha"
+		modal="true" dynamic="true" closeOnEscape="true" maximizable="true"
+		position="top" width="95%" positionType="absolute" >
+		
+		<p:outputPanel id="regiaoCampanha">
+		
+			<p:panelGrid id="panelCampanha" columns="5" rendered="#{not campanhaMB.campanha.transient}">
+				<h:outputText value="ID" />
+				<h:outputText value="Descrição" />
+				<h:outputText value="Data Início" />
+				<h:outputText value="Data Fim" />
+				<h:outputText value="Ativa?" />
+				
+				<h:outputText value="#{campanhaMB.campanha.id }" styleClass="destak2" />
+				<h:outputText value="#{campanhaMB.campanha.descricao}" styleClass="destak2" />
+				<my:outputDate value="#{campanhaMB.campanha.dataInicio }" styleClass="destak3" />
+				<my:outputDate value="#{campanhaMB.campanha.dataFim }" styleClass="destak3" />
+				<my:displayFlag flag="#{campanhaMB.campanha.flagAtivo }" />
+			</p:panelGrid>
+			
+			<p:spacer height="10" />
+			
+			<my:globalMessages />
+			
+			
+			<p:tabView>
+				<p:tab title="Principal">
+					<ui:include src="/paginas/campanha/campanha-frag-principal.xhtml" />
+				</p:tab>
+				
+				<p:tab title="Responsáveis" rendered="#{not campanhaMB.campanha.transient }">
+					<ui:include src="/paginas/campanha/campanha-frag-responsavel.xhtml" />
+				</p:tab>
+
+				<p:tab title="Pessoas" rendered="#{not campanhaMB.campanha.transient }">
+					<ui:include src="/paginas/campanha/campanha-frag-pessoa.xhtml" />
+				</p:tab>
+
+				<p:tab title="Produtos" rendered="#{not campanhaMB.campanha.transient }">
+					<ui:include src="/paginas/campanha/campanha-frag-produto.xhtml" />
+				</p:tab>
+
+				<p:tab title="Interações" rendered="#{not campanhaMB.campanha.transient }">
+					<ui:include src="/paginas/campanha/campanha-frag-interacao.xhtml" />
+				</p:tab>
+			</p:tabView>
+			
+		</p:outputPanel>
+	</p:dialog>
+
+	
+</ui:define>
+</ui:composition>

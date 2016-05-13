@@ -1,0 +1,23 @@
+<!DOCTYPE html >
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<cc:interface>
+	<cc:attribute name="pessoa" required="true" />
+</cc:interface>
+
+<cc:implementation>
+
+	<p:graphicImage library="upload_img" name="#{cc.attrs.pessoa.imagemNome }" cache="false"
+		rendered="#{cc.attrs.pessoa.flagImagemOK}" />
+
+	<p:graphicImage library="upload_img" name="img_not_found_75_t1.png" cache="true"
+		rendered="#{not cc.attrs.pessoa.flagImagemOK }" />
+
+</cc:implementation>
+
+</html>

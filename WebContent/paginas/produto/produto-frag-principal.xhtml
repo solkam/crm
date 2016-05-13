@@ -1,0 +1,74 @@
+<!DOCTYPE html > 
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/components">
+       
+<h:form>
+	<p:panel>
+		<h:outputText value="Dados Gerais" styleClass="destak2" />
+		<p:separator />
+	
+		<my:globalMessages />
+	
+		<h:panelGrid columns="2" cellpadding="10">
+			<p:outputLabel for="inName" value="Nome" styleClass="req" />
+			<h:panelGrid>
+				<p:inputText id="inName" value="#{produtoMB.produto.descricao }" size="50" required="true" />
+				<p:message for="inName" />
+			</h:panelGrid>
+
+			<h:outputText value="Ativo?" />
+			<h:panelGrid>
+				<p:inputSwitch id="inAtivo" value="#{produtoMB.produto.flagAtivo }" required="true" 
+					onLabel="Sim" offLabel="Não"
+					/>
+				<p:message for="inAtivo" />
+			</h:panelGrid>
+		
+			<p:outputLabel for="inObs" value="Observação"  />
+			<h:panelGrid>
+				<p:inputTextarea id="inObs" value="#{produtoMB.produto.observacao }" rows="3" cols="80" />
+				<p:message for="inObs" />
+			</h:panelGrid>
+		</h:panelGrid>
+	</p:panel>
+	
+	
+	<p:panel rendered="#{not produtoMB.produto.transient}">
+		<h:outputText value="Histórico" styleClass="destak2" />
+		<p:separator />
+	
+		<my:panelGridInfoLog infoLog="#{produtoMB.produto.infoLog }" />
+	</p:panel>	
+	
+	
+	<p:toolbar>
+		<f:facet name="left">
+			<p:commandButton icon="fa fa-check" value="Salvar Produto" 
+				action="#{produtoMB.salvar() }"
+				update="@form :regiaoProduto  :formProdutos"
+				oncomplete="if (args.sucessOnly) PF('DialogProduto').hide();"
+				/>
+		</f:facet>
+		
+		<f:facet name="right">
+			<p:menuButton value="remover?" rendered="#{not produtoMB.produto.transient}" >
+				<p:menuitem icon="fa fa-trash" value="Sim, remover" 
+					process="@this"
+					action="#{produtoMB.remover() }"
+					update="@form :regiaoProduto :formProdutos"
+					oncomplete="if (args.sucessOnly) PF('DialogProduto').hide();"
+					/>
+				<p:menuitem icon="fa fa-close" value="Não" 
+					process="@none"	update="@none" global="false"
+					/>
+			</p:menuButton>
+		</f:facet>
+	</p:toolbar>
+	
+</h:form>
+
+</ui:fragment>

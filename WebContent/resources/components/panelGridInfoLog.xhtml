@@ -1,0 +1,38 @@
+<!DOCTYPE html >
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:my="http://java.sun.com/jsf/composite/components">
+
+<cc:interface>
+	<cc:attribute name="infoLog" required="true" />
+</cc:interface>
+
+<cc:implementation>
+
+	<h:panelGrid columns="2" cellpadding="5">
+		
+		<p:panelGrid columns="2" >
+			<h:outputText value="Criado em" styleClass="less2" />
+			<my:outputTimestamp value="#{cc.attrs.infoLog.criadoEm}" styleClass="destak3 less2" />
+		
+			<h:outputText value="Criado por" styleClass="less2" />
+			<h:outputText value="#{cc.attrs.infoLog.criadoPor}" styleClass="destak3 less2" />
+		</p:panelGrid>
+	
+		<p:panelGrid columns="2" rendered="#{cc.attrs.infoLog.flagJaFoiAtualizado}">
+			<h:outputText value="Atualizado em" styleClass="less2" />
+			<my:outputTimestamp value="#{cc.attrs.infoLog.atualizadoEm }" styleClass="destak3 less2" />
+		
+			<h:outputText value="Atualizado por" styleClass="less2" />
+			<h:outputText value="#{cc.attrs.infoLog.atualizadoPor }" styleClass="destak3 less2" />
+		</p:panelGrid>
+
+	</h:panelGrid>
+
+</cc:implementation>
+
+</html>

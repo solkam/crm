@@ -1,0 +1,42 @@
+<!DOCTYPE html > 
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/components">
+       
+<h:form enctype="multipart/form-data">
+	<p:panel>
+
+		<h:panelGrid columns="3" cellpadding="10">
+			
+			<p:outputPanel id="displayImagem">
+				<my:displayPessoaImagem pessoa="#{pessoaMB.pessoa}" />
+			</p:outputPanel>
+	
+			<p:fileUpload id="inImagem" fileUploadListener="#{pessoaMB.onFileUpload }" 
+				rendered="#{not pessoaMB.pessoa.flagImagemOK}"
+				multiple="false" auto="true"
+				update="@form :formPessoas :panelPessoa"
+	            label="Escolher foto"
+	            invalidFileMessage="Tipo não permitido"
+	            invalidSizeMessage="Tamanho acima do permitido"
+	            cancelLabel="Cancelar"
+	            uploadLabel="Enviar"
+	            sizeLimit="15000000"
+	            allowTypes="/(\.|\/)(gif|jpeg|jpg|png)$/"      				
+				/>
+				
+			<p:commandButton icon="ui-icon-trash" value="Remover foto"
+				rendered="#{pessoaMB.pessoa.flagImagemOK}"
+				action="#{pessoaMB.removeImage() }"
+				process="@this"
+				update="@form :formPessoas :panelPessoa"
+				/>
+		</h:panelGrid>
+		
+	</p:panel>
+</h:form>
+
+</ui:fragment>

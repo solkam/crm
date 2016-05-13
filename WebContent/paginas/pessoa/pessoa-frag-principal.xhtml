@@ -1,0 +1,300 @@
+<!DOCTYPE html > 
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:tremn="http://java.sun.com/jsf/composite/components">
+       
+<h:form id="formPessoa">
+	<p:panel>
+
+		<tremn:globalMessages />
+
+		<fieldset>
+			<legend>Básicos</legend>
+			
+				<h:panelGrid columns="7" cellpadding="5">
+					<h:panelGrid>
+						<p:outputLabel for="inFirstName" value="Primeiro Nome" styleClass="req" />
+						<p:inputText id="inFirstName" value="#{pessoaMB.pessoa.primeiroNome }" size="30" required="true" />
+						<p:message for="inFirstName" />
+					</h:panelGrid>
+				
+					<h:panelGrid>
+						<p:outputLabel for="inLastName" value="Sobrenome" styleClass="req" />
+						<p:inputText id="inLastName" value="#{pessoaMB.pessoa.sobreNome }" size="40" required="true" />
+						<p:message for="inLastName" />
+					</h:panelGrid>
+
+
+					<h:panelGrid>
+						<p:outputLabel for="inGender" value="Sexo" styleClass="req" />
+						<p:selectOneMenu id="inGender" value="#{pessoaMB.pessoa.genero }" required="true" >
+							<f:selectItems value="#{enumHelper.generos }" var="generoVar" 
+								itemValue="#{generoVar}" itemLabel="#{generoVar.descricao }" />
+						</p:selectOneMenu>
+						<p:message for="inGender" />
+					</h:panelGrid>
+
+
+					<h:panelGrid>
+						<h:outputText value="Nascimento:" styleClass="req" />
+					</h:panelGrid>
+
+					<h:panelGrid>
+						<p:outputLabel for="inBirthDay" value="Dia" styleClass="req" />
+						<p:selectOneMenu id="inBirthDay" value="#{pessoaMB.pessoa.nascimentoDia }" required="true" >
+							<f:selectItems value="#{enumHelper.diasDoMes }" var="diaVar" 
+								itemValue="#{diaVar.indice }" itemLabel="#{diaVar.indice }" />
+						</p:selectOneMenu>	
+						<p:message for="inBirthDay" />
+					</h:panelGrid>
+
+					<h:panelGrid>
+						<p:outputLabel for="inBirthMonth" value="Mês" styleClass="req" />
+						<p:selectOneMenu id="inBirthMonth" value="#{pessoaMB.pessoa.nascimentoMes }" required="true"  >
+							<f:selectItems value="#{enumHelper.mesesDoAno }" var="mesVar"
+								itemValue="#{mesVar.indice }" itemLabel="#{mesVar.descricao }" />
+						</p:selectOneMenu>	
+						<p:message for="inBirthMonth" />
+					</h:panelGrid>
+
+					<h:panelGrid>
+						<p:outputLabel for="inBirthYear" value="Ano" styleClass="req" />
+						<p:inputMask id="inBirthYear" mask="9999" value="#{pessoaMB.pessoa.nascimentoAno }" size="5" required="true" />	
+						<p:message for="inBirthYear" />
+					</h:panelGrid>
+						
+				</h:panelGrid>
+
+				<h:panelGrid columns="4" cellpadding="5">
+					<h:panelGrid>
+						<p:outputLabel for="inEmailP" value="Email Principal" styleClass="req" />
+						<p:inputText id="inEmailP" value="#{pessoaMB.pessoa.emailPrincipal }" size="50" required="true" />
+						<p:message for="inEmailP" />
+					</h:panelGrid>
+
+					<h:panelGrid>
+						<p:outputLabel for="inEmailA" value="Email Alternativo" styleClass="" />
+						<p:inputText id="inEmailA" value="#{pessoaMB.pessoa.emailAlternativo }" size="50" />
+						<p:message for="inEmailA" />
+					</h:panelGrid>
+				</h:panelGrid>
+		</fieldset>
+
+		<p:spacer height="10" />
+
+		<fieldset>
+			<legend>Endereço</legend>
+			
+			<h:panelGrid columns="4" cellpadding="5">
+					<h:panelGrid>
+						<p:outputLabel for="inAddType" value="Tipo de Logradouro" styleClass="req" />
+						<p:selectOneMenu id="inAddType" value="#{pessoaMB.pessoa.endereco.enderecoTipo }" required="true" >
+							<f:selectItems value="#{enumHelper.enderecoTipos }" var="tipoVar" 
+								itemValue="#{tipoVar}" itemLabel="#{tipoVar.descricao }" />
+						</p:selectOneMenu>
+						<p:message for="inAddType" />
+					</h:panelGrid>
+
+					<h:panelGrid>
+						<p:outputLabel for="inStreet" value="Logradouro" styleClass="req" />
+						<p:inputText id="inStreet" value="#{pessoaMB.pessoa.endereco.enderecoLogradouro }" size="50" required="true" />
+						<p:message for="inStreet" />
+					</h:panelGrid>
+			
+					<h:panelGrid>
+						<p:outputLabel for="inNumber" value="Número" styleClass="req" />
+						<p:inputText id="inNumber" value="#{pessoaMB.pessoa.endereco.enderecoNumero }" size="10" required="true" />
+						<p:message for="inNumber" />
+					</h:panelGrid>
+			
+					<h:panelGrid>
+						<p:outputLabel for="inComp" value="Complemento"  />
+						<p:inputText id="inComp" value="#{pessoaMB.pessoa.endereco.enderecoComplemento }" size="20"  />
+						<p:message for="inComp" />
+					</h:panelGrid>
+			</h:panelGrid>
+			
+			<h:panelGrid columns="4" cellpadding="5">
+					<h:panelGrid>
+						<p:outputLabel for="inDistrict" value="Bairro" />
+						<p:inputText id="inDistrict" value="#{pessoaMB.pessoa.endereco.enderecoBairro }" size="30" />
+						<p:message for="inDistrict" />
+					</h:panelGrid>
+			
+					<h:panelGrid>
+						<p:outputLabel for="inCity" value="Cidade" styleClass="req" />
+						<p:inputText id="inCity" value="#{pessoaMB.pessoa.endereco.enderecoCidade }" size="30" required="true" />
+						<p:message for="inCity" />
+					</h:panelGrid>
+			
+					<h:panelGrid>
+						<p:outputLabel for="inState" value="Estado"  />
+						<p:inputText id="inState" value="#{pessoaMB.pessoa.endereco.enderecoUF }" size="20"  />
+						<p:message for="inState" />
+					</h:panelGrid>
+
+					<h:panelGrid>
+						<p:outputLabel for="inZip" value="CEP"  />
+						<p:inputMask id="inZip" mask="99.999-999" value="#{pessoaMB.pessoa.endereco.enderecoCep }" size="10"  />
+						<p:message for="inZip" />
+					</h:panelGrid>
+			</h:panelGrid>
+		
+		</fieldset>
+
+		<p:spacer height="10" />
+
+		<fieldset>
+			<legend>Telefones</legend>
+			
+			<h:panelGrid columns="4" cellpadding="5">
+				<h:panelGrid>
+					<p:outputLabel for="inRes" value="Residencial"  />
+					<p:inputText id="inRes" value="#{pessoaMB.pessoa.telefone.telefoneResidencial }" size="15"  />
+					<p:message for="inRes" />
+				</h:panelGrid>
+
+				<h:panelGrid>
+					<p:outputLabel for="inComm" value="Comercial"  />
+					<p:inputText id="inComm" value="#{pessoaMB.pessoa.telefone.telefoneComercial }" size="15"  />
+					<p:message for="inComm" />
+				</h:panelGrid>
+
+				<h:panelGrid>
+					<p:outputLabel for="inMobile1" value="Celular 1"  />
+					<h:panelGrid columns="2">
+						<p:inputText id="inMobile1" value="#{pessoaMB.pessoa.telefone.telefoneCelular1 }" size="15"  />
+						<p:selectOneMenu value="#{pessoaMB.pessoa.telefone.telefoneCelular1Operadora }">
+							<f:selectItem itemLabel="" noSelectionOption="true" />
+							<f:selectItems value="#{enumHelper.telefoneOperadoras }" var="opVar" 
+								itemValue="#{opVar}" itemLabel="#{opVar}" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+					<p:message for="inMobile1" />
+				</h:panelGrid>
+
+				<h:panelGrid>
+					<p:outputLabel for="inMobile2" value="Celular 2"  />
+					<h:panelGrid columns="2">
+						<p:inputText id="inMobile2" value="#{pessoaMB.pessoa.telefone.telefoneCelular2}" size="15"  />
+						<p:selectOneMenu value="#{pessoaMB.pessoa.telefone.telefoneCelular2Operadora }">
+							<f:selectItem itemLabel="" noSelectionOption="true" />
+							<f:selectItems value="#{enumHelper.telefoneOperadoras }" var="opVar" 
+								itemValue="#{opVar}" itemLabel="#{opVar}" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+					<p:message for="inMobile2" />
+				</h:panelGrid>
+			</h:panelGrid>
+		</fieldset>
+	
+
+		<p:spacer height="10" />
+
+		<fieldset>
+			<legend>Documentos</legend>
+			
+			<h:panelGrid columns="3" cellpadding="5">
+				<h:panelGrid>
+					<p:outputLabel for="inCpf" value="CPF" />
+					<p:inputMask id="inCpf" mask="999.999.999-99" value="#{pessoaMB.pessoa.documento.documentoCPF }" size="15" />
+					<p:message for="inCpf" />
+				</h:panelGrid>
+			
+				<h:panelGrid>
+					<p:outputLabel for="inRG" value="RG"  />
+					<p:inputText id="inRG" value="#{pessoaMB.pessoa.documento.documentoRG }" size="20"  />
+					<p:message for="inRG" />
+				</h:panelGrid>
+
+				<h:panelGrid>
+					<p:outputLabel for="inPass" value="Passaporte"  />
+					<p:inputText id="inPass" value="#{pessoaMB.pessoa.documento.documentoPassporte }" size="20"  />
+					<p:message for="inPass" />
+				</h:panelGrid>
+			</h:panelGrid>
+		</fieldset>
+
+		<p:spacer height="10" />
+
+		<fieldset>
+			<legend>Informações Adicionais</legend>
+			
+			<h:panelGrid columns="5" cellpadding="5">
+				<h:panelGrid>
+					<p:outputLabel for="inCompany" value="Empresa em que trabalha"  />
+					<p:inputText id="inCompany" value="#{pessoaMB.pessoa.empregadoEm }" size="50" />
+					<p:message for="inCompany" />
+				</h:panelGrid>
+				
+				<h:panelGrid>
+					<p:outputLabel for="inComFunction" value="Cargo"  />
+					<p:inputText id="inComFunction" value="#{pessoaMB.pessoa.empregadoComo }" size="30" />
+					<p:message for="inComFunction" />
+				</h:panelGrid>
+
+				<h:panelGrid>
+					<p:outputLabel for="inQuem" value="Indicado por" />
+					<p:inputText id="inQuem" value="#{pessoaMB.pessoa.indicadoPor }" size="30" />
+					<p:message for="inQuem" />
+				</h:panelGrid>
+			</h:panelGrid>
+			
+			
+			<h:panelGrid columns="4" cellpadding="5">
+				<h:panelGrid>
+					<p:outputLabel for="inFacebook" value="Facebook"  />
+					<p:inputText id="inFacebook" value="#{pessoaMB.pessoa.redeSocial.socialFacebook}" size="30" />
+					<p:message for="inFacebook" />
+				</h:panelGrid>
+				
+				<h:panelGrid>
+					<p:outputLabel for="inTwitter" value="Twitter"  />
+					<p:inputText id="inTwitter" value="#{pessoaMB.pessoa.redeSocial.socialTwitter}" size="30" />
+					<p:message for="inTwitter" />
+				</h:panelGrid>
+
+				<h:panelGrid>
+					<p:outputLabel for="inLinkedin" value="LinkedIn"  />
+					<p:inputText id="inLinkedin" value="#{pessoaMB.pessoa.redeSocial.socialLinkedIn}" size="30" />
+					<p:message for="inLinkedin" />
+				</h:panelGrid>
+
+				<h:panelGrid>
+					<p:outputLabel for="inGooglePlus" value="Google+"  />
+					<p:inputText id="inGooglePlus" value="#{pessoaMB.pessoa.redeSocial.socialGooglePlus}" size="30" />
+					<p:message for="inGooglePlus" />
+				</h:panelGrid>
+			</h:panelGrid>
+		</fieldset>
+	</p:panel>
+
+	<p:toolbar>
+		<p:toolbarGroup>
+			<p:commandButton icon="fa fa-check" value="Salvar Pessoa" 
+				action="#{pessoaMB.salvar() }"
+				update="@form :formPessoas :regiaoPessoa"
+				/>
+		</p:toolbarGroup>
+		
+		<p:toolbarGroup align="right" rendered="#{not pessoaMB.pessoa.transient}">
+			<p:menuButton value="remover?" style="font-size:0.75em">
+				<p:menuitem icon="fa fa-trash" value="Sim, remover" 
+					process="@this"
+					action="#{pessoaMB.remover()}"
+					update="@form :formPessoas :regiaoPessoa"
+					oncomplete="if (args.sucessOnly) PF('DialogPessoa').hide();"
+					/>
+				<p:menuitem icon="fa fa-close" value="Não" 
+					process="@none"
+					global="false"
+					/>
+			</p:menuButton>
+		</p:toolbarGroup>
+	</p:toolbar>
+</h:form>
+
+</ui:fragment>

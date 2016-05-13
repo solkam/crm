@@ -1,0 +1,177 @@
+<!DOCTYPE html > 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/components"
+      template="/WEB-INF/design/_template-main.xhtml">
+       
+<ui:define name="title">Pessoas</ui:define>       
+       
+<ui:define name="content">
+
+	<h:form>
+		<p:fieldset legend="Pesquisa" toggleable="true">
+		
+			<h:panelGrid columns="4" cellpadding="10">
+				<h:panelGrid>
+					<p:outputLabel value="Nome" />
+					<p:inputText value="#{pessoaMB.filtroNome }" size="40" />
+				</h:panelGrid>
+			
+				<h:panelGrid>
+					<p:outputLabel value="Email" />
+					<p:inputText value="#{pessoaMB.filtroEmail }" size="40" />
+				</h:panelGrid>
+				
+				<h:panelGrid>
+					<p:outputLabel value="Cidade" />
+					<p:inputText value="#{pessoaMB.filtroCidade }" size="30" />
+				</h:panelGrid>
+				
+				<p:commandButton id="btnSearch" icon="fa fa-search" value="Pesquisar" 
+					action="#{pessoaMB.pesquisar() }"
+					update=":formPessoas"
+					/>
+			</h:panelGrid>
+		
+		</p:fieldset>
+	</h:form>
+
+	<p:spacer height="10" />
+
+	<h:form id="formPessoas">
+		<p:panel>
+			<my:globalMessages />
+			
+			<p:commandButton id="btnNew" icon="fa fa-plus" value="Nova Pessoa" 
+				process="@this"
+				action="#{pessoaMB.novo() }"
+				oncomplete="PF('DialogPessoa').show();"
+				update=":regiaoPessoa"
+				/>
+			
+			<p:dataTable value="#{pessoaMB.pessoas }" var="pessoaVar"
+				rendered="#{not empty pessoaMB.pessoas }">
+				
+				<p:column headerText="ID" styleClass="col5p colCenter">
+					#{pessoaVar.id}
+				</p:column>
+
+				<p:column headerText="Foto" styleClass="col5p colCenter">
+					<my:displayPessoaImagem pessoa="#{pessoaVar}" />
+				</p:column>
+
+				<p:column headerText="Nome completo" styleClass="col20p" sortBy="#{pessoaVar.nomeCompleto}">
+					<h:outputText value="#{pessoaVar.nomeCompleto }" styleClass="destak2" />
+				</p:column>
+				
+				<p:column headerText="Email Principal" styleClass="col20p" sortBy="#{pessoaVar.emailPrincipal}">
+					#{pessoaVar.emailPrincipal}
+				</p:column>
+				
+				<p:column headerText="Cidade" styleClass="col10p" sortBy="#{pessoaVar.endereco.enderecoCidade}">
+					#{pessoaVar.endereco.enderecoCidade}
+				</p:column>
+				
+				<p:column headerText="UF" styleClass="col5p" sortBy="#{pessoaVar.endereco.enderecoUF}">
+					#{pessoaVar.endereco.enderecoUF}
+				</p:column>
+
+				<p:column headerText="Data Nascimento" styleClass="col10p colCenter" sortBy="#{pessoaVar.dataNascimentoCompleta}">
+					<my:outputDate value="#{pessoaVar.dataNascimentoCompleta}" />
+				</p:column>
+				
+				<p:column headerText="Idade" styleClass="col5p colCenter" sortBy="#{pessoaVar.idadeCalculada}">
+					<h:outputText value="#{pessoaVar.idadeCalculada }" />
+				</p:column>
+
+				<p:column headerText="Maturidade" styleClass="col10p colCenter" sortBy="#{pessoaVar.maturidade.descricao}" >
+					<h:outputText value="#{pessoaVar.maturidade.descricao }" />
+				</p:column>
+
+				<p:column headerText="Sexo" styleClass="col10p colCenter" sortBy="#{pessoaVar.genero.descricao}">
+					<h:outputText value="#{pessoaVar.genero.descricao }" />
+				</p:column>
+
+				<p:column styleClass="col10p colCenter">
+					<p:commandButton id="btnEdit" icon="fa fa-fw fa-edit" value="Editar" 
+						process="@this"
+						action="#{pessoaMB.gerenciar(pessoaVar) }"
+						oncomplete="PF('DialogPessoa').show();"
+						update=":regiaoPessoa"
+						/>
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+	
+	
+	
+	<!-- dialog pessoa -->
+	<p:dialog widgetVar="DialogPessoa" header="Pessoa"
+		modal="true" dynamic="true" closeOnEscape="true" maximizable="true"
+		position="top" width="95%" positionType="absolute" >
+		
+		<p:outputPanel id="regiaoPessoa">
+		
+			<p:panelGrid id="panelPessoa" columns="10" rendered="#{not pessoaMB.pessoa.transient}">
+				<h:outputText value="ID" />
+				<h:outputText value="Foto" />
+				<h:outputText value="Nome completo" />
+				<h:outputText value="Email principal" />
+				<h:outputText value="Cidade" />
+				<h:outputText value="UF" />
+				<h:outputText value="Data Nascimento" />
+				<h:outputText value="Idade" />
+				<h:outputText value="Maturidade" />
+				<h:outputText value="Sexo" />
+				
+				<h:outputText value="#{pessoaMB.pessoa.id}" styleClass="destak2" />
+				<my:displayPessoaImagem pessoa="#{pessoaMB.pessoa}" />
+				<h:outputText value="#{pessoaMB.pessoa.nomeCompleto}" styleClass="destak2" />
+				<h:outputText value="#{pessoaMB.pessoa.emailPrincipal}" styleClass="destak2" />
+				<h:outputText value="#{pessoaMB.pessoa.endereco.enderecoCidade }" styleClass="destak2" />
+				<h:outputText value="#{pessoaMB.pessoa.endereco.enderecoUF }" styleClass="destak2" />
+				<my:outputDate value="#{pessoaMB.pessoa.dataNascimentoCompleta }" styleClass="destak2" />
+				<h:outputText value="#{pessoaMB.pessoa.idadeCalculada }" styleClass="destak2" />
+				<h:outputText value="#{pessoaMB.pessoa.maturidade.descricao }" styleClass="destak2" />
+				<h:outputText value="#{pessoaMB.pessoa.genero.descricao }" styleClass="destak2" />
+			</p:panelGrid>
+			
+			<p:spacer height="10" />
+			
+			<p:tabView>
+				<p:tab title="Principal">
+					<ui:include src="/paginas/pessoa/pessoa-frag-principal.xhtml" />
+				</p:tab>
+				
+				<p:tab title="Foto" rendered="#{not pessoaMB.pessoa.transient}">
+					<ui:include src="/paginas/pessoa/pessoa-frag-foto.xhtml" />
+				</p:tab>
+
+				<p:tab title="Áreas de Interesse" rendered="#{not pessoaMB.pessoa.transient}">
+					<ui:include src="/paginas/pessoa/pessoa-frag-area-interesse.xhtml" />
+				</p:tab>
+
+				<p:tab title="Profissões" rendered="#{not pessoaMB.pessoa.transient}">
+					<ui:include src="/paginas/pessoa/pessoa-frag-profissao.xhtml" />
+				</p:tab>
+
+				<p:tab title="Observações" rendered="#{not pessoaMB.pessoa.transient}">
+					<ui:include src="/paginas/pessoa/pessoa-frag-observacao.xhtml" />
+				</p:tab>
+
+				<p:tab title="Cartão de Negócio" rendered="#{not pessoaMB.pessoa.transient}">
+					<ui:include src="/paginas/pessoa/pessoa-frag-cartao-negocio.xhtml" />
+				</p:tab>
+
+			</p:tabView>
+			
+		</p:outputPanel>
+	</p:dialog>
+
+	
+</ui:define>
+</ui:composition>

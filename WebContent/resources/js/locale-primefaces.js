@@ -1,4 +1,4 @@
-  PrimeFaces.locales['pt_BR'] = {
+  PrimeFaces.locales['pt'] = {
     closeText: 'Fechar',
     prevText: 'Anterior',
     nextText: 'Pr&oacute;ximo',
@@ -6,7 +6,7 @@
     monthNames: ['Janeiro','Fevereiro','Mar&ccedil;o','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
     monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun', 'Jul','Ago','Set','Out','Nov','Dez'],
     dayNames: ['Domingo','Segunda','Ter&ccedil;a','Quarta','Quinta','Sexta','S&aacute;bado'],
-    dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],
+    dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sï¿½b'],
     dayNamesMin: ['D','S','T','Q','Q','S','S'],
     weekHeader: 'Semana',
     firstDay: 1,

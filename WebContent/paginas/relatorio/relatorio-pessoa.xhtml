@@ -1,0 +1,183 @@
+<!DOCTYPE html > 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/components"
+      template="/WEB-INF/design/_decorate-report.xhtml">
+       
+<ui:define name="content-decorator">
+
+	<h:form id="formSearch">
+		<p:fieldset legend="Pesquisa" toggleable="true">
+			
+			<h:panelGrid columns="4" cellpadding="5">
+					<h:panelGrid>
+						<p:outputLabel for="inBirthMonth" value="Mês" styleClass="destak3" />
+						<p:selectOneButton id="inBirthMonth" value="#{rPessoaMB.filtroNascimentoMes }" >
+							<f:selectItems value="#{enumHelper.mesesDoAno }" var="monthVar"
+								itemValue="#{monthVar.indice }" itemLabel="#{monthVar.descricao }" />
+						</p:selectOneButton>	
+						<p:message for="inBirthMonth" />
+					</h:panelGrid>
+
+					<h:panelGrid>
+						<p:outputLabel for="inBirthYear" value="Ano" styleClass="destak3" />
+						<p:inputMask id="inBirthYear" mask="9999" value="#{rPessoaMB.filtroNascimentoAno }" size="5" />	
+						<p:message for="inBirthYear" />
+					</h:panelGrid>
+			</h:panelGrid>
+
+			<h:panelGrid columns="4" cellpadding="5">
+					<h:panelGrid>
+						<p:outputLabel for="inMaturity" value="Maturidade" styleClass="destak3" />
+						<p:scrollPanel style="height:150px" mode="native">
+							<p:selectManyCheckbox id="inMaturity" value="#{rPessoaMB.filtroMaturidades }" layout="pageDirection"
+								converter="#{maturidadeConverter }" >
+								<f:selectItems value="#{rPessoaMB.comboMaturidades }" var="maturityVar"
+									itemValue="#{maturityVar}" itemLabel="#{maturityVar.descricaoCompleta }" />
+							</p:selectManyCheckbox>
+						</p:scrollPanel>
+						<p:message for="inMaturity" />
+					</h:panelGrid>
+
+					<h:panelGrid>
+						<p:outputLabel for="inGender" value="Sexo" styleClass="destak3" />
+						<p:selectOneButton id="inGender" value="#{rPessoaMB.filtroGenero }" >
+							<f:selectItems value="#{enumHelper.generos }" var="genderVar" 
+								itemValue="#{genderVar}" itemLabel="#{genderVar.descricao }" />
+						</p:selectOneButton>
+						<p:message for="inGender" />
+					</h:panelGrid>
+
+					<h:panelGrid>
+						<p:outputLabel for="inCity" value="Cidade" styleClass="destak3"  />
+						<p:inputText id="inCity" value="#{rPessoaMB.filtroCidade }" size="30" />
+						<p:message for="inCity" />
+					</h:panelGrid>
+
+					<h:panelGrid>
+						<p:outputLabel for="inState" value="Estado" styleClass="destak3" />
+						<p:inputText id="inState" value="#{rPessoaMB.filtroUF }" size="15" />
+						<p:message for="inState" />
+					</h:panelGrid>
+			</h:panelGrid>
+
+			<h:panelGrid cellpadding="5">
+				<h:panelGrid>
+					<p:outputLabel for="inIA" value="Áreas de Interesse" styleClass="destak3"  />
+					<p:selectManyButton id="inIA" value="#{rPessoaMB.filtroAreasInteresse }" converter="#{areaInteresseConverter }" >
+						<f:selectItems value="#{rPessoaMB.comboAreasInteresse }" var="areaVar" 
+							itemValue="#{areaVar}" itemLabel="#{areaVar.descricao }" />
+					</p:selectManyButton>
+					<p:message for="inIA" />
+				</h:panelGrid>
+			</h:panelGrid>
+
+			<h:panelGrid cellpadding="5">
+				<h:panelGrid>
+					<p:outputLabel for="inProf" value="Profissões" styleClass="destak3" />
+					<p:selectManyButton id="inProf" value="#{rPessoaMB.filtroProfissoes }" converter="#{profissaoConverter }" >
+						<f:selectItems value="#{rPessoaMB.comboProfissoes }" var="profVar" 
+							itemValue="#{profVar}" itemLabel="#{profVar.descricao }" />
+					</p:selectManyButton>
+					<p:message for="inProf" />
+				</h:panelGrid>
+			</h:panelGrid>
+
+			<h:panelGrid cellpadding="5" columns="2">
+				<h:panelGrid>
+					<p:outputLabel for="inIndicadoPor" value="Indicado por" styleClass="destak3" />
+					<p:inputText id="inIndicadoPor" value="#{rPessoaMB.filtroIndicadoPor }" size="40" />
+					<p:message for="inIndicadoPor" />
+				</h:panelGrid>
+			</h:panelGrid>
+
+
+			<p:separator />
+				<p:commandButton icon="fa fa-fw fa-search" value="Pesquisar"  
+					action="#{rPessoaMB.search() }"
+					update="@form :formResultado"
+					/>
+			<div style="width:300px;margin:auto">
+			</div>
+			
+		</p:fieldset>
+	</h:form>
+	
+	
+	
+	<h:form id="formResultado">
+	
+		<my:globalMessages />
+
+		<p:outputPanel rendered="#{not empty rPessoaMB.pessoas }">
+	
+			<p:dataTable value="#{rPessoaMB.pessoas}" var="pessoaVar">
+				
+				<p:column headerText="ID" styleClass="col5p colCenter">
+					#{pessoaVar.id}
+				</p:column>
+
+				<p:column headerText="Foto" styleClass="col10p colCenter">
+					<my:displayPessoaImagem pessoa="#{pessoaVar}" />
+				</p:column>
+
+				<p:column headerText="Nome completo">
+					<h:outputText value="#{pessoaVar.nomeCompleto}" styleClass="destak3" />
+				</p:column>
+				
+				<p:column headerText="Email Principal">
+					#{pessoaVar.emailPrincipal}
+				</p:column>
+				
+				<p:column headerText="Cidade">
+					#{pessoaVar.endereco.enderecoCidade }
+				</p:column>
+				
+				<p:column headerText="Data Nascimento" styleClass="colCenter">
+					<my:outputDate value="#{pessoaVar.dataNascimentoCompleta}" />
+				</p:column>
+				
+				<p:column headerText="Idade" styleClass="colCenter">
+					<h:outputText value="#{pessoaVar.idadeCalculada }" />
+				</p:column>
+
+				<p:column headerText="Maturidade" styleClass="colCenter">
+					<h:outputText value="#{pessoaVar.maturidade.descricao }" />
+				</p:column>
+
+				<p:column headerText="Sexo" styleClass="colCenter">
+					<h:outputText value="#{pessoaVar.genero.descricao }" />
+				</p:column>
+			</p:dataTable>
+			
+			<p:spacer height="10" />
+			
+			<h:panelGroup>
+				<fieldset>
+					<legend>Opções</legend>
+					
+					<h:panelGrid columns="3" cellpadding="10">
+
+						<p:commandButton icon="fa fa-fw fa-file-pdf-o" value="Exportar para PDF" />
+					
+						<p:commandButton icon="fa fa-file-excel-o" value="Exportar para Excel" />
+
+						<p:commandButton icon="fa fa-flash" value="Criar campanha" />
+						
+						
+						
+					</h:panelGrid>
+				
+				</fieldset>
+			</h:panelGroup>
+			
+		</p:outputPanel>
+	
+	</h:form>
+	
+	
+</ui:define>
+</ui:composition>

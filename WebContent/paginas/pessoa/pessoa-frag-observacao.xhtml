@@ -1,0 +1,63 @@
+<!DOCTYPE html > 
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/components">
+       
+<h:form id="formPessoaObservacao">
+
+	<p:fieldset legend="Nova Observação" toggleable="true" collapsed="true">
+		<h:panelGrid columns="4" cellpadding="10">
+		
+			<h:panelGrid>
+				<p:outputLabel value="Responsável" />
+				<h:outputText value="#{pessoaMB.novaObservacao.responsavel }" styleClass="destak3" />
+			</h:panelGrid>
+		
+			<h:panelGrid>
+				<p:outputLabel for="inObs" value="Observação" />
+				<p:inputTextarea id="inObs" value="#{pessoaMB.novaObservacao.textoObservacao }" rows="2" cols="50" required="true" />
+				<p:message for="inObs" />
+			</h:panelGrid>
+			
+			<p:commandButton icon="fa fa-plus" value="Adicionar" 
+				action="#{pessoaMB.salvarObservacao() }" 
+				update="@form"
+				/>
+
+		</h:panelGrid>
+	</p:fieldset>
+
+
+	<p:spacer height="5" />
+
+
+	<p:panel>
+
+		<my:globalMessages />
+
+		<h:outputText value="Não há observações" styleClass="warn" 
+			rendered="#{empty pessoaMB.pessoa.observacoes}" 
+			/>
+			
+		<p:dataTable value="#{pessoaMB.pessoa.observacoes}" var="obsVar"
+			rendered="#{not empty pessoaMB.pessoa.observacoes}">
+			
+			<p:column headerText="Data" styleClass="col10p colCenter">
+				<my:outputTimestamp value="#{obsVar.dataObservacao }" styleClass="less2" />
+			</p:column>
+		
+			<p:column headerText="Responsável" styleClass="col10p">
+				<h:outputText value="#{obsVar.responsavel }" styleClass="less2" />
+			</p:column>
+
+			<p:column headerText="Observação" styleClass="col80p">
+				<h:outputText value="#{obsVar.textoObservacao }" styleClass="wrapable" />
+			</p:column>
+		</p:dataTable>
+	</p:panel>
+</h:form>
+
+</ui:fragment>

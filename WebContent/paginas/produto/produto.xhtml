@@ -1,0 +1,115 @@
+<!DOCTYPE html > 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/components"
+      template="/WEB-INF/design/_template-main.xhtml">
+       
+<ui:define name="title">Produtos / Serviços</ui:define>       
+
+       
+<ui:define name="content">
+
+	<h:form id="formPesquisa">
+	
+		<p:fieldset legend="Pesquisa" toggleable="true">
+		
+			<h:panelGrid columns="3" cellpadding="10">
+			
+				<h:panelGrid>
+					<h:outputText value="Descricao" />
+					<p:inputText value="#{produtoMB.filtroDescricao}" size="50" />
+				</h:panelGrid>
+
+				<h:panelGrid>
+					<h:outputText value="Ativo?" />
+					<p:selectOneButton value="#{produtoMB.filtroFlagAtivo }">
+						<f:selectItem itemValue="#{null}"  itemLabel="TODOS" />
+						<f:selectItem itemValue="#{true}"  itemLabel="Sim" />
+						<f:selectItem itemValue="#{false}" itemLabel="Não" />
+					</p:selectOneButton>
+				</h:panelGrid>
+			
+				<p:commandButton icon="fa fa-search" value="Pesquisar" style="font-size:1.25em"
+					action="#{produtoMB.pesquisar() }"
+					update=":formProdutos" 
+					/>
+			</h:panelGrid>
+		</p:fieldset>
+	</h:form>
+	
+	<p:spacer height="5" />
+
+	<h:form id="formProdutos">
+		<p:panel>
+
+			<my:globalMessages />
+			
+			<p:commandButton icon="fa fa-plus" value="Novo Produto" 
+				process="@this"
+				action="#{produtoMB.novo() }"
+				oncomplete="PF('DialogProduto').show()"
+				update="@form :regiaoProduto"
+				/>
+				
+			<p:dataTable value="#{produtoMB.produtos}" var="produtoVar"
+				rendered="#{not empty produtoMB.produtos}">
+			
+				<p:column headerText="ID" styleClass="col5p colCenter">
+					#{produtoVar.id}
+				</p:column>
+			
+				<p:column headerText="Descrição" styleClass="col40p">
+					<h:outputText value="#{produtoVar.descricao }" styleClass="destak2" />
+				</p:column>
+	
+				<p:column headerText="Ativo?" styleClass="col5p colCenter">
+					<my:displayFlag flag="#{produtoVar.flagAtivo }" />
+				</p:column>
+
+				<p:column headerText="Observação" styleClass="col10p colCenter">
+					<my:displayNote value="#{produtoVar.observacao }" />
+				</p:column>
+				
+				<p:column styleClass="col10p colCenter" >
+					<p:commandButton icon="fa fa-fw fa-edit" value="Editar" 
+						process="@this"
+						action="#{produtoMB.gerenciar(produtoVar)}" 
+						oncomplete="PF('DialogProduto').show();"
+						update=":regiaoProduto"
+						/>
+				</p:column>
+	
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+	
+	
+	<!-- Dialogo Produto -->
+	<p:dialog widgetVar="DialogProduto" header="Produto"
+		modal="true" dynamic="true" maximizable="true" closeOnEscape="true"
+		position="top" width="50%" height="90%">
+		
+		<p:outputPanel id="regiaoProduto">
+		
+			<p:panelGrid columns="2" rendered="#{not produtoMB.produto.transient}">
+				<h:outputText value="ID" />
+				<h:outputText value="Descrição" />
+				
+				<h:outputText value="#{produtoMB.produto.id}" styleClass="destak2" />
+				<h:outputText value="#{produtoMB.produto.descricao}" styleClass="destak2" />
+			</p:panelGrid>
+			
+			<p:spacer height="5" />
+			
+			
+			<ui:include src="/paginas/produto/produto-frag-principal.xhtml" />
+		
+		</p:outputPanel>
+	</p:dialog>
+	
+	
+</ui:define>
+</ui:composition>

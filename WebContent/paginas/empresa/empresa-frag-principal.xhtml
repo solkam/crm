@@ -1,0 +1,73 @@
+<!DOCTYPE html > 
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/components">
+       
+<h:form id="formEmpresa">
+
+	<my:globalMessages />
+
+	<p:panel>
+
+		<h:panelGrid columns="2" cellpadding="10">
+			<p:outputLabel for="inNome" value="Nome" styleClass="req" />
+			<h:panelGrid>
+				<p:inputText id="inNome" value="#{empresaMB.empresa.nome}" size="50" required="true" />
+				<p:message for="inNome" />
+			</h:panelGrid>
+
+			<p:outputLabel for="inCnpj" value="CNPJ" styleClass="req" />
+			<h:panelGrid>
+				<p:inputMask mask="99.999.9999-9999/99" id="inCnpj" value="#{empresaMB.empresa.cnpj }" required="true"  />
+				<p:message for="inCnpj" />
+			</h:panelGrid>
+
+			<p:outputLabel for="inFlag" value="Ativa?" styleClass="req" />
+			<h:panelGrid>
+				<p:inputSwitch id="inFlag" value="#{empresaMB.empresa.flagAtivo}" onLabel="Sim" offLabel="Não" required="true" />
+				<p:message for="inFlag" />
+			</h:panelGrid>
+
+		</h:panelGrid>
+	</p:panel>
+	
+	
+	<p:panel rendered="#{not empresaMB.empresa.transient}">
+		<h:outputText value="Histórico" styleClass="destak3" />
+		<p:separator />
+		
+		<my:panelGridInfoLog infoLog="#{empresaMB.empresa.infoLog}" />
+	
+	</p:panel>
+	
+
+	
+	<p:toolbar>
+		<p:toolbarGroup>
+			<p:commandButton icon="ui-icon-check" value="Salvar Empresa" 
+				action="#{empresaMB.salvar() }"
+				update=":regiaoEmpresa :formEmpresas" 
+				/>
+		</p:toolbarGroup>
+	
+		<p:toolbarGroup align="right" rendered="#{not empresaMB.empresa.transient}">
+			<p:menuButton value="Remover?" style="font-size:0.8em;">
+				<p:menuitem icon="ui-icon-trash" value="Sim, remover"
+					process="@this"
+					action="#{empresaMB.remover()}"
+					update=":regiaoEmpresa :formEmpresas"
+					oncomplete="if (args.sucessOnly) PF('DialogEmpresa').hide();"
+					/>
+				<p:menuitem icon="ui-icon-close" value="Não"
+					process="@none"
+					global="false" 
+					/>
+			</p:menuButton>
+		</p:toolbarGroup>
+	</p:toolbar>
+</h:form>
+
+</ui:fragment>

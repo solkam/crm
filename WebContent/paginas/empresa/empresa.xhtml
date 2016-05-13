@@ -1,0 +1,101 @@
+<!DOCTYPE html > 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/components"
+      template="/WEB-INF/design/_template-main.xhtml">
+       
+<ui:define name="title">Empresas</ui:define>       
+       
+<ui:define name="content">
+
+	<h:form>
+		<p:fieldset legend="Pesquisa" toggleable="true">
+		
+			<h:panelGrid columns="4" cellpadding="10">
+				<h:panelGrid>
+					<p:outputLabel value="Nome" />
+					<p:inputText value="#{empresaMB.filtroNome }" size="50" />
+				</h:panelGrid>
+	
+				<h:panelGrid>
+					<p:outputLabel value="CNPJ" />
+					<p:inputMask mask="99.999.999-9999/99" value="#{empresaMB.filtroCnpj }" />
+				</h:panelGrid>
+				
+				<p:commandButton icon="ui-icon-search" value="Pesquisar" 
+					action="#{empresaMB.pesquisar() }"
+					update=":formEmpresas" 
+					/>
+			</h:panelGrid>
+			
+		</p:fieldset>
+	</h:form>
+	
+	
+	<p:separator />
+	
+	
+	<h:form id="formEmpresas">
+	
+		<my:globalMessages />
+		
+		<p:commandButton icon="fa fa-fw fa-plus" value="Nova Empresa" 
+			process="@this"
+			action="#{empresaMB.novo() }" 
+			update=":regiaoEmpresa"
+			oncomplete="PF('DialogEmpresa').show();"
+			/>
+			
+		<p:dataTable value="#{empresaMB.empresas }" var="empresaVar"
+			rendered="#{not empty empresaMB.empresas }">
+			
+			<p:column headerText="#" styleClass="col5p colCenter">
+				<h:outputText value="#{empresaVar.id }" styleClass="less2" />
+			</p:column>
+
+			<p:column headerText="Nome" styleClass="col40p">
+				<h:outputText value="#{empresaVar.nome }" styleClass="destak3" />
+			</p:column>
+	
+			<p:column headerText="CNPJ" styleClass="col30p">
+				<h:outputText value="#{empresaVar.cnpj }" />
+			</p:column>
+			
+			<p:column headerText="Ativa?" styleClass="col10p colCenter">
+				<my:displayFlag flag="#{empresaVar.flagAtivo}" />
+			</p:column>
+
+			<p:column styleClass="col10p colCenter">
+				<p:commandButton icon="fa fa-edit" value="Editar"
+					process="@this"
+					action="#{empresaMB.gerenciar(empresaVar) }"
+					update=":regiaoEmpresa"
+					oncomplete="PF('DialogEmpresa').show();"
+					/>
+			</p:column>
+		</p:dataTable>
+	</h:form>
+		
+		
+		
+	<p:dialog widgetVar="DialogEmpresa" header="Empresa"  
+		modal="true" dynamic="true" closeOnEscape="true" maximizable="true" 
+		position="top" width="60%" height="60%" >
+		
+		<p:outputPanel id="regiaoEmpresa">
+		
+			<p:tabView>
+				<p:tab title="Principal">
+					<ui:include src="/paginas/empresa/empresa-frag-principal.xhtml" />
+				</p:tab>
+			</p:tabView>
+		
+		</p:outputPanel>
+	</p:dialog>
+	
+	
+</ui:define>
+</ui:composition>
