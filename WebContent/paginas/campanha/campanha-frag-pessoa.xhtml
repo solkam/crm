@@ -8,8 +8,49 @@
        
 <h:form>
 	<p:panel>
-	
-		Pessoas
+
+		<h:outputText value="Não há pessoas na campanha" styleClass="warn" 
+			rendered="#{empty campanhaMB.campanha.pessoas}" />
+
+
+		<p:outputPanel rendered="#{not empty campanhaMB.campanha.pessoas}">
+		
+			<p:dataTable value="#{campanhaMB.campanha.pessoas}" var="pessoaVar">
+			
+				<p:column headerText="Foto" styleClass="col10p colCenter">
+					<my:displayPessoaImagem pessoa="#{pessoaVar}" />
+				</p:column>
+
+				<p:column headerText="Nome completo">
+					<h:outputText value="#{pessoaVar.nomeCompleto}" styleClass="destak3" />
+				</p:column>
+				
+				<p:column headerText="Email Principal">
+					#{pessoaVar.emailPrincipal}
+				</p:column>
+				
+				<p:column headerText="Cidade">
+					#{pessoaVar.endereco.enderecoCidade }
+				</p:column>
+				
+				<p:column headerText="Data Nascimento" styleClass="colCenter">
+					<my:outputDate value="#{pessoaVar.dataNascimentoCompleta}" />
+				</p:column>
+				
+				<p:column headerText="Idade" styleClass="colCenter">
+					<h:outputText value="#{pessoaVar.idadeCalculada }" />
+				</p:column>
+
+				<p:column headerText="Maturidade" styleClass="colCenter">
+					<h:outputText value="#{pessoaVar.maturidade.descricao }" />
+				</p:column>
+
+				<p:column headerText="Sexo" styleClass="colCenter">
+					<h:outputText value="#{pessoaVar.genero.descricao }" />
+				</p:column>
+			</p:dataTable>		
+
+		</p:outputPanel>
 			
 	</p:panel>
 </h:form>

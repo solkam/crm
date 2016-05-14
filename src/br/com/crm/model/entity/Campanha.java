@@ -3,6 +3,7 @@ package br.com.crm.model.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -19,12 +20,10 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import br.com.crm.model.util.DateUtil;
-
 /**
  * Campanha de tele-marketing ativa para intereções com pessoas
- * de uma empresa realizadas por um responsavel (usuario) e com 
- * observação
+ * de uma empresa realizadas por um responsavel (usuario) e com observação.
+ * (usa-se Set para evitar repetições).
  * @author Solkam
  * @since 11 mai 2016
  */
@@ -50,7 +49,7 @@ public class Campanha implements Serializable {
 	@JoinTable(name="Campanha_x_pessoa"
 		,joinColumns=@JoinColumn(name="campanha_id")
 		,inverseJoinColumns=@JoinColumn(name="pessoa_id") )
-	private List<Pessoa> pessoas;
+	private Set<Pessoa> pessoas;
 	
 	
 	/**
@@ -60,7 +59,7 @@ public class Campanha implements Serializable {
 	@JoinTable(name="Campanha_x_produto"
 	,joinColumns=@JoinColumn(name="campanha_id")
 	,inverseJoinColumns=@JoinColumn(name="produto_id") )
-	private List<Produto> produtos;
+	private Set<Produto> produtos;
 	
 	
 	/**
@@ -70,7 +69,7 @@ public class Campanha implements Serializable {
 	@JoinTable(name="Campanha_x_usuario"
 	,joinColumns=@JoinColumn(name="campanha_id")
 	,inverseJoinColumns=@JoinColumn(name="usuario_id") )
-	private List<Usuario> responsaveis;
+	private Set<Usuario> responsaveis;
 	
 	
 	/**
@@ -148,27 +147,27 @@ public class Campanha implements Serializable {
 		this.empresa = empresa;
 	}
 
-	public List<Pessoa> getPessoas() {
+	public Set<Pessoa> getPessoas() {
 		return pessoas;
 	}
 
-	public void setPessoas(List<Pessoa> pessoas) {
+	public void setPessoas(Set<Pessoa> pessoas) {
 		this.pessoas = pessoas;
 	}
 
-	public List<Produto> getProdutos() {
+	public Set<Produto> getProdutos() {
 		return produtos;
 	}
 
-	public void setProdutos(List<Produto> produtos) {
+	public void setProdutos(Set<Produto> produtos) {
 		this.produtos = produtos;
 	}
 
-	public List<Usuario> getResponsaveis() {
+	public Set<Usuario> getResponsaveis() {
 		return responsaveis;
 	}
 
-	public void setResponsaveis(List<Usuario> responsaveis) {
+	public void setResponsaveis(Set<Usuario> responsaveis) {
 		this.responsaveis = responsaveis;
 	}
 
@@ -252,6 +251,8 @@ public class Campanha implements Serializable {
 	public boolean isTransient() {
 		return getId()==null;
 	}
+
+	
 	
 	
 }

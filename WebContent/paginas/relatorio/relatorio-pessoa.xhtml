@@ -114,7 +114,10 @@
 
 		<p:outputPanel rendered="#{not empty rPessoaMB.pessoas }">
 	
-			<p:dataTable value="#{rPessoaMB.pessoas}" var="pessoaVar">
+			<p:dataTable value="#{rPessoaMB.pessoas}" var="pessoaVar" rowKey="#{pessoaVar.id}"
+				selection="#{rPessoaMB.pessoasSelecionadas}" >
+				
+				<p:column selectionMode="multiple" styleClass="col5p colCenter" />
 				
 				<p:column headerText="ID" styleClass="col5p colCenter">
 					#{pessoaVar.id}
@@ -161,12 +164,10 @@
 					
 					<h:panelGrid columns="3" cellpadding="10">
 
-						<p:commandButton icon="fa fa-fw fa-file-pdf-o" value="Exportar para PDF" />
-					
-						<p:commandButton icon="fa fa-file-excel-o" value="Exportar para Excel" />
-
-						<p:commandButton icon="fa fa-flash" value="Criar campanha" />
-						
+						<p:commandButton icon="fa fa-flash" value="Adicionar pessoas à campanha" 
+							oncomplete="PF('DialogPessoasECampanha').show()"
+							update=":formPessoasECampanha" 
+							/>
 						
 						
 					</h:panelGrid>
@@ -175,8 +176,42 @@
 			</h:panelGroup>
 			
 		</p:outputPanel>
-	
 	</h:form>
+	
+	
+	
+	<p:dialog widgetVar="DialogPessoasECampanha" header="Adicionar Pessoas a uma Campanha"
+		modal="true" closeOnEscape="true" closable="true" draggable="false" >
+		
+		<h:form id="formPessoasECampanha">
+		
+			<my:globalMessages />
+			
+			<p:panel>
+				<h:outputText value="Nenhuma pessoa foi selecionada" styleClass="warn" 
+					rendered="#{empty rPessoaMB.pessoasSelecionadas}" />
+			
+				<h:panelGrid columns="3" cellpadding="10" rendered="#{not empty rPessoaMB.pessoasSelecionadas}">
+					<p:outputLabel for="inCampanha" value="Campanha" styleClass="req" />
+					
+					<h:panelGrid>
+						<p:selectOneMenu id="inCampanha" value="#{rPessoaMB.campanhaSelecionada.id}" required="true">
+							<f:selectItems value="#{rPessoaMB.comboCampanhas}" var="campanhaVar" 
+								itemValue="#{campanhaVar.id}" itemLabel="#{campanhaVar.descricao}"  
+								/>
+						</p:selectOneMenu>
+						<p:message for="inCampanha" />
+					</h:panelGrid>
+					
+					<p:commandButton icon="fa fa-check" value="Confirmar" 
+						action="#{rPessoaMB.confirmarPessoasACampanha()}"
+						update="@form :formResultado"
+						oncomplete="if (args.sucessOnly) PF('DialogPessoasECampanha').hide()"
+						/>
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+	</p:dialog>
 	
 	
 </ui:define>

@@ -1,7 +1,12 @@
 package br.com.crm.model.service;
 
+import static br.com.crm.model.util.QueryUtil.isNotBlank;
+import static br.com.crm.model.util.QueryUtil.isNotNull;
+import static br.com.crm.model.util.QueryUtil.toLikeMatchModeANY;
+
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -14,9 +19,9 @@ import javax.persistence.criteria.Root;
 
 import br.com.crm.model.entity.Campanha;
 import br.com.crm.model.entity.Empresa;
+import br.com.crm.model.entity.Pessoa;
 import br.com.crm.model.entity.Usuario;
 import br.com.crm.model.exception.NegocioException;
-import static br.com.crm.model.util.QueryUtil.*;
 
 /**
  * Serviços de negócio para Camapanha
@@ -168,8 +173,26 @@ public class CampanhaService {
 
 		return manager.createQuery(criteria).getResultList();
 	}
+	
+	
+	/**
+	 * Pesquisa somente as campanhas ativas e dentro do prazo
+	 * @return
+	 */
+	public List<Campanha> pesquisarCampanhaAtivaEDentroDoPrazo() {
+		return manager.createNamedQuery("pesquisarCampanhaAtivaEDentroDoPrazo", Campanha.class)
+				.getResultList();
+	}
 
 
+	
+	public void adicionarPessoasACampanha(List<Pessoa> pessoasSelecionadas, Campanha campanhaSelecionada) {
+		//traz para gerenciado
+		campanhaSelecionada = manager.find(Campanha.class, campanhaSelecionada.getId() );
+		//acrescenta as existentes
+		Set<Pessoa> pessoas = campanhaSelecionada.getPessoas();
+		pessoas.addAll( pessoasSelecionadas );
+	}
 	
 	
 	

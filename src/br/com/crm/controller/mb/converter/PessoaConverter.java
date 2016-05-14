@@ -22,23 +22,23 @@ public class PessoaConverter implements Converter {
 	@EJB
 	private PessoaService service;
 	
+	
 	@Override
 	public Object getAsObject(FacesContext ctx, UIComponent comp, String txt) {
 		if (txt==null || txt.trim().isEmpty()) {
 			return null;
 		}
-		
 		Integer id = Integer.parseInt( txt );
 		Pessoa pessoaEncontrada = service.buscarPessoaPeloId( id );
 		return pessoaEncontrada;
 	}
 
+	
 	@Override
 	public String getAsString(FacesContext ctx, UIComponent comp, Object obj) {
 		if (obj==null) {
 			return null;
 		}
-		
 		Pessoa p = (Pessoa) obj;
 		return p.getId().toString();
 	}

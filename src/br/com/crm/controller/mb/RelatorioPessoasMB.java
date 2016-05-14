@@ -11,11 +11,14 @@ import javax.inject.Inject;
 import br.com.crm.controller.mb.security.SessionHolder;
 import br.com.crm.controller.util.JSFUtil;
 import br.com.crm.model.entity.AreaInteresse;
+import br.com.crm.model.entity.Campanha;
 import br.com.crm.model.entity.Genero;
 import br.com.crm.model.entity.Maturidade;
 import br.com.crm.model.entity.Pessoa;
 import br.com.crm.model.entity.Profissao;
+import br.com.crm.model.exception.NegocioException;
 import br.com.crm.model.service.AreaInteresseService;
+import br.com.crm.model.service.CampanhaService;
 import br.com.crm.model.service.MaturidadeService;
 import br.com.crm.model.service.ProfissaoService;
 import br.com.crm.model.service.RelatorioService;
@@ -34,6 +37,7 @@ public class RelatorioPessoasMB implements Serializable {
 	@Inject AreaInteresseService areaInteresseService;
 	@Inject ProfissaoService profissaoService;
 	@Inject MaturidadeService maturidadeService;
+	@Inject CampanhaService campanhaService;
 	
 	@Inject SessionHolder sessionHolder;
 	
@@ -41,6 +45,7 @@ public class RelatorioPessoasMB implements Serializable {
 	private List<AreaInteresse> comboAreasInteresse;
 	private List<Profissao> comboProfissoes;
 	private List<Maturidade> comboMaturidades;
+	private List<Campanha> comboCampanhas;
 	
 	//filtros
 	private Integer filtroNascimentoDia;//nao será usado a principio
@@ -58,26 +63,37 @@ public class RelatorioPessoasMB implements Serializable {
 	//resultado
 	private List<Pessoa> pessoas;
 	
+	
+	private List<Pessoa> pessoasSelecionadas;
+	
+	private Campanha campanhaSelecionada = new Campanha();
+	
+	
 	@PostConstruct
 	void init() {
-		populateComboAreasInteresse();
-		populateComboProfissoes();
-		populateComboMaturidades();
+		initComboAreasInteresse();
+		initComboProfissoes();
+		initComboMaturidades();
+		initComboCampanhas();
 	}
 	
 
-	private void populateComboAreasInteresse() {
+	private void initComboAreasInteresse() {
 		comboAreasInteresse = areaInteresseService.pesquisarAreaInteresseAtiva(sessionHolder.getEmpresa());
 	}
 	
-	private void populateComboProfissoes() {
+	private void initComboProfissoes() {
 		comboProfissoes = profissaoService.pesquisarProfissaoAtiva( sessionHolder.getEmpresa() );
 	}
 
-	
-	private void populateComboMaturidades() {
+	private void initComboMaturidades() {
 		comboMaturidades = maturidadeService.pesquisarMaturidade( sessionHolder.getEmpresa() );
 	}
+	
+	private void initComboCampanhas() {
+		comboCampanhas = campanhaService.pesquisarCampanhaAtivaEDentroDoPrazo();
+	}
+	
 	
 
 	//actions...
@@ -95,6 +111,14 @@ public class RelatorioPessoasMB implements Serializable {
 													);
 		JSFUtil.addMessageAboutResult(pessoas);
 	}
+	
+	
+	//campanhas...
+	public void confirmarPessoasACampanha() {
+		campanhaService.adicionarPessoasACampanha(pessoasSelecionadas, campanhaSelecionada);
+		JSFUtil.addInfoMessage("Pessoas adicionadas com sucesso");
+	}
+	
 
 
 	//acessores...
@@ -218,7 +242,31 @@ public class RelatorioPessoasMB implements Serializable {
 	public List<Pessoa> getPessoas() {
 		return pessoas;
 	}
-	
+
+
+	public List<Pessoa> getPessoasSelecionadas() {
+		return pessoasSelecionadas;
+	}
+
+
+	public void setPessoasSelecionadas(List<Pessoa> pessoasSelecionadas) {
+		this.pessoasSelecionadas = pessoasSelecionadas;
+	}
+
+
+	public List<Campanha> getComboCampanhas() {
+		return comboCampanhas;
+	}
+
+
+	public Campanha getCampanhaSelecionada() {
+		return campanhaSelecionada;
+	}
+
+
+	public void setCampanhaSelecionada(Campanha campanhaSelecionada) {
+		this.campanhaSelecionada = campanhaSelecionada;
+	}
 	
 	
 }

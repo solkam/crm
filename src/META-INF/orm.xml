@@ -251,6 +251,9 @@
 	<!-- campanha -->
 	
 	<named-query name="buscarCampanhaPelaDescricao">
+		<description>
+			Para RN de unicidade da descricao
+		</description>
 		<query>
 			select c
 			from Campanha c
@@ -260,6 +263,9 @@
 	</named-query>
 	
 	<named-query name="pesquisarCampanhaAtivaPeloResponsavel">
+		<description>
+			Para Minhas Campanhas
+		</description>
 		<query>
 			select c
 			from Campanha c
@@ -267,6 +273,19 @@
 			where r = :pResponsavel
 			and   c.flagAtivo = TRUE
 			order by c.dataInicio
+		</query>
+	</named-query>
+	
+	<named-query name="pesquisarCampanhaAtivaEDentroDoPrazo">
+		<description>
+			Para criar ou atualizar campanhas a partir do relatorio de pessoas
+		</description>
+		<query>
+			select c
+			from Campanha c
+			where c.flagAtivo = TRUE
+			and   (c.dataFim IS NULL or c.dataFim &lt; CURRENT_DATE)
+			order by c.descricao
 		</query>
 	</named-query>
 
