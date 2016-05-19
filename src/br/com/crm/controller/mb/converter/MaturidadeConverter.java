@@ -1,11 +1,11 @@
 package br.com.crm.controller.mb.converter;
 
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.inject.Inject;
 
 import br.com.crm.model.entity.Maturidade;
 import br.com.crm.model.service.MaturidadeService;
@@ -19,7 +19,7 @@ import br.com.crm.model.service.MaturidadeService;
 @ViewScoped
 public class MaturidadeConverter implements Converter {
 
-	@EJB MaturidadeService service;
+	@Inject MaturidadeService service;
 	
 	@Override
 	public Object getAsObject(FacesContext ctx, UIComponent cp, String txt) {
@@ -27,7 +27,7 @@ public class MaturidadeConverter implements Converter {
 			return null;
 		}
 		Integer id = Integer.parseInt( txt );
-		return service.buscarMaturidadePelaIdade(id);
+		return service.buscarMaturidadePeloId(id);
 	}
 
 	@Override

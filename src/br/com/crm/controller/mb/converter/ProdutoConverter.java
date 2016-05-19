@@ -1,10 +1,11 @@
 package br.com.crm.controller.mb.converter;
 
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.inject.Inject;
 
 import br.com.crm.model.entity.Produto;
 import br.com.crm.model.service.ProdutoService;
@@ -15,9 +16,10 @@ import br.com.crm.model.service.ProdutoService;
  * @since 11 mai 2016
  */
 @ManagedBean
+@ViewScoped
 public class ProdutoConverter implements Converter {
 
-	@EJB ProdutoService service;
+	@Inject ProdutoService service;
 	
 	@Override
 	public Object getAsObject(FacesContext ctx, UIComponent comp, String txt) {

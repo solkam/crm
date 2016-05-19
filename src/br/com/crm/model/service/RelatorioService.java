@@ -124,6 +124,7 @@ public class RelatorioService {
 		}
 
 		//where e order by
+		criteria.distinct( true );
 		criteria.where( conjunction );
 		
 		criteria.orderBy( builder.asc(root.get("primeiroNome"))

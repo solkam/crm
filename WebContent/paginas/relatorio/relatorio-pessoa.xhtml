@@ -162,16 +162,28 @@
 				<fieldset>
 					<legend>Opções</legend>
 					
-					<h:panelGrid columns="3" cellpadding="10">
+					<h:panelGrid columns="2" cellpadding="10">
 
-						<p:commandButton icon="fa fa-flash" value="Adicionar pessoas à campanha" 
-							oncomplete="PF('DialogPessoasECampanha').show()"
-							update=":formPessoasECampanha" 
-							/>
+						<p:commandLink oncomplete="PF('DialogPessoasECampanha').show()"
+									   update=":formPessoasECampanha" >
+							<h:panelGrid cellpadding="10" styleClass="exportItem">
+								<h:panelGrid columns="2" > 
+									<p:graphicImage library="img" name="icone_adicionar_campanha_40.png" cache="true" />
+									<h:outputText value="Adicionar pessoas à campanha" />
+								</h:panelGrid>
+							</h:panelGrid>
+						</p:commandLink>
 						
+						<h:commandLink action="#{rPessoaMB.exportarParaExcel() }" target="_blank">
+							<h:panelGrid cellpadding="10" styleClass="exportItem">
+								<h:panelGrid columns="2" > 
+									<p:graphicImage library="img" name="icon_export_excel_40.png" cache="true" />
+									<h:outputText value="Exportar para Excel" />
+								</h:panelGrid>
+							</h:panelGrid>
+						</h:commandLink>
 						
 					</h:panelGrid>
-				
 				</fieldset>
 			</h:panelGroup>
 			

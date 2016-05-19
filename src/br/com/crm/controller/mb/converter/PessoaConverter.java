@@ -1,11 +1,11 @@
 package br.com.crm.controller.mb.converter;
 
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.inject.Inject;
 
 import br.com.crm.model.entity.Pessoa;
 import br.com.crm.model.service.PessoaService;
@@ -15,12 +15,11 @@ import br.com.crm.model.service.PessoaService;
  * @author Solkam
  * @since 09 mai 2016
  */
-@ManagedBean(name="pessoaConverter")
+@ManagedBean
 @ViewScoped
 public class PessoaConverter implements Converter {
 
-	@EJB
-	private PessoaService service;
+	@Inject PessoaService service;
 	
 	
 	@Override

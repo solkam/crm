@@ -18,7 +18,7 @@ import org.apache.poi.ss.usermodel.Font;
 
 import br.com.crm.model.util.DateUtil;
 
-public abstract class ExportadorExcel {
+public abstract class ExcelExporter {
 	
 	private static final String EXCEL_EXTENSION = ".xls"; 
 	

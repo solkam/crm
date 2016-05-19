@@ -1,11 +1,11 @@
 package br.com.crm.controller.mb.converter;
 
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.inject.Inject;
 
 import br.com.crm.model.entity.AreaInteresse;
 import br.com.crm.model.service.AreaInteresseService;
@@ -16,11 +16,11 @@ import br.com.crm.model.service.AreaInteresseService;
  * @author Solkam
  * @since 09 mai 2016
  */
-@ManagedBean(name="areaInteresseConverter")
+@ManagedBean
 @ViewScoped
 public class AreaInteresseConverter implements Converter {
 
-	@EJB AreaInteresseService service;
+	@Inject AreaInteresseService service;
 	
 	@Override
 	public Object getAsObject(FacesContext ctx, UIComponent comp, String txt) {

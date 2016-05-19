@@ -8,6 +8,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
+import br.com.crm.controller.exportador.ExcelExporter;
+import br.com.crm.controller.exportador.RelatorioPessoasExcelExporter;
 import br.com.crm.controller.mb.security.SessionHolder;
 import br.com.crm.controller.util.JSFUtil;
 import br.com.crm.model.entity.AreaInteresse;
@@ -16,12 +18,12 @@ import br.com.crm.model.entity.Genero;
 import br.com.crm.model.entity.Maturidade;
 import br.com.crm.model.entity.Pessoa;
 import br.com.crm.model.entity.Profissao;
-import br.com.crm.model.exception.NegocioException;
 import br.com.crm.model.service.AreaInteresseService;
 import br.com.crm.model.service.CampanhaService;
 import br.com.crm.model.service.MaturidadeService;
 import br.com.crm.model.service.ProfissaoService;
 import br.com.crm.model.service.RelatorioService;
+import br.com.crm.model.util.DateUtil;
 
 /**
  * Controller para UC Consultar Relatório de Pessoas
@@ -119,6 +121,22 @@ public class RelatorioPessoasMB implements Serializable {
 		JSFUtil.addInfoMessage("Pessoas adicionadas com sucesso");
 	}
 	
+	
+	//exportador
+	public void exportarParaExcel() {
+		ExcelExporter exportador = new RelatorioPessoasExcelExporter(pessoas);
+		exportador.export(getTitulosRelatorio(), getNomeArquivo() );
+	}
+	
+	private String[] getTitulosRelatorio() {
+		String t1 = "Relatório de Pessoas";
+		return new String[] {t1};
+	}
+
+	private String getNomeArquivo() {
+		return String.format("Relatório_Pessoas_%s", DateUtil.getDateForFilename() );
+	}
+
 
 
 	//acessores...
