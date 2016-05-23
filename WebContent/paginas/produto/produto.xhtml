@@ -40,7 +40,9 @@
 		</p:fieldset>
 	</h:form>
 	
+
 	<p:spacer height="5" />
+
 
 	<h:form id="formProdutos">
 		<p:panel>
@@ -54,37 +56,95 @@
 				update="@form :regiaoProduto"
 				/>
 				
-			<p:dataTable value="#{produtoMB.produtos}" var="produtoVar"
-				rendered="#{not empty produtoMB.produtos}">
-			
-				<p:column headerText="ID" styleClass="col5p colCenter">
-					#{produtoVar.id}
-				</p:column>
-			
-				<p:column headerText="Descrição" styleClass="col40p">
-					<h:outputText value="#{produtoVar.descricao }" styleClass="destak2" />
-				</p:column>
-	
-				<p:column headerText="Ativo?" styleClass="col5p colCenter">
-					<my:displayFlag flag="#{produtoVar.flagAtivo }" />
-				</p:column>
-
-				<p:column headerText="Observação" styleClass="col10p colCenter">
-					<my:displayNote value="#{produtoVar.observacao }" />
-				</p:column>
+			<p:outputPanel rendered="#{not empty produtoMB.produtos}">
 				
-				<p:column styleClass="col10p colCenter" >
-					<p:commandButton icon="fa fa-fw fa-edit" value="Editar" 
-						process="@this"
-						action="#{produtoMB.gerenciar(produtoVar)}" 
-						oncomplete="PF('DialogProduto').show();"
-						update=":regiaoProduto"
-						/>
-				</p:column>
+				<p:dataTable value="#{produtoMB.produtos}" var="produtoVar">
+				
+					<p:column headerText="ID" styleClass="col5p colCenter">
+						#{produtoVar.id}
+					</p:column>
+				
+					<p:column headerText="Descrição" styleClass="col40p">
+						<h:outputText value="#{produtoVar.descricao }" styleClass="destak2" />
+					</p:column>
+		
+					<p:column headerText="Ativo?" styleClass="col5p colCenter">
+						<my:displayFlag flag="#{produtoVar.flagAtivo }" />
+					</p:column>
 	
-			</p:dataTable>
+					<p:column headerText="Observação" styleClass="col10p colCenter">
+						<my:displayNote value="#{produtoVar.observacao }" />
+					</p:column>
+					
+					<p:column styleClass="col10p colCenter" >
+						<p:commandButton icon="fa fa-fw fa-edit" value="Editar" 
+							process="@this"
+							action="#{produtoMB.gerenciar(produtoVar)}" 
+							oncomplete="PF('DialogProduto').show();"
+							update=":regiaoProduto"
+							/>
+					</p:column>
+		
+				</p:dataTable>
+				
+				<p:spacer height="10" />
+				
+				<h:panelGroup>
+					<p:fieldset legend="Opções">
+						
+						<h:panelGrid columns="2" cellpadding="10">
+	
+							<p:commandLink oncomplete="PF('DialogProdutosECampanha').show()"
+										   update=":formProdutosECampanha" >
+								<h:panelGrid cellpadding="10" styleClass="exportItem">
+									<h:panelGrid columns="2" > 
+										<p:graphicImage library="img" name="icone_adicionar_campanha_40.png" cache="true" />
+										<h:outputText value="Adicionar produtos a uma campanha" />
+									</h:panelGrid>
+								</h:panelGrid>
+							</p:commandLink>
+							
+						</h:panelGrid>
+					</p:fieldset>
+				</h:panelGroup>
+				
+
+			</p:outputPanel>				
 		</p:panel>
 	</h:form>
+	
+	
+	<!-- dialog produtos a campanha -->
+	<p:dialog widgetVar="DialogProdutosECampanha" header="Adicionar Produtos a uma Campanha"
+		modal="true" closeOnEscape="true" closable="true" draggable="false" >
+		
+		<h:form id="formProdutosECampanha">
+		
+			<my:globalMessages />
+			
+			<p:panel>
+				<h:panelGrid columns="3" cellpadding="10">
+					<p:outputLabel for="inCampanha" value="Campanha" styleClass="req" />
+					
+					<h:panelGrid>
+						<p:selectOneMenu id="inCampanha" value="#{produtoMB.campanhaSelecionada.id}" required="true">
+							<f:selectItems value="#{produtoMB.comboCampanhas}" var="campanhaVar" 
+								itemValue="#{campanhaVar.id}" itemLabel="#{campanhaVar.descricaoCompleta }"  
+								/>
+						</p:selectOneMenu>
+						<p:message for="inCampanha" />
+					</h:panelGrid>
+					
+					<p:commandButton icon="fa fa-check" value="Confirmar" 
+						action="#{produtoMB.confirmarProdutosParaCampanha() }"
+						update="@form :formProdutos"
+						oncomplete="if (args.sucessOnly) PF('DialogProdutosECampanha').hide()"
+						/>
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+	</p:dialog>
+	
 	
 	
 	<!-- Dialogo Produto -->
@@ -103,7 +163,6 @@
 			</p:panelGrid>
 			
 			<p:spacer height="5" />
-			
 			
 			<ui:include src="/paginas/produto/produto-frag-principal.xhtml" />
 		

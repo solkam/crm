@@ -1,0 +1,60 @@
+<!DOCTYPE html > 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/components"
+      template="/WEB-INF/design/_template-main.xhtml">
+       
+<ui:define name="title">Minhas Campanhas</ui:define>       
+       
+<ui:define name="content">
+
+
+	<h:form id="formMinhasCampanhas">
+		<p:panel>
+
+			<my:globalMessages />
+			
+			<h:outputText value="Não há campanhas" styleClass="warn"
+				rendered="#{empty minhaCampanhaMB.minhasCampanhas }" />
+			
+			<p:dataTable value="#{minhaCampanhaMB.minhasCampanhas }" var="campanhaVar"
+				rendered="#{not empty minhaCampanhaMB.minhasCampanhas }">
+				
+				<p:column headerText="ID" styleClass="col5p colCenter">
+					#{campanhaVar.id}
+				</p:column>
+
+				<p:column headerText="Descrição" styleClass="col40p">
+					<h:outputText value="#{campanhaVar.descricao }" styleClass="destak3" />
+				</p:column>
+				
+				<p:column headerText="Data Início" styleClass="col10p colCenter">
+					<my:outputDate value="#{campanhaVar.dataInicio}" />
+				</p:column>
+				
+				<p:column headerText="Data Fim" styleClass="col10p colCenter">
+					<my:outputDate value="#{campanhaVar.dataFim }" />
+				</p:column>
+
+				<p:column headerText="Observação" styleClass="colCenter col5p">
+					<my:displayNote value="#{campanhaVar.observacao}" />
+				</p:column>
+				
+
+				<p:column styleClass="col10p colCenter">
+					<p:commandButton id="btnEdit" icon="fa fa-play" value="Interagir" 
+						process="@this"
+						action="#{minhaCampanhaMB.interagir(campanhaVar) }"
+						/>
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+	
+
+	
+</ui:define>
+</ui:composition>

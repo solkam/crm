@@ -73,7 +73,8 @@ public class ProfissaoMB implements Serializable {
 	public void remover(Profissao profissaoSelecionada) {
 		service.removerProfissao(profissaoSelecionada);
 		initProfissoes();
-		JSFUtil.addInfoMessage(String.format("Profissão [%s] removida", profissaoSelecionada.getDescricao() ));
+		String descricao = profissaoSelecionada.getDescricao();
+		JSFUtil.addInfoMessage(String.format("Profissão [%s] removida", descricao ));
 	}
 
 

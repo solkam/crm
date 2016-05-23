@@ -15,6 +15,15 @@
 		</query>
 	</named-query>
 	
+	<named-query name="pesquisarUsuarioPeloEmpresa">
+		<query>
+			select u
+			from Usuario u
+			where u.empresa = :pEmpresa
+			order by u.email
+		</query>
+	</named-query>
+	
 	
 	
 	<!-- empresa -->
@@ -267,7 +276,7 @@
 			Para Minhas Campanhas
 		</description>
 		<query>
-			select c
+			select distinct c
 			from Campanha c
 				join c.responsaveis r
 			where r = :pResponsavel
@@ -281,13 +290,16 @@
 			Para criar ou atualizar campanhas a partir do relatorio de pessoas
 		</description>
 		<query>
-			select c
+			select distinct c
 			from Campanha c
-			where c.flagAtivo = TRUE
-			and   (c.dataFim IS NULL or c.dataFim &lt; CURRENT_DATE)
+			where c.empresa = :pEmpresa
+			and   c.flagAtivo = TRUE
+			and   (c.dataFim IS NULL or c.dataFim &gt; CURRENT_DATE)
 			order by c.descricao
 		</query>
 	</named-query>
+	
+	
 
 
 </entity-mappings>

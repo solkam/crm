@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
  * @since 11 mai 2016
  */
 @Entity
-public class InteracaoCampanhaPessoa implements Serializable {
+public class InteracaoCampanha implements Serializable {
 
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
@@ -36,10 +36,12 @@ public class InteracaoCampanhaPessoa implements Serializable {
 	
 	
 	@Size(max=1000)
+	@NotNull
 	private String nota;
 	
 	
 	@Temporal(TemporalType.TIMESTAMP)
+	@NotNull
 	private Date data;
 
 
@@ -123,7 +125,7 @@ public class InteracaoCampanhaPessoa implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		InteracaoCampanhaPessoa other = (InteracaoCampanhaPessoa) obj;
+		InteracaoCampanha other = (InteracaoCampanha) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

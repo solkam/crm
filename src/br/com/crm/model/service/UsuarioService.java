@@ -16,6 +16,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import br.com.crm.model.entity.Empresa;
 import br.com.crm.model.entity.Perfil;
 import br.com.crm.model.entity.Usuario;
 
@@ -77,6 +78,15 @@ public class UsuarioService {
 			return null;
 		}
 	}
+	
+	/**
+	 * Busca usuario pela PK
+	 * @param id
+	 * @return
+	 */
+	public Usuario buscarUsuarioPeloId(Integer id) {
+		return manager.find(Usuario.class, id);
+	}
 
 	
 	/**
@@ -104,6 +114,19 @@ public class UsuarioService {
 		criteria.where( conjunction );
 		criteria.orderBy( builder.asc(root.<String>get("email")) );
 		return manager.createQuery(criteria).getResultList();
+	}
+
+
+	/**
+	 * Pesquia usuario pelo empresa.
+	 * (usado para atribuir responsaveis a uma campanha)
+	 * @param empresa
+	 * @return
+	 */
+	public List<Usuario> pesquisarUsuarioPeloEmpresa(Empresa empresa) {
+		return manager.createNamedQuery("pesquisarUsuarioPeloEmpresa", Usuario.class)
+				.setParameter("pEmpresa", empresa)
+				.getResultList();
 	}
 	
 

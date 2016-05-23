@@ -4,7 +4,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:tremn="http://java.sun.com/jsf/composite/components"
+      xmlns:my="http://java.sun.com/jsf/composite/components"
       template="/WEB-INF/design/_decorate-adjust.xhtml">
 <ui:define name="content-decorator">
 
@@ -52,8 +52,7 @@
 
 <h:form id="formMaturidades">
 
-	<tremn:globalGrowl />
-	<tremn:globalMessages />
+	<my:globalMessages />
 	
 	<p:outputPanel rendered="#{not empty maturidadeMB.maturidades}">
 	

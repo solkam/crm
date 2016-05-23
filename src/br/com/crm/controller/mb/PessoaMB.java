@@ -19,12 +19,14 @@ import br.com.crm.controller.mb.security.SessionHolder;
 import br.com.crm.controller.util.ImageStreamUtil;
 import br.com.crm.controller.util.JSFUtil;
 import br.com.crm.model.entity.AreaInteresse;
+import br.com.crm.model.entity.Campanha;
 import br.com.crm.model.entity.Empresa;
 import br.com.crm.model.entity.Pessoa;
 import br.com.crm.model.entity.PessoaCartaoNegocio;
 import br.com.crm.model.entity.PessoaObservacao;
 import br.com.crm.model.entity.Profissao;
 import br.com.crm.model.service.AreaInteresseService;
+import br.com.crm.model.service.CampanhaService;
 import br.com.crm.model.service.PessoaService;
 import br.com.crm.model.service.ProfissaoService;
 
@@ -42,6 +44,9 @@ public class PessoaMB implements Serializable {
 	@Inject AreaInteresseService areaInteresseService;
 	
 	@Inject ProfissaoService profissaoService;
+	
+	@Inject CampanhaService campanhaService;
+	
 	
 	
 	@Inject SessionHolder sessionHolder;
@@ -65,6 +70,7 @@ public class PessoaMB implements Serializable {
 		pesquisar();
 		initComboAreasInteresse();
 		initComboProfissoes();
+		initComboCampanhas();
 		resetarObservacao();
 	}
 	
@@ -73,6 +79,11 @@ public class PessoaMB implements Serializable {
 		Empresa empresa = sessionHolder.getEmpresa();
 		pessoas = pessoaService.pesquisarPessoaPelosFiltros(empresa, filtroNome, filtroEmail, filtroCidade);
 	}
+	
+	private void initComboCampanhas() {
+		comboCampanhas = campanhaService.pesquisarCampanhaAtivaEDentroDoPrazo(sessionHolder.getEmpresa());
+	}
+	
 	
 	
 	//actions...
@@ -161,6 +172,18 @@ public class PessoaMB implements Serializable {
 		recarregar();
 		JSFUtil.addInfoMessage("Observação removida");
 	}
+	
+	
+	//campanhas
+	private List<Campanha> comboCampanhas;
+	
+	private Campanha campanhaSelecionada = new Campanha();
+	
+	public void confirmarPessoasParaCampanha() {
+		campanhaService.adicionarPessoasACampanha(pessoas, campanhaSelecionada);
+		JSFUtil.addInfoMessage("Pessoas adicionadas com sucesso");
+	}
+
 	
 	
 	
@@ -384,7 +407,20 @@ public class PessoaMB implements Serializable {
 	public List<Profissao> getComboProfissoes() {
 		return comboProfissoes;
 	}
-	
-	
+
+
+	public List<Campanha> getComboCampanhas() {
+		return comboCampanhas;
+	}
+
+
+	public Campanha getCampanhaSelecionada() {
+		return campanhaSelecionada;
+	}
+
+
+	public void setCampanhaSelecionada(Campanha campanhaSelecionada) {
+		this.campanhaSelecionada = campanhaSelecionada;
+	}
 	
 }

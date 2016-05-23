@@ -3,6 +3,8 @@ package br.com.crm.controller.mb;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -12,7 +14,11 @@ import javax.inject.Inject;
 import br.com.crm.controller.mb.security.SessionHolder;
 import br.com.crm.controller.util.JSFUtil;
 import br.com.crm.model.entity.Campanha;
+import br.com.crm.model.entity.Pessoa;
+import br.com.crm.model.entity.Produto;
+import br.com.crm.model.entity.Usuario;
 import br.com.crm.model.service.CampanhaService;
+import br.com.crm.model.service.UsuarioService;
 
 /**
  * Controller para UC Gerenciar Campanha
@@ -25,6 +31,8 @@ public class CampanhaMB implements Serializable {
 	
 	@Inject CampanhaService service;
 	
+	@Inject UsuarioService usuarioService;
+	
 	@Inject SessionHolder sessionHolder;
 	
 	
@@ -34,16 +42,31 @@ public class CampanhaMB implements Serializable {
 	
 	
 	//filtros
-	private Boolean filtroFlagAtivo;
+	private Boolean filtroFlagAtivo=true;
 	private String filtroDescricao;
+	
+	//combo
+	private List<Usuario> comboResponsaveis;
+	
+	
+	
 	
 	@PostConstruct void init() {
 		pesquisar();
+		initComboResponsaveis();
+	}
+
+	private void initComboResponsaveis() {
+		comboResponsaveis = usuarioService.pesquisarUsuarioPeloEmpresa( sessionHolder.getEmpresa() );
 	}
 
 	private void initCampanhas() {
-		campanhas = service.pesquisarCampanhaPelosFiltros(filtroFlagAtivo, filtroDescricao);
+		campanhas = service.pesquisarCampanhaPelosFiltros(sessionHolder.getEmpresa()
+				 										, filtroFlagAtivo
+				 										, filtroDescricao
+				 										);
 	}
+	
 	
 	public void pesquisar() {
 		initCampanhas();
@@ -75,18 +98,51 @@ public class CampanhaMB implements Serializable {
 	}
 	
 	
-	private void recarregar() {
-		campanha = service.recarregarCampanha(campanha);
+
+	
+	//responsaveis
+	public void salvarResponsaveis() {
+		campanha = service.salvarCampanha(campanha, sessionHolder.getUsuario() );
+		recarregar();
+		JSFUtil.addInfoMessage("Responsáveis salvos com sucesso");
 	}
 
 	
 	//pessoas
+	public void removerPessoa(Pessoa pessoaSelecionada) {
+		service.removerPessoaDaCampanha(campanha, pessoaSelecionada);
+		recarregar();
+		JSFUtil.addInfoMessage("Pessoa removida da campanha");
+	}
+	
 	
 	
 	//produtos
+	public void removerProduto(Produto produtoSelecionado) {
+		service.removerProdutoDaCampanha(campanha, produtoSelecionado);
+		recarregar();
+		JSFUtil.addInfoMessage("Produto removido da campanha");
+	}
 	
 	
-	//responsaveis
+
+	//util...
+	private void recarregar() {
+		campanha = service.recarregarCampanha(campanha);
+		//1.responsaveis
+		Set<Usuario> responsaveisAux = new TreeSet<>();
+		responsaveisAux.addAll( campanha.getResponsaveis() );
+		campanha.setResponsaveis( responsaveisAux );
+		//2.pessoas
+		Set<Pessoa> pessoasAux = new TreeSet<>();
+		pessoasAux.addAll( campanha.getPessoas() );
+		campanha.setPessoas( pessoasAux );
+		//3.produtos
+		Set<Produto> produtosAux = new TreeSet<>();
+		produtosAux.addAll( campanha.getProdutos() );
+		campanha.setProdutos( produtosAux );
+	}
+	
 	
 	
 	//acesoress...
@@ -118,5 +174,10 @@ public class CampanhaMB implements Serializable {
 	public List<Campanha> getCampanhas() {
 		return campanhas;
 	}
+
+	public List<Usuario> getComboResponsaveis() {
+		return comboResponsaveis;
+	}
+	
 	
 }

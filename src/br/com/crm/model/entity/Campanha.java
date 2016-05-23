@@ -20,6 +20,8 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import br.com.crm.model.util.DateUtil;
+
 /**
  * Campanha de tele-marketing ativa para intereções com pessoas
  * de uma empresa realizadas por um responsavel (usuario) e com observação.
@@ -76,7 +78,7 @@ public class Campanha implements Serializable {
 	 * Interações já realizadas na campanha
 	 */
 	@OneToMany(mappedBy="campanha")
-	private List<InteracaoCampanhaPessoa> interacoes;
+	private List<InteracaoCampanha> interacoes;
 	
 	
 	
@@ -131,11 +133,11 @@ public class Campanha implements Serializable {
 		this.id = id;
 	}
 	
-	public List<InteracaoCampanhaPessoa> getInteracoes() {
+	public List<InteracaoCampanha> getInteracoes() {
 		return interacoes;
 	}
 
-	public void setInteracoes(List<InteracaoCampanhaPessoa> interacoes) {
+	public void setInteracoes(List<InteracaoCampanha> interacoes) {
 		this.interacoes = interacoes;
 	}
 
@@ -250,6 +252,24 @@ public class Campanha implements Serializable {
 	
 	public boolean isTransient() {
 		return getId()==null;
+	}
+	
+	/**
+	 * Monta uma descrição completa da campanha 
+	 * incluindo as datas de inicio e fim.
+	 * @return
+	 */
+	public String getDescricaoCompleta() {
+		String desc = getDescricao();
+		String dataInicioTxt = DateUtil.toStringDate( getDataInicio() );
+
+		if (getDataFim()!=null) {
+			String dataFimTxt = DateUtil.toStringDate( getDataFim() );
+			return String.format("%s (de %s a %s)", desc, dataInicioTxt, dataFimTxt );
+		} else {
+			return String.format("%s (a partir de %s)", desc, dataInicioTxt);
+			
+		}
 	}
 
 	

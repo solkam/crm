@@ -4,7 +4,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:tremn="http://java.sun.com/jsf/composite/components">
+      xmlns:my="http://java.sun.com/jsf/composite/components">
        
 <h:form enctype="multipart/form-data">
 
@@ -18,7 +18,7 @@
 			</p:column>
 
 			<p:column headerText="Upload Em" styleClass="col10p colCentro">
-				<tremn:outputTimestamp value="#{cartaoVar.subidoEm }" styleClass="less2" />
+				<my:outputTime value="#{cartaoVar.subidoEm }" styleClass="less2" />
 			</p:column>
 			
 			<p:column headerText="Upload Por" styleClass="col10p">

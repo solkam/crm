@@ -8,7 +8,7 @@
 	<center>
 		<h:panelGrid columns="10" cellpadding="5">
 		
-			<h:link outcome="/paginas/usuario/usuario.xhtml" styleClass="menuitem">
+			<h:link outcome="/paginas/usuario/usuario.xhtml" styleClass="menuitem" rendered="#{sessionHolder.flagPerfilADM}">
 				<h:panelGrid cellpadding="5" cellspacing="5" styleClass="menuitem">
 					<p:graphicImage library="img" name="icone_menu_usuario_96.png"  />
 				</h:panelGrid>
@@ -22,13 +22,13 @@
 			</h:link>
 			
 
-			<h:link outcome="/paginas/empresa/empresa.xhtml" styleClass="menuitem">
+			<h:link outcome="/paginas/empresa/empresa.xhtml" styleClass="menuitem" rendered="#{sessionHolder.flagTecnologia}">
 				<h:panelGrid cellpadding="5" cellspacing="5" styleClass="menuitem">
 					<p:graphicImage library="img" name="icone_menu_empresa_96.png"  />
 				</h:panelGrid>
 			</h:link>
 
-			<h:link outcome="/paginas/produto/produto.xhtml" styleClass="menuitem">
+			<h:link outcome="/paginas/produto/produto.xhtml" styleClass="menuitem" rendered="#{sessionHolder.flagPerfilADM}">
 				<h:panelGrid cellpadding="5" cellspacing="5" styleClass="menuitem">
 					<p:graphicImage library="img" name="icone_menu_produto_96.png"  />
 				</h:panelGrid>
@@ -41,19 +41,19 @@
 				</h:panelGrid>
 			</h:link>
 
-			<h:link outcome="/paginas/campanha/campanha.xhtml" styleClass="menuitem">
+			<h:link outcome="/paginas/campanha/campanha.xhtml" styleClass="menuitem" rendered="#{sessionHolder.flagPerfilADM}">
 				<h:panelGrid cellpadding="5" cellspacing="5" styleClass="menuitem">
 					<p:graphicImage library="img" name="icone_menu_campanha_96.png"  />
 				</h:panelGrid>
 			</h:link>
 
-			<h:link outcome="/paginas/campanha/minha-campanha.xhtml" styleClass="menuitem">
+			<h:link outcome="/paginas/minha-campanha/minha-campanha.xhtml" styleClass="menuitem">
 				<h:panelGrid cellpadding="5" cellspacing="5" styleClass="menuitem">
 					<p:graphicImage library="img" name="icone_menu_minha_campanha_96.png"  />
 				</h:panelGrid>
 			</h:link>
 
-			<h:link outcome="/paginas/area-interesse/area-interesse.xhtml" styleClass="menuitem">
+			<h:link outcome="/paginas/area-interesse/area-interesse.xhtml" styleClass="menuitem" rendered="#{sessionHolder.flagPerfilADM}">
 				<f:param name="idx" value="0" />
 				<h:panelGrid cellpadding="5" cellspacing="5" styleClass="menuitem">
 					<p:graphicImage library="img" name="icone_menu_ajuste_96.png"  />

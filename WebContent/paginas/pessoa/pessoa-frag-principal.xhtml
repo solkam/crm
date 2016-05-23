@@ -4,12 +4,12 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:tremn="http://java.sun.com/jsf/composite/components">
+      xmlns:my="http://java.sun.com/jsf/composite/components">
        
 <h:form id="formPessoa">
 	<p:panel>
 
-		<tremn:globalMessages />
+		<my:globalMessages />
 
 		<fieldset>
 			<legend>Básicos</legend>
@@ -88,32 +88,12 @@
 		<fieldset>
 			<legend>Endereço</legend>
 			
-			<h:panelGrid columns="4" cellpadding="5">
+			<h:panelGrid columns="1" cellpadding="5">
 					<h:panelGrid>
-						<p:outputLabel for="inAddType" value="Tipo de Logradouro" styleClass="req" />
-						<p:selectOneMenu id="inAddType" value="#{pessoaMB.pessoa.endereco.enderecoTipo }" required="true" >
-							<f:selectItems value="#{enumHelper.enderecoTipos }" var="tipoVar" 
-								itemValue="#{tipoVar}" itemLabel="#{tipoVar.descricao }" />
-						</p:selectOneMenu>
-						<p:message for="inAddType" />
-					</h:panelGrid>
-
-					<h:panelGrid>
-						<p:outputLabel for="inStreet" value="Logradouro" styleClass="req" />
-						<p:inputText id="inStreet" value="#{pessoaMB.pessoa.endereco.enderecoLogradouro }" size="50" required="true" />
-						<p:message for="inStreet" />
-					</h:panelGrid>
-			
-					<h:panelGrid>
-						<p:outputLabel for="inNumber" value="Número" styleClass="req" />
-						<p:inputText id="inNumber" value="#{pessoaMB.pessoa.endereco.enderecoNumero }" size="10" required="true" />
-						<p:message for="inNumber" />
-					</h:panelGrid>
-			
-					<h:panelGrid>
-						<p:outputLabel for="inComp" value="Complemento"  />
-						<p:inputText id="inComp" value="#{pessoaMB.pessoa.endereco.enderecoComplemento }" size="20"  />
-						<p:message for="inComp" />
+						<p:outputLabel for="inEndComp" value="Endereço Completo" styleClass="req" />
+						<p:inputText id="inEndComp" value="#{pessoaMB.pessoa.endereco.enderecoCompleto }" size="100" required="true" />
+						<h:outputText value="(rua, número e complemento)" styleClass="less3" />
+						<p:message for="inEndComp" />
 					</h:panelGrid>
 			</h:panelGrid>
 			

@@ -51,61 +51,123 @@
 				oncomplete="PF('DialogPessoa').show();"
 				update=":regiaoPessoa"
 				/>
+
 			
-			<p:dataTable value="#{pessoaMB.pessoas }" var="pessoaVar"
-				rendered="#{not empty pessoaMB.pessoas }">
+			<p:outputPanel rendered="#{not empty pessoaMB.pessoas }">
+			
+				<p:dataTable value="#{pessoaMB.pessoas }" var="pessoaVar">
+					
+					<p:column headerText="ID" styleClass="col5p colCenter">
+						#{pessoaVar.id}
+					</p:column>
+	
+					<p:column headerText="Foto" styleClass="col5p colCenter">
+						<my:displayPessoaImagem pessoa="#{pessoaVar}" />
+					</p:column>
+	
+					<p:column headerText="Nome completo" styleClass="col20p" sortBy="#{pessoaVar.nomeCompleto}">
+						<h:outputText value="#{pessoaVar.nomeCompleto }" styleClass="destak2" />
+					</p:column>
+					
+					<p:column headerText="Email Principal" styleClass="col20p" sortBy="#{pessoaVar.emailPrincipal}">
+						#{pessoaVar.emailPrincipal}
+					</p:column>
+					
+					<p:column headerText="Cidade" styleClass="col10p" sortBy="#{pessoaVar.endereco.enderecoCidade}">
+						#{pessoaVar.endereco.enderecoCidade}
+					</p:column>
+					
+					<p:column headerText="UF" styleClass="col5p" sortBy="#{pessoaVar.endereco.enderecoUF}">
+						#{pessoaVar.endereco.enderecoUF}
+					</p:column>
+	
+					<p:column headerText="Data Nascimento" styleClass="col10p colCenter" sortBy="#{pessoaVar.dataNascimentoCompleta}">
+						<my:outputDate value="#{pessoaVar.dataNascimentoCompleta}" />
+					</p:column>
+					
+					<p:column headerText="Idade" styleClass="col5p colCenter" sortBy="#{pessoaVar.idadeCalculada}">
+						<h:outputText value="#{pessoaVar.idadeCalculada }" />
+					</p:column>
+	
+					<p:column headerText="Maturidade" styleClass="col10p colCenter" sortBy="#{pessoaVar.maturidade.descricao}" >
+						<h:outputText value="#{pessoaVar.maturidade.descricao }" />
+					</p:column>
+	
+					<p:column headerText="Sexo" styleClass="col10p colCenter" sortBy="#{pessoaVar.genero.descricao}">
+						<h:outputText value="#{pessoaVar.genero.descricao }" />
+					</p:column>
+	
+					<p:column styleClass="col10p colCenter">
+						<p:commandButton id="btnEdit" icon="fa fa-fw fa-edit" value="Editar" 
+							process="@this"
+							action="#{pessoaMB.gerenciar(pessoaVar) }"
+							oncomplete="PF('DialogPessoa').show();"
+							update=":regiaoPessoa"
+							/>
+					</p:column>
+				</p:dataTable>
 				
-				<p:column headerText="ID" styleClass="col5p colCenter">
-					#{pessoaVar.id}
-				</p:column>
-
-				<p:column headerText="Foto" styleClass="col5p colCenter">
-					<my:displayPessoaImagem pessoa="#{pessoaVar}" />
-				</p:column>
-
-				<p:column headerText="Nome completo" styleClass="col20p" sortBy="#{pessoaVar.nomeCompleto}">
-					<h:outputText value="#{pessoaVar.nomeCompleto }" styleClass="destak2" />
-				</p:column>
 				
-				<p:column headerText="Email Principal" styleClass="col20p" sortBy="#{pessoaVar.emailPrincipal}">
-					#{pessoaVar.emailPrincipal}
-				</p:column>
+				<p:spacer height="10" />
 				
-				<p:column headerText="Cidade" styleClass="col10p" sortBy="#{pessoaVar.endereco.enderecoCidade}">
-					#{pessoaVar.endereco.enderecoCidade}
-				</p:column>
+				<h:panelGroup>
+					<fieldset>
+						<legend>Opções</legend>
+						
+						<h:panelGrid columns="2" cellpadding="10">
+	
+							<p:commandLink oncomplete="PF('DialogPessoasECampanha').show()"
+										   update=":formPessoasECampanha" >
+								<h:panelGrid cellpadding="10" styleClass="exportItem">
+									<h:panelGrid columns="2" > 
+										<p:graphicImage library="img" name="icone_adicionar_campanha_40.png" cache="true" />
+										<h:outputText value="Adicionar pessoas a uma campanha" />
+									</h:panelGrid>
+								</h:panelGrid>
+							</p:commandLink>
+							
+						</h:panelGrid>
+					</fieldset>
+				</h:panelGroup>
 				
-				<p:column headerText="UF" styleClass="col5p" sortBy="#{pessoaVar.endereco.enderecoUF}">
-					#{pessoaVar.endereco.enderecoUF}
-				</p:column>
-
-				<p:column headerText="Data Nascimento" styleClass="col10p colCenter" sortBy="#{pessoaVar.dataNascimentoCompleta}">
-					<my:outputDate value="#{pessoaVar.dataNascimentoCompleta}" />
-				</p:column>
-				
-				<p:column headerText="Idade" styleClass="col5p colCenter" sortBy="#{pessoaVar.idadeCalculada}">
-					<h:outputText value="#{pessoaVar.idadeCalculada }" />
-				</p:column>
-
-				<p:column headerText="Maturidade" styleClass="col10p colCenter" sortBy="#{pessoaVar.maturidade.descricao}" >
-					<h:outputText value="#{pessoaVar.maturidade.descricao }" />
-				</p:column>
-
-				<p:column headerText="Sexo" styleClass="col10p colCenter" sortBy="#{pessoaVar.genero.descricao}">
-					<h:outputText value="#{pessoaVar.genero.descricao }" />
-				</p:column>
-
-				<p:column styleClass="col10p colCenter">
-					<p:commandButton id="btnEdit" icon="fa fa-fw fa-edit" value="Editar" 
-						process="@this"
-						action="#{pessoaMB.gerenciar(pessoaVar) }"
-						oncomplete="PF('DialogPessoa').show();"
-						update=":regiaoPessoa"
-						/>
-				</p:column>
-			</p:dataTable>
+			</p:outputPanel>
+			
 		</p:panel>
 	</h:form>
+	
+	
+
+	<!-- dialog pessoas a campanha -->
+	<p:dialog widgetVar="DialogPessoasECampanha" header="Adicionar Pessoas a uma Campanha"
+		modal="true" closeOnEscape="true" closable="true" draggable="false" >
+		
+		<h:form id="formPessoasECampanha">
+		
+			<my:globalMessages />
+			
+			<p:panel>
+				<h:panelGrid columns="3" cellpadding="10">
+					<p:outputLabel for="inCampanha" value="Campanha" styleClass="req" />
+					
+					<h:panelGrid>
+						<p:selectOneMenu id="inCampanha" value="#{pessoaMB.campanhaSelecionada.id}" required="true">
+							<f:selectItems value="#{pessoaMB.comboCampanhas}" var="campanhaVar" 
+								itemValue="#{campanhaVar.id}" itemLabel="#{campanhaVar.descricaoCompleta }"  
+								/>
+						</p:selectOneMenu>
+						<p:message for="inCampanha" />
+					</h:panelGrid>
+					
+					<p:commandButton icon="fa fa-check" value="Confirmar" 
+						action="#{pessoaMB.confirmarPessoasParaCampanha() }"
+						update="@form :formPessoas"
+						oncomplete="if (args.sucessOnly) PF('DialogPessoasECampanha').hide()"
+						/>
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+	</p:dialog>
+	
 	
 	
 	

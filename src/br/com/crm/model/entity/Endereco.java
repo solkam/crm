@@ -3,8 +3,6 @@ package br.com.crm.model.entity;
 import java.io.Serializable;
 
 import javax.persistence.Embeddable;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.validation.constraints.Size;
 
 /**
@@ -15,17 +13,8 @@ import javax.validation.constraints.Size;
 @Embeddable
 public class Endereco implements Serializable {
 	
-	@Enumerated(EnumType.STRING)
-	private EnderecoTipo enderecoTipo;
-
-	@Size(max=100)
-	private String enderecoLogradouro;
-	
-	@Size(max=30)
-	private String enderecoNumero;
-	
-	@Size(max=50)
-	private String enderecoComplemento;
+	@Size(max=200)
+	private String enderecoCompleto;
 	
 	@Size(max=100)
 	private String enderecoBairro;
@@ -44,43 +33,13 @@ public class Endereco implements Serializable {
 	private static final long serialVersionUID = 8445223631108980610L;
 
 
-	public EnderecoTipo getEnderecoTipo() {
-		return enderecoTipo;
+	public String getEnderecoCompleto() {
+		return enderecoCompleto;
 	}
 
 
-	public void setEnderecoTipo(EnderecoTipo enderecoTipo) {
-		this.enderecoTipo = enderecoTipo;
-	}
-
-
-	public String getEnderecoLogradouro() {
-		return enderecoLogradouro;
-	}
-
-
-	public void setEnderecoLogradouro(String enderecoLogradouro) {
-		this.enderecoLogradouro = enderecoLogradouro;
-	}
-
-
-	public String getEnderecoNumero() {
-		return enderecoNumero;
-	}
-
-
-	public void setEnderecoNumero(String enderecoNumero) {
-		this.enderecoNumero = enderecoNumero;
-	}
-
-
-	public String getEnderecoComplemento() {
-		return enderecoComplemento;
-	}
-
-
-	public void setEnderecoComplemento(String enderecoComplemento) {
-		this.enderecoComplemento = enderecoComplemento;
+	public void setEnderecoCompleto(String enderecoCompleto) {
+		this.enderecoCompleto = enderecoCompleto;
 	}
 
 

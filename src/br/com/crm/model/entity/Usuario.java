@@ -20,7 +20,7 @@ import javax.validation.constraints.Size;
  * @since 26 abr 2016
  */
 @Entity
-public class Usuario implements Serializable {
+public class Usuario implements Serializable, Comparable<Usuario> {
 	
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
@@ -144,6 +144,15 @@ public class Usuario implements Serializable {
 	
 	public boolean isTransient() {
 		return getId()==null;
+	}
+
+	@Override
+	public int compareTo(Usuario that) {
+		if (this.id==null) {
+			return 0;
+		} else {
+			return this.id.compareTo( that.id );
+		}
 	}
 
 	

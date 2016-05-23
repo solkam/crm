@@ -124,12 +124,12 @@
 					<ui:include src="/paginas/campanha/campanha-frag-principal.xhtml" />
 				</p:tab>
 				
-				<p:tab title="Responsáveis" rendered="#{not campanhaMB.campanha.transient }">
-					<ui:include src="/paginas/campanha/campanha-frag-responsavel.xhtml" />
-				</p:tab>
-
 				<p:tab title="Pessoas" rendered="#{not campanhaMB.campanha.transient }">
 					<ui:include src="/paginas/campanha/campanha-frag-pessoa.xhtml" />
+				</p:tab>
+
+				<p:tab title="Responsáveis" rendered="#{not campanhaMB.campanha.transient }">
+					<ui:include src="/paginas/campanha/campanha-frag-responsavel.xhtml" />
 				</p:tab>
 
 				<p:tab title="Produtos" rendered="#{not campanhaMB.campanha.transient }">

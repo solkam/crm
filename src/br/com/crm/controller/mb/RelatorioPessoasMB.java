@@ -47,7 +47,7 @@ public class RelatorioPessoasMB implements Serializable {
 	private List<AreaInteresse> comboAreasInteresse;
 	private List<Profissao> comboProfissoes;
 	private List<Maturidade> comboMaturidades;
-	private List<Campanha> comboCampanhas;
+	private List<Campanha> comboCampanhas;//ativas e dentro do prazo
 	
 	//filtros
 	private Integer filtroNascimentoDia;//nao será usado a principio
@@ -93,7 +93,7 @@ public class RelatorioPessoasMB implements Serializable {
 	}
 	
 	private void initComboCampanhas() {
-		comboCampanhas = campanhaService.pesquisarCampanhaAtivaEDentroDoPrazo();
+		comboCampanhas = campanhaService.pesquisarCampanhaAtivaEDentroDoPrazo(sessionHolder.getEmpresa());
 	}
 	
 	

@@ -9,7 +9,40 @@
 <h:form>
 	<p:panel>
 	
-		Produto
+		<h:outputText value="Não há produtos na campanha" styleClass="warn" 
+			rendered="#{empty campanhaMB.campanha.produtos }" />
+			
+
+		<p:outputPanel rendered="#{not empty campanhaMB.campanha.produtos}">
+		
+			<p:dataTable value="#{campanhaMB.campanha.produtos }" var="produtoVar">
+			
+				<p:column headerText="ID" styleClass="col5p colCenter">
+					#{produtoVar.id}
+				</p:column>
+			
+				<p:column headerText="Descrição" styleClass="col40p">
+					<h:outputText value="#{produtoVar.descricao }" styleClass="destak2" />
+				</p:column>
+		
+				<p:column headerText="Ativo?" styleClass="col5p colCenter">
+					<my:displayFlag flag="#{produtoVar.flagAtivo }" />
+				</p:column>
+		
+				<p:column headerText="Observação" styleClass="col10p colCenter">
+					<my:displayNote value="#{produtoVar.observacao }" />
+				</p:column>
+				
+				<p:column styleClass="col10p colCenter" >
+					<p:commandButton icon="fa fa-remove" value="Remover" 
+						process="@this"
+						action="#{campanhaMB.removerProduto(produtoVar) }" 
+						update="@form"
+						/>
+				</p:column>
+		
+			</p:dataTable>
+		</p:outputPanel>
 			
 	</p:panel>
 </h:form>

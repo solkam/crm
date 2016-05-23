@@ -2,11 +2,13 @@ package br.com.crm.controller.mb.security;
 
 import java.io.Serializable;
 
+
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 import br.com.crm.controller.util.JSFUtil;
 import br.com.crm.model.entity.Empresa;
+import br.com.crm.model.entity.Perfil;
 import br.com.crm.model.entity.Usuario;
 
 /**
@@ -63,6 +65,14 @@ public class SessionHolder implements Serializable {
 	
 	public Empresa getEmpresa() {
 		return usuario.getEmpresa();
+	}
+	
+	public Boolean getFlagPerfilADM() {
+		return Perfil.ADM.equals( usuario.getPerfil() );
+	}
+	
+	public Boolean getFlagPerfilOPE() {
+		return Perfil.OPE.equals( usuario.getPerfil() );
 	}
 
 

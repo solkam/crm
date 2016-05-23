@@ -10,7 +10,9 @@ import javax.inject.Inject;
 
 import br.com.crm.controller.mb.security.SessionHolder;
 import br.com.crm.controller.util.JSFUtil;
+import br.com.crm.model.entity.Campanha;
 import br.com.crm.model.entity.Produto;
+import br.com.crm.model.service.CampanhaService;
 import br.com.crm.model.service.ProdutoService;
 
 
@@ -24,6 +26,9 @@ import br.com.crm.model.service.ProdutoService;
 public class ProdutoMB implements Serializable {
 	
 	@Inject ProdutoService service;
+	
+	@Inject CampanhaService campanhaService;
+	
 	
 	@Inject SessionHolder sessionHolder;
 	
@@ -42,10 +47,16 @@ public class ProdutoMB implements Serializable {
 	
 	@PostConstruct void init() {
 		pesquisar();
+		initComboCampanhas();
 	}
 	
+
 	private void initProdutos() {
 		produtos = service.pesquisarProdutoPelosFiltros(sessionHolder.getEmpresa(), filtroFlagAtivo, filtroDescricao);
+	}
+	
+	private void initComboCampanhas() {
+		campanhaService.pesquisarCampanhaAtivaEDentroDoPrazo(sessionHolder.getEmpresa());
 	}
 	
 	
@@ -83,6 +94,20 @@ public class ProdutoMB implements Serializable {
 		JSFUtil.addInfoMessage("Produto removido");
 	}
 
+	
+	
+	//campanhas
+	private List<Campanha> comboCampanhas;
+	
+	private Campanha campanhaSelecionada = new Campanha();
+
+	
+	public void confirmarProdutosParaCampanha() {
+		campanhaService.adicionarProdutosACampanha(produtos, campanhaSelecionada);
+		JSFUtil.addInfoMessage("Produtos adicionadas com sucesso");
+	}
+	
+	
 
 	
 	//util
@@ -123,6 +148,18 @@ public class ProdutoMB implements Serializable {
 
 	public void setFiltroDescricao(String filtroDescricao) {
 		this.filtroDescricao = filtroDescricao;
+	}
+
+	public Campanha getCampanhaSelecionada() {
+		return campanhaSelecionada;
+	}
+
+	public void setCampanhaSelecionada(Campanha campanhaSelecionada) {
+		this.campanhaSelecionada = campanhaSelecionada;
+	}
+
+	public List<Campanha> getComboCampanhas() {
+		return comboCampanhas;
 	}
 
 	

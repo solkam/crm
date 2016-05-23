@@ -17,7 +17,7 @@
 		
 		<p:panelGrid columns="2" >
 			<h:outputText value="Criado em" styleClass="less2" />
-			<my:outputTimestamp value="#{cc.attrs.infoLog.criadoEm}" styleClass="destak3 less2" />
+			<my:outputTime value="#{cc.attrs.infoLog.criadoEm}" styleClass="destak3 less2" />
 		
 			<h:outputText value="Criado por" styleClass="less2" />
 			<h:outputText value="#{cc.attrs.infoLog.criadoPor}" styleClass="destak3 less2" />
@@ -25,7 +25,7 @@
 	
 		<p:panelGrid columns="2" rendered="#{cc.attrs.infoLog.flagJaFoiAtualizado}">
 			<h:outputText value="Atualizado em" styleClass="less2" />
-			<my:outputTimestamp value="#{cc.attrs.infoLog.atualizadoEm }" styleClass="destak3 less2" />
+			<my:outputTime value="#{cc.attrs.infoLog.atualizadoEm }" styleClass="destak3 less2" />
 		
 			<h:outputText value="Atualizado por" styleClass="less2" />
 			<h:outputText value="#{cc.attrs.infoLog.atualizadoPor }" styleClass="destak3 less2" />

@@ -32,7 +32,7 @@ import br.com.crm.model.util.DateUtil;
  * @since 09 mai 2016
  */
 @Entity
-public class Pessoa implements Serializable {
+public class Pessoa implements Serializable, Comparable<Pessoa> {
 
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
@@ -520,6 +520,15 @@ public class Pessoa implements Serializable {
 		
 		if (isCpfNull  && isPassportNull && isRg) {
 			throw new NegocioException("Pelo menos um documento deve ser informado");
+		}
+	}
+
+	@Override
+	public int compareTo(Pessoa that) {
+		if (this.id!=null) {
+			return this.id.compareTo( that.id );
+		} else {
+			return 0;
 		}
 	}
 	

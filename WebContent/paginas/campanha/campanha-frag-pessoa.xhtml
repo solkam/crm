@@ -48,6 +48,14 @@
 				<p:column headerText="Sexo" styleClass="colCenter">
 					<h:outputText value="#{pessoaVar.genero.descricao }" />
 				</p:column>
+
+				<p:column styleClass="colCenter col10p">
+					<p:commandButton icon="fa fa-remove" value="Remover" 
+						process="@this"
+						action="#{campanhaMB.removerPessoa(pessoaVar)}"
+						update="@form"
+						/>
+				</p:column>
 			</p:dataTable>		
 
 		</p:outputPanel>

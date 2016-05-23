@@ -32,10 +32,9 @@ public class MaturidadeMB implements Serializable {
 	
 	
 	@PostConstruct void init() {
-		initMaturidades();
+		pesquisar();
 		nova();
 	}
-	
 	
 	private void initMaturidades() {
 		maturidades = service.pesquisarMaturidade( sessionHolder.getEmpresa() );

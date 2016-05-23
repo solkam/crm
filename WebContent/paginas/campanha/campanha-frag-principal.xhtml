@@ -7,53 +7,63 @@
       xmlns:my="http://java.sun.com/jsf/composite/components">
        
 <h:form id="formCampanha">
+
 	<p:panel>
+		<h:outputText value="Geral" styleClass="destak3" />
+		<p:separator />
+		
+		<h:panelGrid columns="2" cellpadding="5">
+			<p:outputLabel for="inDesc" value="Descrição" styleClass="req" />
+			<h:panelGrid>
+				<p:inputText id="inDesc" value="#{campanhaMB.campanha.descricao }" size="30" required="true" />
+				<p:message for="inDesc" />
+			</h:panelGrid>
+		
+			<p:outputLabel for="inObs" value="Observação" />
+			<h:panelGrid>
+				<p:inputTextarea id="inObs" value="#{campanhaMB.campanha.observacao }" rows="3" cols="50" />
+				<p:message for="inObs" />
+			</h:panelGrid>
 
-		<fieldset>
-			<legend>Básicos</legend>
 			
-				<h:panelGrid columns="2" cellpadding="5">
-					<p:outputLabel for="inDesc" value="Descrição" styleClass="req" />
-					<h:panelGrid>
-						<p:inputText id="inDesc" value="#{campanhaMB.campanha.descricao }" size="30" required="true" />
-						<p:message for="inDesc" />
-					</h:panelGrid>
-				
-					<p:outputLabel for="inObs" value="Observação" />
-					<h:panelGrid>
-						<p:inputTextarea id="inObs" value="#{campanhaMB.campanha.observacao }" rows="2" cols="50" />
-						<p:message for="inObs" />
-					</h:panelGrid>
-
-					
-					<h:outputText value="Datas" />
-					<h:panelGrid columns="2" cellpadding="5">
-						<h:panelGrid>
-							<p:outputLabel for="inDataInicio" value="Data Início" styleClass="req" />
-							<p:calendar id="inDataInicio" value="#{campanhaMB.campanha.dataInicio }" required="true" 
-								navigator="true" showButtonPanel="true" mode="inline" 
-								/>
-							<p:message for="inDataInicio" />
-						</h:panelGrid>
-					
-						<h:panelGrid>
-							<p:outputLabel for="inDataFim" value="Data Fim" />
-							<p:calendar id="inDataFim" value="#{campanhaMB.campanha.dataFim }" 
-								navigator="true" showButtonPanel="true" mode="inline" 
-								/>
-							<p:message for="inDataFim" />
-						</h:panelGrid>
-					</h:panelGrid>
-
-					<p:outputLabel for="inFlag" value="Ativa?" />
-					<h:panelGrid>
-						<p:inputSwitch id="inFlag" value="#{campanhaMB.campanha.flagAtivo }" onLabel="Sim" offLabel="Não" />
-						<p:message for="inFlag" />
-					</h:panelGrid>
-
+			<h:outputText value="Datas" />
+			<h:panelGrid columns="2" cellpadding="5">
+				<h:panelGrid>
+					<p:outputLabel for="inDataInicio" value="Data Início" styleClass="req" />
+					<p:calendar id="inDataInicio" value="#{campanhaMB.campanha.dataInicio }" required="true" 
+						navigator="true" showOn="button"  pattern="dd/MM/yyyy"
+						/>
+					<p:message for="inDataInicio" />
 				</h:panelGrid>
-		</fieldset>
+			
+				<h:panelGrid>
+					<p:outputLabel for="inDataFim" value="Data Fim" />
+					<p:calendar id="inDataFim" value="#{campanhaMB.campanha.dataFim }" 
+						navigator="true" showOn="button"  pattern="dd/MM/yyyy"
+						/>
+					<p:message for="inDataFim" />
+				</h:panelGrid>
+			</h:panelGrid>
+
+			<p:outputLabel for="inFlag" value="Ativa?" />
+			<h:panelGrid>
+				<p:inputSwitch id="inFlag" value="#{campanhaMB.campanha.flagAtivo }" onLabel="Sim" offLabel="Não" />
+				<p:message for="inFlag" />
+			</h:panelGrid>
+
+		</h:panelGrid>
 	</p:panel>
+
+
+
+	<p:panel rendered="#{not campanhaMB.campanha.transient}">
+		<h:outputText value="Histórico" styleClass="destak3" />
+		<p:separator />
+	
+		<my:panelGridInfoLog infoLog="#{campanhaMB.campanha.infoLog}" />
+		
+	</p:panel>
+
 
 	<p:toolbar>
 		<p:toolbarGroup>

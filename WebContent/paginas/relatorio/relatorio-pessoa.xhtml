@@ -169,7 +169,7 @@
 							<h:panelGrid cellpadding="10" styleClass="exportItem">
 								<h:panelGrid columns="2" > 
 									<p:graphicImage library="img" name="icone_adicionar_campanha_40.png" cache="true" />
-									<h:outputText value="Adicionar pessoas à campanha" />
+									<h:outputText value="Adicionar pessoas a uma campanha" />
 								</h:panelGrid>
 							</h:panelGrid>
 						</p:commandLink>
@@ -209,7 +209,7 @@
 					<h:panelGrid>
 						<p:selectOneMenu id="inCampanha" value="#{rPessoaMB.campanhaSelecionada.id}" required="true">
 							<f:selectItems value="#{rPessoaMB.comboCampanhas}" var="campanhaVar" 
-								itemValue="#{campanhaVar.id}" itemLabel="#{campanhaVar.descricao}"  
+								itemValue="#{campanhaVar.id}" itemLabel="#{campanhaVar.descricaoCompleta }"  
 								/>
 						</p:selectOneMenu>
 						<p:message for="inCampanha" />

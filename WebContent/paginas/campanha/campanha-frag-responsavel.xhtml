@@ -7,11 +7,33 @@
       xmlns:my="http://java.sun.com/jsf/composite/components">
        
 <h:form>
+
+	<my:globalMessages />
+
 	<p:panel>
 	
-		Responsáveis
+		<p:selectManyCheckbox id="inResp" value="#{campanhaMB.campanha.responsaveis}" 
+			converter="#{usuarioConverter}" layout="pageDirection" columns="2">
 			
+			<f:selectItems value="#{campanhaMB.comboResponsaveis}" var="usuarioVar"
+				itemValue="#{usuarioVar}" itemLabel="#{usuarioVar.email}" 
+				/>
+		</p:selectManyCheckbox>
+		<p:message for="inResp" />
+		
 	</p:panel>
+	
+	
+	<p:toolbar>
+		<p:toolbarGroup>
+			<p:commandButton icon="fa fa-check" value="Salvar Responsáveis" 
+				action="#{campanhaMB.salvarResponsaveis() }"
+				update="@form"
+				/>
+		</p:toolbarGroup>
+	</p:toolbar>
+	
+	
 </h:form>
 
 </ui:fragment>

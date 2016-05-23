@@ -70,7 +70,8 @@ public class AreaInteresseMB implements Serializable {
 	public void remover(AreaInteresse areaSelecionada) {
 		service.removerAreaInteresse(areaSelecionada);
 		initAreasInteresse();
-		JSFUtil.addInfoMessage(String.format("Área de Interesse [%s] removida", areaSelecionada.getDescricao() ));
+		String descricao = areaSelecionada.getDescricao();
+		JSFUtil.addInfoMessage(String.format("Área de Interesse [%s] removida", descricao ));
 	}
 	
 	
