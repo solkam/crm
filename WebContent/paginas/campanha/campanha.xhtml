@@ -53,7 +53,7 @@
 			<p:dataTable value="#{campanhaMB.campanhas }" var="campanhaVar"
 				rendered="#{not empty campanhaMB.campanhas }">
 				
-				<p:column headerText="ID" styleClass="col5p colCenter">
+				<p:column headerText="#" styleClass="col5p colCenter">
 					#{campanhaVar.id}
 				</p:column>
 
@@ -101,7 +101,7 @@
 		<p:outputPanel id="regiaoCampanha">
 		
 			<p:panelGrid id="panelCampanha" columns="5" rendered="#{not campanhaMB.campanha.transient}">
-				<h:outputText value="ID" />
+				<h:outputText value="#" />
 				<h:outputText value="Descrição" />
 				<h:outputText value="Data Início" />
 				<h:outputText value="Data Fim" />

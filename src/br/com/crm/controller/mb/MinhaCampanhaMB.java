@@ -11,6 +11,7 @@ import javax.inject.Inject;
 
 import br.com.crm.controller.mb.security.SessionHolder;
 import br.com.crm.controller.util.JSFUtil;
+import br.com.crm.model.dto.PessoaInteracoesDTO;
 import br.com.crm.model.entity.Campanha;
 import br.com.crm.model.entity.InteracaoCampanha;
 import br.com.crm.model.entity.Pessoa;
@@ -49,6 +50,10 @@ public class MinhaCampanhaMB implements Serializable {
 	}
 
 
+	
+	private List<PessoaInteracoesDTO> listaPessoaInteracoesDTO;
+	
+	
 	public String interagir(Campanha campanhaSelecionada) {
 		this.minhaCampanha = campanhaSelecionada;
 		recarregar();
@@ -56,12 +61,7 @@ public class MinhaCampanhaMB implements Serializable {
 	}
 	
 	
-	
-	
-	
-	
 	//nova interação
-	
 	private InteracaoCampanha novaInteracao;
 	
 	public void criarInteracao(Pessoa pessoaSelecionada) {
@@ -72,6 +72,7 @@ public class MinhaCampanhaMB implements Serializable {
 		novaInteracao.setData( new Date() );
 	}
 	
+
 	public void salvarNovaInteracao() {
 		novaInteracao = service.salvarInteracaoCampanha( novaInteracao );
 		criarInteracao( novaInteracao.getPessoa() );
@@ -83,6 +84,7 @@ public class MinhaCampanhaMB implements Serializable {
 	//util
 	private void recarregar() {
 		minhaCampanha = service.recarregarCampanha(minhaCampanha);
+		listaPessoaInteracoesDTO = service.pesquisarPessoaInteracoesDTOPorCampanha(minhaCampanha);
 	}
 	
 	
@@ -113,5 +115,9 @@ public class MinhaCampanhaMB implements Serializable {
 		this.novaInteracao = novaInteracao;
 	}
 
+	public List<PessoaInteracoesDTO> getListaPessoaInteracoesDTO() {
+		return listaPessoaInteracoesDTO;
+	}
+	
 	
 }

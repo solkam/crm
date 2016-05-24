@@ -50,13 +50,6 @@
 	border: 1px solid transparent;
 }
 
-.scrollable1 {
-	height: 500px
-}
-
-.scrollable2 {
-	height: 400px
-}
 
 
 .colCenter {
@@ -70,17 +63,38 @@
 .col5p {
 	width: 5%;
 }
-
 .col10p {
 	width: 10%;
 }
-
+.col15p {
+	width: 15%;
+}
+.col20p {
+	width: 20%;
+}
+.col30p {
+	width: 30%;
+}
+.col40p {
+	width: 40%;
+}
 .col50p {
 	width: 50%;
 }
-
+.col60p {
+	width: 60%;
+}
+.col70p {
+	width: 70%;
+}
+.col75p {
+	width: 75%;
+}
 .col80p {
 	width: 80%;
+}
+.col90p {
+	width: 90%;
 }
 
 .textCenter {

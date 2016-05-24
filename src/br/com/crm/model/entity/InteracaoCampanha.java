@@ -44,8 +44,19 @@ public class InteracaoCampanha implements Serializable {
 	@NotNull
 	private Date data;
 
-
 	
+	//construtores
+	public InteracaoCampanha() {
+	}
+	
+	public InteracaoCampanha(Pessoa pessoa) {
+		this.pessoa = pessoa;
+	}
+
+
+
+
+
 	//acessores...
 	private static final long serialVersionUID = 6743515337943198533L;
 	public Integer getId() {

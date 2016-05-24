@@ -4,6 +4,7 @@ import static br.com.crm.model.util.QueryUtil.isNotBlank;
 import static br.com.crm.model.util.QueryUtil.isNotNull;
 import static br.com.crm.model.util.QueryUtil.toLikeMatchModeANY;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -17,6 +18,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import br.com.crm.model.dto.PessoaInteracoesDTO;
 import br.com.crm.model.entity.Campanha;
 import br.com.crm.model.entity.Empresa;
 import br.com.crm.model.entity.InteracaoCampanha;
@@ -269,6 +271,40 @@ public class CampanhaService {
 	public InteracaoCampanha salvarInteracaoCampanha(InteracaoCampanha interacao) {
 		return manager.merge( interacao );
 	}
+
+	
+	/**
+	 * Pesquisa DTO por campanha
+	 * @param campanha
+	 * @return
+	 */
+	public List<PessoaInteracoesDTO> pesquisarPessoaInteracoesDTOPorCampanha(Campanha campanha) {
+		List<PessoaInteracoesDTO> dtos = new ArrayList<>();
+		//1.gerencia campanha
+		campanha = manager.find(Campanha.class, campanha.getId() );
+		//2.loop sobre as pessoas da campanha
+		for (Pessoa pessoaVar : campanha.getPessoas()) {
+			List<InteracaoCampanha> interacoes = pesquisarInteracaoCampanhaPorPessoaECampanha(pessoaVar, campanha);
+			PessoaInteracoesDTO dto = new PessoaInteracoesDTO(pessoaVar, campanha, interacoes);
+			dtos.add( dto );
+		}
+		return dtos;
+	}
+	
+	
+	/**
+	 * Pesquisa as interacoes de campanha de uma pessoa
+	 * @param campanha
+	 * @return
+	 */
+	private List<InteracaoCampanha> pesquisarInteracaoCampanhaPorPessoaECampanha(Pessoa pessoa, Campanha campanha) {
+		return manager.createNamedQuery("pesquisarInteracaoCampanhaPorPessoaECampanha", InteracaoCampanha.class)
+				.setParameter("pPessoa", pessoa)
+				.setParameter("pCampanha", campanha)
+				.getResultList();
+	}
+	
+	
 
 
 	

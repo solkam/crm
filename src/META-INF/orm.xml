@@ -299,6 +299,16 @@
 		</query>
 	</named-query>
 	
+	<named-query name="pesquisarInteracaoCampanhaPorPessoaECampanha">
+		<query>
+			select ic
+			from InteracaoCampanha ic 
+			where ic.pessoa   = :pPessoa
+			and   ic.campanha = :pCampanha
+			order by ic.data desc
+		</query>
+	</named-query>
+	
 	
 
 

@@ -1,6 +1,7 @@
 package br.com.crm.model.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -270,6 +271,21 @@ public class Campanha implements Serializable {
 			return String.format("%s (a partir de %s)", desc, dataInicioTxt);
 			
 		}
+	}
+	
+	/**
+	 * Seleciona apenas as interações de uma pessoa
+	 * @param p
+	 * @return
+	 */
+	public List<InteracaoCampanha> getInteracoesDaPessoa(Pessoa p) {
+		List<InteracaoCampanha> interacoesDaPessoa = new ArrayList<>();
+		for (InteracaoCampanha interacaoVar : getInteracoes()) {
+			if (p.equals(interacaoVar.getPessoa())) {
+				interacoesDaPessoa.add( interacaoVar );
+			}
+		}
+		return interacoesDaPessoa;
 	}
 
 	

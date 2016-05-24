@@ -14,6 +14,25 @@
 
 <ui:define name="content">
 
+	<p:panelGrid id="panelCampanha" columns="5">
+		<h:outputText value="#" />
+		<h:outputText value="Data Início" />
+		<h:outputText value="Data Fim" />
+		<h:outputText value="Qtd Pessoas" />
+		<h:outputText value="Qtd Interações" />
+		
+		<h:outputText value="#{minhaCampanhaMB.minhaCampanha.id }" styleClass="destak2" />
+		<my:outputDate value="#{minhaCampanhaMB.minhaCampanha.dataInicio }" styleClass="destak3" />
+		<my:outputDate value="#{minhaCampanhaMB.minhaCampanha.dataFim }" styleClass="destak3" />
+		<h:outputText value="#{minhaCampanhaMB.minhaCampanha.pessoas.size() }" styleClass="destak3" />
+		<h:outputText value="#{minhaCampanhaMB.minhaCampanha.interacoes.size() }" styleClass="destak3" />
+		
+	</p:panelGrid>
+	
+	<p:spacer height="10" />
+
+
+
 	<h:form id="formMinhaCampanhaPessoas">
 		<p:panel>
 			<h:outputText value="Pessoas" styleClass="destak2" />
@@ -22,55 +41,55 @@
 			<my:globalMessages />
 			
 			<h:outputText value="Não há pessoas" styleClass="warn"
-				rendered="#{empty minhaCampanhaMB.minhaCampanha.pessoas }" />
+				rendered="#{empty minhaCampanhaMB.listaPessoaInteracoesDTO }" />
 			
-			<p:dataTable value="#{minhaCampanhaMB.minhaCampanha.pessoas }" var="pessoaVar"
-				rendered="#{not empty minhaCampanhaMB.minhaCampanha.pessoas }" >
+			<p:dataTable value="#{minhaCampanhaMB.listaPessoaInteracoesDTO }" var="dtoVar"
+				rendered="#{not empty minhaCampanhaMB.listaPessoaInteracoesDTO }" >
 				
-				<p:column headerText="ID" styleClass="col5p colCenter">
-					#{pessoaVar.id}
-				</p:column>
-
 				<p:column headerText="Foto" styleClass="col5p colCenter">
-					<my:displayPessoaImagem pessoa="#{pessoaVar}" />
+					<my:displayPessoaImagem pessoa="#{dtoVar.pessoa}" />
 				</p:column>
 
-				<p:column headerText="Nome completo" styleClass="col20p" sortBy="#{pessoaVar.nomeCompleto}">
-					<h:outputText value="#{pessoaVar.nomeCompleto }" styleClass="destak2" />
+				<p:column headerText="Nome completo" styleClass="col10p" sortBy="#{dtoVar.pessoa.nomeCompleto}">
+					<h:outputText value="#{dtoVar.pessoa.nomeCompleto }" styleClass="destak2" />
 				</p:column>
 				
-				<p:column headerText="Email Principal" styleClass="col20p" sortBy="#{pessoaVar.emailPrincipal}">
-					#{pessoaVar.emailPrincipal}
+				<p:column headerText="Email Principal" styleClass="col10p" sortBy="#{dtoVar.pessoa.emailPrincipal}">
+					#{dtoVar.pessoa.emailPrincipal}
 				</p:column>
 				
-				<p:column headerText="Cidade" styleClass="col10p" sortBy="#{pessoaVar.endereco.enderecoCidade}">
-					#{pessoaVar.endereco.enderecoCidade}
+				<p:column headerText="Cidade" styleClass="col5p" sortBy="#{dtoVar.pessoa.endereco.enderecoCidade}">
+					#{dtoVar.pessoa.endereco.enderecoCidade}
 				</p:column>
 				
-				<p:column headerText="UF" styleClass="col5p" sortBy="#{pessoaVar.endereco.enderecoUF}">
-					#{pessoaVar.endereco.enderecoUF}
+				<p:column headerText="UF" styleClass="col5p" sortBy="#{dtoVar.pessoa.endereco.enderecoUF}">
+					#{dtoVar.pessoa.endereco.enderecoUF}
 				</p:column>
 
-				<p:column headerText="Data Nascimento" styleClass="col10p colCenter" sortBy="#{pessoaVar.dataNascimentoCompleta}">
-					<my:outputDate value="#{pessoaVar.dataNascimentoCompleta}" />
+				<p:column headerText="Data Nascimento" styleClass="col5p colCenter" sortBy="#{dtoVar.pessoa.dataNascimentoCompleta}">
+					<my:outputDate value="#{dtoVar.pessoa.dataNascimentoCompleta}" />
 				</p:column>
 				
-				<p:column headerText="Idade" styleClass="col5p colCenter" sortBy="#{pessoaVar.idadeCalculada}">
-					<h:outputText value="#{pessoaVar.idadeCalculada }" />
+				<p:column headerText="Idade" styleClass="col5p colCenter" sortBy="#{dtoVar.pessoa.idadeCalculada}">
+					<h:outputText value="#{dtoVar.pessoa.idadeCalculada }" />
 				</p:column>
 
-				<p:column headerText="Maturidade" styleClass="col10p colCenter" sortBy="#{pessoaVar.maturidade.descricao}" >
-					<h:outputText value="#{pessoaVar.maturidade.descricao }" />
+				<p:column headerText="Maturidade" styleClass="col5p colCenter" sortBy="#{dtoVar.pessoa.maturidade.descricao}" >
+					<h:outputText value="#{dtoVar.pessoa.maturidade.descricao }" />
 				</p:column>
 
-				<p:column headerText="Sexo" styleClass="col10p colCenter" sortBy="#{pessoaVar.genero.descricao}">
-					<h:outputText value="#{pessoaVar.genero.descricao }" />
+				<p:column headerText="Sexo" styleClass="col5p colCenter" sortBy="#{dtoVar.pessoa.genero.descricao}">
+					<h:outputText value="#{dtoVar.pessoa.genero.descricao }" />
 				</p:column>
 				
+				<p:column headerText="Qtd Interações" styleClass="col5p colCenter" >
+					<h:outputText value="#{dtoVar.quantidadeInteracoes}" />
+				</p:column>
+
 				<p:column styleClass="col10p colCenter">
 					<p:commandButton icon="fa fa-plus" value="Interações" 
 						process="@this"
-						action="#{minhaCampanhaMB.criarInteracao(pessoaVar) }"
+						action="#{minhaCampanhaMB.criarInteracao(dtoVar.pessoa) }"
 						oncomplete="PF('DialogInteracao').show()"
 						update=":regiaoInteracao"
 						/>
@@ -79,56 +98,47 @@
 		</p:panel>
 	</h:form>
 	
+
 	<p:spacer height="10" />
 
-	<h:form id="formMinhaCampanhaResponsaveis">
+
+	<h:form id="formMinhaCampanhaInteracoes" >
 		<p:panel>
-			<h:outputText value="Responsáveis" styleClass="destak2" />
+			<h:outputText value="Interações" styleClass="destak2" />
 			<p:separator />
 
 			<my:globalMessages />
 			
-			<p:dataTable value="#{minhaCampanhaMB.minhaCampanha.responsaveis }" var="respVar"
-				rendered="#{not empty minhaCampanhaMB.minhaCampanha.responsaveis }" >
+			<h:outputText value="Não há interações" styleClass="warn"
+				rendered="#{empty minhaCampanhaMB.minhaCampanha.interacoes }" />
+		
+			<p:dataTable value="#{minhaCampanhaMB.minhaCampanha.interacoes }" var="interacaoVar"
+				rendered="#{not empty minhaCampanhaMB.minhaCampanha.interacoes }" >
 				
-				<p:column headerText="ID" styleClass="col5p colCenter">
-					#{respVar.id}
+				<p:column headerText="#" styleClass="col5p colCenter">
+					#{interacaoVar.id}
+				</p:column>
+			
+				<p:column headerText="Responsável" styleClass="col10p" sortBy="#{interacaoVar.responsavel.email}">
+					#{interacaoVar.responsavel.email}
 				</p:column>
 
-				<p:column headerText="Email" styleClass="col90p" sortBy="#{respVar.email}">
-					<h:outputText value="#{respVar.email }" styleClass="destak2" />
+				<p:column headerText="Pessoa" styleClass="col25p" sortBy="#{interacaoVar.pessoa.nomeCompleto}">
+					<h:outputText value="#{interacaoVar.pessoa.nomeCompleto}" styleClass="destak3" />
 				</p:column>
-				
+
+				<p:column headerText="Data" styleClass="col10p colCenter" sortBy="#{interacaoVar.data}" >
+					<my:outputTime value="#{interacaoVar.data}" styleClass="less2" />
+				</p:column>
+
+				<p:column headerText="Nota" styleClass="col50p" >
+					<h:outputText value="#{interacaoVar.nota}" styleClass="less2" />
+				</p:column>
 			</p:dataTable>
+		
 		</p:panel>
 	</h:form>
 
-	<p:spacer height="10" />
-
-	<h:form id="formMinhaCampanhaProdutos">
-		<p:panel>
-			<h:outputText value="Produtos" styleClass="destak2" />
-			<p:separator />
-
-			<my:globalMessages />
-			
-			<h:outputText value="Não há produtos" styleClass="warn"
-				rendered="#{empty minhaCampanhaMB.minhaCampanha.produtos }" />
-			
-			<p:dataTable value="#{minhaCampanhaMB.minhaCampanha.produtos }" var="produtoVar"
-				rendered="#{not empty minhaCampanhaMB.minhaCampanha.produtos }" >
-				
-				<p:column headerText="ID" styleClass="col5p colCenter">
-					#{produtoVar.id}
-				</p:column>
-
-				<p:column headerText="Descrição" styleClass="col20p" sortBy="#{produtoVar.descricao}">
-					<h:outputText value="#{produtoVar.descricao }" styleClass="destak2" />
-				</p:column>
-				
-			</p:dataTable>
-		</p:panel>
-	</h:form>
 
 	
 	
@@ -192,7 +202,7 @@
 					<p:commandButton icon="fa fa-check" value="Salvar Interação" 
 						validateClient="true"  
 						action="#{minhaCampanhaMB.salvarNovaInteracao() }"
-						update=":regiaoInteracao"
+						update=":regiaoInteracao :formMinhaCampanhaPessoas"
 						/>
 	
 				</h:panelGrid>
@@ -205,32 +215,29 @@
 		<p:spacer height="5" />
 
 		
-		<p:fieldset legend="Interações" toggleable="true">
+		<p:fieldset legend="Interações da Pessoa" toggleable="true">
 			<h:form>
 		
 				<h:outputText value="Não há interações" styleClass="warn"
-					rendered="#{empty minhaCampanhaMB.minhaCampanha.interacoes}" />
+					rendered="#{empty minhaCampanhaMB.minhaCampanha.getInteracoesDaPessoa(minhaCampanhaMB.novaInteracao.pessoa) }" />
 			
-				<p:dataTable value="#{minhaCampanhaMB.minhaCampanha.interacoes}" var="interacaoVar"
-					rendered="#{not empty minhaCampanhaMB.minhaCampanha.interacoes}">
+				<p:dataTable value="#{minhaCampanhaMB.minhaCampanha.getInteracoesDaPessoa(minhaCampanhaMB.novaInteracao.pessoa) }" var="interacaoVar"
+					rendered="#{not empty minhaCampanhaMB.minhaCampanha.getInteracoesDaPessoa(minhaCampanhaMB.novaInteracao.pessoa) }" >
+					
 					<p:column headerText="#" styleClass="col5p colCenter">
 						#{interacaoVar.id}
 					</p:column>
 				
-					<p:column headerText="Responsável" styleClass="col20p" sortBy="#{interacaoVar.responsavel.email}">
+					<p:column headerText="Responsável" styleClass="col15p" sortBy="#{interacaoVar.responsavel.email}">
 						#{interacaoVar.responsavel.email}
 					</p:column>
 	
-					<p:column headerText="Pessoa" styleClass="col25p" sortBy="#{interacaoVar.pessoa.nomeCompleto}">
-						<h:outputText value="#{interacaoVar.pessoa.nomeCompleto}" styleClass="destak3" />
+					<p:column headerText="Data" styleClass="col20p colCenter" sortBy="#{interacaoVar.data}" >
+						<my:outputTime value="#{interacaoVar.data}" />
 					</p:column>
 	
-					<p:column headerText="Data" styleClass="col10p colCenter" sortBy="#{interacaoVar.data}" >
-						<my:outputTime value="#{interacaoVar.data}" styleClass="less2" />
-					</p:column>
-	
-					<p:column headerText="Nota" styleClass="col30p" >
-						<h:outputText value="#{interacaoVar.nota}" styleClass="less2" />
+					<p:column headerText="Nota" styleClass="col60p" >
+						<h:outputText value="#{interacaoVar.nota}"  />
 					</p:column>
 				</p:dataTable>
 			</h:form>
