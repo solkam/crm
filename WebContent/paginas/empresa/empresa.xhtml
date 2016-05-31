@@ -83,16 +83,30 @@
 		
 	<p:dialog widgetVar="DialogEmpresa" header="Empresa"  
 		modal="true" dynamic="true" closeOnEscape="true" maximizable="true" 
-		position="top" width="60%" height="60%" >
+		position="top" width="90%" positionType="absolute" >
 		
 		<p:outputPanel id="regiaoEmpresa">
 		
 			<p:tabView>
+
 				<p:tab title="Principal">
 					<ui:include src="/paginas/empresa/empresa-frag-principal.xhtml" />
 				</p:tab>
-			</p:tabView>
+				
+				
+				<p:tab title="Áreas de Interesse" rendered="#{not empresaMB.empresa.transient}">
+					<ui:include src="/paginas/empresa/empresa-frag-areainteresse.xhtml" />
+				</p:tab>
 		
+				<p:tab title="Profissões" rendered="#{not empresaMB.empresa.transient}">
+					<ui:include src="/paginas/empresa/empresa-frag-profissao.xhtml" />
+				</p:tab>
+
+				<p:tab title="Maturidades" rendered="#{not empresaMB.empresa.transient}">
+					<ui:include src="/paginas/empresa/empresa-frag-maturidade.xhtml" />
+				</p:tab>
+
+			</p:tabView>
 		</p:outputPanel>
 	</p:dialog>
 	

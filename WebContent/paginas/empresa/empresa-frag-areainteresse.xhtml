@@ -1,0 +1,52 @@
+
+<!DOCTYPE html > 
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/components">
+
+       
+<p:panel>
+
+	<h:outputText value="Não há áreas de interesse" styleClass="warn"
+		rendered="#{empty empresaMB.empresa.areasInteresse}" 
+		/>
+
+	<p:dataTable value="#{empresaMB.empresa.areasInteresse }" var="aiVar"
+		rendered="#{not empty empresaMB.empresa.areasInteresse}">
+		
+		<p:column headerText="#" styleClass="colCenter col5p">
+			<h:outputText value="#{aiVar.id}" styleClass="less2" />
+		</p:column>
+		
+		<p:column headerText="Ativa?" styleClass="colCenter col5p">
+			<my:displayFlag flag="#{aiVar.flagAtivo}" />
+		</p:column>
+
+		<p:column headerText="Descrição" styleClass="col50p">
+			<h:outputText value="#{aiVar.descricao}" styleClass="destak3" />
+		</p:column>
+	
+		<p:column headerText="Criado em" styleClass="col10p">
+			<my:outputTime value="#{aiVar.infoLog.criadoEm }" styleClass="less2" />
+		</p:column>
+	
+		<p:column headerText="Criado por" styleClass="col10p">
+			<h:outputText value="#{aiVar.infoLog.criadoPor }" styleClass="less2" />
+		</p:column>
+
+		<p:column headerText="Atualizado em" styleClass="col10p">
+			<my:outputTime value="#{aiVar.infoLog.atualizadoEm }" styleClass="less2" />
+		</p:column>
+	
+		<p:column headerText="Atualizado por" styleClass="col10p">
+			<h:outputText value="#{aiVar.infoLog.atualizadoPor }" styleClass="less2" />
+		</p:column>
+
+	</p:dataTable>
+
+</p:panel>
+
+</ui:fragment>

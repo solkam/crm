@@ -1,0 +1,51 @@
+<!DOCTYPE html > 
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/components">
+
+       
+<p:panel>
+
+	<h:outputText value="Não há profissões" styleClass="warn"
+		rendered="#{empty empresaMB.empresa.profissoes }" 
+		/>
+
+	<p:dataTable value="#{empresaMB.empresa.profissoes }" var="profissaoVar"
+		rendered="#{not empty empresaMB.empresa.profissoes }">
+		
+		<p:column headerText="#" styleClass="colCenter col5p">
+			<h:outputText value="#{profissaoVar.id}" styleClass="less2" />
+		</p:column>
+		
+		<p:column headerText="Ativo?" styleClass="colCenter col5p">
+			<my:displayFlag flag="#{profissaoVar.flagAtivo}" />
+		</p:column>
+
+		<p:column headerText="Descrição" styleClass="col50p">
+			<h:outputText value="#{profissaoVar.descricao }" styleClass="destak3" />
+		</p:column>
+		
+		<p:column headerText="Criado em" styleClass="col10p">
+			<my:outputTime value="#{profissaoVar.infoLog.criadoEm }" styleClass="less2" />
+		</p:column>
+	
+		<p:column headerText="Criado por" styleClass="col10p">
+			<h:outputText value="#{profissaoVar.infoLog.criadoPor }" styleClass="less2" />
+		</p:column>
+
+		<p:column headerText="Atualizado em" styleClass="col10p">
+			<my:outputTime value="#{profissaoVar.infoLog.atualizadoEm }" styleClass="less2" />
+		</p:column>
+
+		<p:column headerText="Atualizado por" styleClass="col10p">
+			<h:outputText value="#{profissaoVar.infoLog.atualizadoPor }" styleClass="less2" />
+		</p:column>
+
+	</p:dataTable>
+
+</p:panel>
+
+</ui:fragment>

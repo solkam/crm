@@ -1,0 +1,56 @@
+<!DOCTYPE html > 
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/components">
+
+       
+<p:panel>
+
+	<h:outputText value="Não há maturidades" styleClass="warn"
+		rendered="#{empty empresaMB.empresa.maturidades }" 
+		/>
+
+	<p:dataTable value="#{empresaMB.empresa.maturidades }" var="maturidadeVar"
+		rendered="#{not empty empresaMB.empresa.maturidades }">
+
+			<p:column headerText="#" styleClass="colCenter col5p">
+				<h:outputText value="#{maturidadeVar.id}" styleClass="less2" />
+			</p:column>
+			
+			<p:column headerText="Descrição" styleClass="col25p">
+				<h:outputText value="#{maturidadeVar.descricao }" styleClass="destak3" />
+			</p:column>
+			
+			<p:column headerText="Idade Mínima" styleClass="colCenter col10p">
+				<h:outputText value="#{maturidadeVar.minIdade }" styleClass="destak3" />
+			</p:column>
+
+			<p:column headerText="Idade Máxima" styleClass="colCenter col10p">
+				<h:outputText value="#{maturidadeVar.maxIdade }" styleClass="destak3" />
+			</p:column>
+			
+			
+			<p:column headerText="Criado em" styleClass="col10p">
+				<my:outputTime value="#{maturidadeVar.infoLog.criadoEm }" styleClass="less2" />
+			</p:column>
+		
+			<p:column headerText="Criado por" styleClass="col10p">
+				<h:outputText value="#{maturidadeVar.infoLog.criadoPor }" styleClass="less2" />
+			</p:column>
+	
+			<p:column headerText="Atualizado em" styleClass="col10p">
+				<my:outputTime value="#{maturidadeVar.infoLog.atualizadoEm }" styleClass="less2" />
+			</p:column>
+		
+			<p:column headerText="Atualizado por" styleClass="col10p">
+				<h:outputText value="#{maturidadeVar.infoLog.atualizadoPor }" styleClass="less2" />
+			</p:column>
+
+	</p:dataTable>
+
+</p:panel>
+
+</ui:fragment>

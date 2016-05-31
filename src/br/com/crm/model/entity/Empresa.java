@@ -3,6 +3,7 @@ package br.com.crm.model.entity;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -43,6 +44,18 @@ public class Empresa implements Serializable {
 	private List<Usuario> usuarios;
 	
 	
+	@OneToMany(mappedBy="empresa", cascade=CascadeType.REMOVE)
+	private List<AreaInteresse> areasInteresse;
+		
+	
+	@OneToMany(mappedBy="empresa", cascade=CascadeType.REMOVE)
+	private List<Profissao> profissoes;
+	
+	
+	@OneToMany(mappedBy="empresa", cascade=CascadeType.REMOVE)
+	private List<Maturidade> maturidades;
+	
+	
 	
 	
 	@Embedded
@@ -60,6 +73,31 @@ public class Empresa implements Serializable {
 		this.id = id;
 	}
 	
+	public List<Maturidade> getMaturidades() {
+		return maturidades;
+	}
+
+	public void setMaturidades(List<Maturidade> maturidades) {
+		this.maturidades = maturidades;
+	}
+
+	public List<AreaInteresse> getAreasInteresse() {
+		return areasInteresse;
+	}
+
+	public void setAreasInteresse(List<AreaInteresse> areasInteresse) {
+		this.areasInteresse = areasInteresse;
+	}
+
+	
+	public List<Profissao> getProfissoes() {
+		return profissoes;
+	}
+
+	public void setProfissoes(List<Profissao> profissoes) {
+		this.profissoes = profissoes;
+	}
+
 	public Boolean getFlagAtivo() {
 		return flagAtivo;
 	}

@@ -1,6 +1,7 @@
 package br.com.crm.model.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -39,8 +40,24 @@ public class Maturidade implements Serializable {
 
 	//log
 	private InfoLog infoLog;
-
 	
+	
+	
+	//contrutores...
+	public Maturidade() {
+	}
+	
+	public Maturidade(Empresa empresa, String descricao, Integer minIdade, Integer maxIdade) {
+		super();
+		this.empresa = empresa;
+		this.descricao = descricao;
+		this.minIdade = minIdade;
+		this.maxIdade = maxIdade;
+	}
+
+
+
+
 	//acessores...
 	private static final long serialVersionUID = 7449735206279342831L;
 	
@@ -124,6 +141,18 @@ public class Maturidade implements Serializable {
 	public boolean isTransient() {
 		return getId()==null;
 	}
+	
+	
+	public void inserirInfoLog(Usuario usuario) {
+		if (isTransient()) {
+			getInfoLog().setCriadoEm( new Date() );
+			getInfoLog().setCriadoPor( usuario.getEmail() );
+		} else {
+			getInfoLog().setAtualizadoEm( new Date() );
+			getInfoLog().setAtualizadoPor( usuario.getEmail() );
+		}
+	}
+	
 
 	
 	/**
@@ -144,5 +173,8 @@ public class Maturidade implements Serializable {
 	public String getDescricaoCompleta() {
 		return String.format("%s (de %d a %d)", getDescricao(), getMinIdade(), getMaxIdade() );
 	}
+	
+
+	
 	
 }

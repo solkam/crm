@@ -142,6 +142,24 @@ public class EmpresaService {
 		
 	}
 
+	
+	/**
+	 * Força a carga das associacoes de Empresa:
+	 * - area de interesse
+	 * - profissões 
+	 * - maturidades
+	 * @param empresa
+	 * @return
+	 */
+	public Empresa recarregarEmpresa(Empresa empresa) {
+		empresa = manager.find(Empresa.class, empresa.getId() );
+		empresa.getAreasInteresse().size();
+		empresa.getProfissoes().size();
+		empresa.getMaturidades().size();
+		return empresa;
+	}
+	
+
 	/**
 	 * Pesquisa empresas pelos filtros de pesquisar usando criteria
 	 * @param filtroNome
@@ -178,6 +196,8 @@ public class EmpresaService {
 		return manager.createNamedQuery("pesquisarEmpresaAtiva", Empresa.class)
 				.getResultList();
 	}
+
+
 	
 	
 

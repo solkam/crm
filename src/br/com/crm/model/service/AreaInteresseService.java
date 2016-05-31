@@ -30,7 +30,7 @@ public class AreaInteresseService {
 	 */
 	public AreaInteresse salvarAreaInteresse(AreaInteresse area, Usuario usuario) {
 		verificaSeAreaInteresseDescricaoJaExiste(area, usuario.getEmpresa() );
-		inserirInfoLog( area, usuario );
+		area.inserirInfoLog( usuario );
 		referenciarEmpresa(area, usuario);
 		return manager.merge( area );
 	}
@@ -60,13 +60,6 @@ public class AreaInteresseService {
 	 * @param area
 	 * @param usuario
 	 */
-	private void inserirInfoLog(AreaInteresse area, Usuario usuario) {
-		if (area.isTransient()) {
-			area.getInfoLog().setCriadoPor( usuario.getEmail() );
-		} else {
-			area.getInfoLog().setAtualizadoPor( usuario.getEmail() );
-		}
-	}
 	
 	
 	/**
@@ -128,6 +121,46 @@ public class AreaInteresseService {
 				.getResultList();
 		
 		return areas;
+	}
+
+
+	/**
+	 * Desempenha a carga inicial de areas de interesse padrão para
+	 * a empresa
+	 * @param empresa
+	 */
+	public void carregarAreasInteresseParaEmpresa(Empresa empresa, Usuario usuarioCriador) {
+		String[] descricaoArray = new String[] {
+			 "Jogar Xadrez"
+			,"Dedicar-se a Leitura"
+			,"Tocar Instrumentos Musicais"
+			,"Dedicar-se as Dancas de Salão"
+			,"Marcenaria"
+			,"Fazer Jardinagem"
+			,"Acampar"
+			,"Viajar"
+			,"Ir ao Teatro"
+			,"Praticar Desporto"
+			,"Fazer Voluntariado"
+			,"Trabalhar com artesanato"
+			,"Escrever"
+			,"Ir ao Cinema"
+			,"Praticar Artes Marciais"
+			,"Dedicar-se a Natação"
+			,"Fazer Caminhadas"
+			,"Dedicar-se a Fotografia"
+			,"Praticar Montanhismo"
+			,"Aprender a Cozinhar"
+			,"Aprender uma Lingua Estrangeira"
+			,"Dedicar-se ao Desenho e a Pintura"
+			,"Praticar Meditação"
+		};
+		
+		for (String descricaoVar : descricaoArray) {
+			AreaInteresse areaInteresseVar = new AreaInteresse(empresa, descricaoVar);
+			areaInteresseVar.inserirInfoLog(usuarioCriador);
+			manager.persist( areaInteresseVar );
+		}
 	}
 	
 	

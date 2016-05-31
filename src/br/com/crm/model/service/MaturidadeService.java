@@ -1,6 +1,5 @@
 package br.com.crm.model.service;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -37,24 +36,10 @@ public class MaturidadeService {
 	 */
 	public Maturidade salvarMaturidade(Maturidade maturidade, Usuario usuario) {
 		referenciarEmpresaEMaturidade(maturidade, usuario.getEmpresa() );
-		inserirInfoLog(maturidade, usuario);
+		maturidade.inserirInfoLog(usuario);
 		return manager.merge(maturidade);
 	}
 	
-	/**
-	 * Insere log sobre criacao ou atualização
-	 * @param maturidade
-	 * @param usuario
-	 */
-	private void inserirInfoLog(Maturidade maturidade, Usuario usuario) {
-		if (maturidade.isTransient()) {
-			maturidade.getInfoLog().setCriadoEm( new Date() );
-			maturidade.getInfoLog().setCriadoPor( usuario.getEmail() );
-		} else {
-			maturidade.getInfoLog().setAtualizadoEm( new Date() );
-			maturidade.getInfoLog().setAtualizadoPor( usuario.getEmail() );
-		}
-	}
 
 	/**
 	 * Fecha a referencia entre maturidade e empresa
@@ -126,6 +111,26 @@ public class MaturidadeService {
 			return null; 
 		} else {
 			return maturities.get(0);
+		}
+	}
+
+	
+	/**
+	 * Realiza a carga inicial de maturidades para uma empresa
+	 * @param empresa
+	 * @param usuarioCriador
+	 */
+	public void carregarMaturidadesParaEmpresa(Empresa empresa, Usuario usuarioCriador) {
+		Maturidade[] maturidadeArray = new Maturidade[] {
+			new Maturidade(empresa, "Criança",  0,  14 ),
+			new Maturidade(empresa, "Jovem"  , 15,  24 ),
+			new Maturidade(empresa, "Adulto" , 25,  60 ),
+			new Maturidade(empresa, "Idoso"  , 60, 100 )
+		};
+		
+		for (Maturidade maturidadeVar : maturidadeArray) {
+			maturidadeVar.inserirInfoLog(usuarioCriador);
+			manager.persist( maturidadeVar );
 		}
 	}
 	

@@ -11,6 +11,8 @@
 	<my:globalMessages />
 
 	<p:panel>
+		<h:outputText value="Dados" styleClass="destak3" />
+		<p:separator />
 
 		<h:panelGrid columns="2" cellpadding="10">
 			<p:outputLabel for="inNome" value="Nome" styleClass="req" />
@@ -33,6 +35,42 @@
 
 		</h:panelGrid>
 	</p:panel>
+	
+	
+	<p:panel rendered="#{empresaMB.empresa.transient}">
+		<h:outputText value="Carga inicial" styleClass="destak3" />
+		<p:separator />
+		
+		<h:panelGrid columns="2" cellpadding="10">
+			<p:outputLabel for="inFlagAI" value="Áreas de Interesse?" styleClass="req" />
+			<h:panelGrid>
+				<p:selectBooleanButton id="inFlagAI" value="#{empresaMB.flagCarregarAreasInteresse }"
+					onIcon="fa fa-check" onLabel="Sim, carregar" 
+					offIcon="fa fa-remove" offLabel="Não"  
+					/>
+				<p:message for="inFlagAI" />
+			</h:panelGrid>
+		
+			<p:outputLabel for="inFlagProf" value="Profissões?" styleClass="req" />
+			<h:panelGrid>
+				<p:selectBooleanButton id="inFlagProf" value="#{empresaMB.flagCarregarProfissoes }"
+					onIcon="fa fa-check" onLabel="Sim, carregar" 
+					offIcon="fa fa-remove" offLabel="Não"  
+					/>
+				<p:message for="inFlagProf" />
+			</h:panelGrid>
+
+			<p:outputLabel for="inFlagMat" value="Maturidades?" styleClass="req" />
+			<h:panelGrid>
+				<p:selectBooleanButton id="inFlagMat" value="#{empresaMB.flagCarregarMaturidades }"
+					onIcon="fa fa-check" onLabel="Sim, carregar" 
+					offIcon="fa fa-remove" offLabel="Não"  
+					/>
+				<p:message for="inFlagMat" />
+			</h:panelGrid>
+
+		</h:panelGrid>		
+	</p:panel>	
 	
 	
 	<p:panel rendered="#{not empresaMB.empresa.transient}">

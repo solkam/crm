@@ -1,6 +1,5 @@
 package br.com.crm.model.service;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -31,15 +30,22 @@ public class ProfissaoService {
 	 */
 	public Profissao salvarProfissao(Profissao profissao, Usuario usuario) {
 		verifcarSeProfissaoDescricaoJaExiste( usuario.getEmpresa(), profissao );
-		inserirLog(profissao, usuario);
+		profissao.inserirInfoLog(usuario);
 		referenciarEmpresaEProfissao(profissao, usuario.getEmpresa() );
 		return manager.merge( profissao );
 	}
+
 	
+	/**
+	 * Fecha a relação de profissão e empresa
+	 * @param profissao
+	 * @param empresa
+	 */
 	private void referenciarEmpresaEProfissao(Profissao profissao, Empresa empresa) {
 		profissao.setEmpresa( empresa );
 	}
 
+	
 	/**
 	 * RN que verifica se nome da profissao é unico
 	 * @param profissao
@@ -47,19 +53,10 @@ public class ProfissaoService {
 	private void verifcarSeProfissaoDescricaoJaExiste(Empresa empresa, Profissao profissao) {
 		Profissao ProfissaoFound = buscarProfissaoPelaDescricao( empresa, profissao.getDescricao() );
 		if (ProfissaoFound!=null && !ProfissaoFound.equals(profissao)) {
-			throw new NegocioException("Já existe Profissão com este nome");
+			throw new NegocioException("Já existe Profissão com esta descrição");
 		}
 	}
 	
-	private void inserirLog(Profissao p, Usuario u) {
-		if (p.isTransient()) {
-			p.getInfoLog().setCriadoEm( new Date() );
-			p.getInfoLog().setCriadoPor( u.getEmail() );
-		} else {
-			p.getInfoLog().setAtualizadoEm( new Date() );
-			p.getInfoLog().setAtualizadoPor( u.getEmail() );
-		}
-	}
 
 	
 	/**
@@ -117,6 +114,90 @@ public class ProfissaoService {
 				.getResultList();
 		
 		return Profissaos;
+	}
+
+	
+	/**
+	 * Realiza a carga inicial de profissões para a empresa
+	 * @param empresa
+	 */
+	public void carregarProfissoesParaEmpresa(Empresa empresa, Usuario usuarioCriador) {
+		String[] descricaoArray = new String[] {
+				 "Administrador"
+				,"Advogado"
+				,"Aeronauta"
+				,"Arquivista / Técnico de Arquivo"
+				,"Artista/Técnico em espetáculos de diversões"
+				,"Assistente Social"
+				,"Atleta Profissional de Futebol"
+				,"Atuário"
+				,"Bibliotecário"
+				,"Biomédico"
+				,"Biólogo"
+				,"Bombeiro Civil"
+				,"Comerciário"
+				,"Contabilista"
+				,"Corretor de Imóveis"
+				,"Corretor de Seguros"
+				,"Despachante Aduaneiro"
+				,"Engenheiro/ Arquiteto/ Agrônomo"
+				,"Economista Doméstico"
+				,"Economista"
+				,"Educação Física"
+				,"Empregado Doméstico"
+				,"Enfermagem"
+				,"Enélogo"
+				,"Engenharia de Segurança"
+				,"Estatástico"
+				,"Fisioterapeuta e Terapeuta Ocupacional"
+				,"Farmacêutico"
+				,"Fonoaudiálogo"
+				,"Garimpeiro"
+				,"Geógrafo"
+				,"Geólogo"
+				,"Guardador e Lavador de Veículos"
+				,"Instrutor de Trânsito"
+				,"Jornalista"
+				,"Leiloeiro"
+				,"Leiloeiro Rural"
+				,"Mãe Social"
+				,"Massagista"
+				,"Médico"
+				,"Medicina Veterinária"
+				,"Mototaxista e Motoboy"
+				,"Museólogo"
+				,"Músico"
+				,"Nutricionista"
+				,"Oceanógrafo"
+				,"Odontologia"
+				,"Orientador Educacional"
+				,"Peão de Rodeio"
+				,"Pescador Profissional"
+				,"Psicologia"
+				,"Publicitário/Agenciador de Propaganda"
+				,"Químico"
+				,"Radialista"
+				,"Relações Públicas"
+				,"Representantes Comerciais Autônomos"
+				,"Repentista"
+				,"Secretário - Secretário Executivo e Técnico em Secretariado"
+				,"Sociólogo"
+				,"Sommelier"
+				,"Taxista"
+				,"Tradutor e Intérprete da Língua Brasileira de Sinais - LIBRAS"
+				,"Técnico em Administração"
+				,"Técnico Industrial"
+				,"Técnico em Prótese Dentária"
+				,"Técnico em Radiologia"
+				,"Turismólogo"
+				,"Zootecnista"
+		};
+		
+		for (String descricaoVar : descricaoArray) {
+			Profissao profissaoVar = new Profissao(empresa, descricaoVar);
+			profissaoVar.inserirInfoLog(usuarioCriador);
+			manager.persist( profissaoVar );
+		}
 	}
 	
 

@@ -3,16 +3,14 @@ package br.com.crm.model.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 
 /**
@@ -33,7 +31,8 @@ public class AreaInteresse implements Serializable {
 	private Empresa empresa;
 	
 	
-	@Column(length=60, nullable=false, unique=true)//unico obrigatorio
+	@NotNull
+	@Size(max=100)
 	private String descricao;
 	
 	
@@ -44,15 +43,16 @@ public class AreaInteresse implements Serializable {
     private InfoLog infoLog;
     
 
-	
-	//listener
-	@PrePersist void onPersist() {
-		getInfoLog().setCriadoEm( new Date() );
-	}
-	
-	@PreUpdate void onUpdate() {
-		getInfoLog().setAtualizadoEm( new Date() );
-	}
+
+    //construtores...
+    public AreaInteresse() {
+    }
+    
+    public AreaInteresse(Empresa empresa, String descricao) {
+    	this.empresa = empresa;
+    	this.descricao = descricao;
+    }
+    
     
     
 	
@@ -130,5 +130,19 @@ public class AreaInteresse implements Serializable {
 	public boolean isTransient() {
 		return getId()==null;
 	}
+	
+	
+	
+	public void inserirInfoLog(Usuario usuario) {
+		if (isTransient()) {
+			getInfoLog().setCriadoPor( usuario.getEmail() );
+			getInfoLog().setCriadoEm( new Date() );
+		} else {
+			getInfoLog().setAtualizadoPor( usuario.getEmail() );
+			getInfoLog().setAtualizadoEm( new Date() );
+		}
+	}
+	
+	
 	
 }
