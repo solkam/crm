@@ -134,6 +134,10 @@
 				<p:column headerText="Nota" styleClass="col50p" >
 					<h:outputText value="#{interacaoVar.nota}" styleClass="less2" />
 				</p:column>
+
+				<p:column headerText="Humor" styleClass="col10p colCenter" >
+					<h:outputText value="#{interacaoVar.humor}" styleClass="less2" />
+				</p:column>
 			</p:dataTable>
 		
 		</p:panel>
@@ -197,6 +201,15 @@
 						<p:message for="inNota" />
 					</h:panelGrid>
 					
+					<p:outputLabel for="inHumor" value="Humor" styleClass="req" />
+					<h:panelGrid cellpadding="0" cellspacing="0">
+						<p:selectOneButton id="inHumor" value="#{minhaCampanhaMB.novaInteracao.humor }" required="true">
+							<f:selectItems value="#{enumHelper.interacaoHumores}" var="humorVar" 
+								itemValue="#{humorVar}" itemLabel="#{humorVar.name() }"
+								/>
+						</p:selectOneButton>
+						<p:message for="inHumor" />
+					</h:panelGrid>
 				
 					<p:outputLabel />
 					<p:commandButton icon="fa fa-check" value="Salvar Interação" 
@@ -239,6 +252,11 @@
 					<p:column headerText="Nota" styleClass="col60p" >
 						<h:outputText value="#{interacaoVar.nota}"  />
 					</p:column>
+
+					<p:column headerText="Humor" styleClass="col10p colCenter" >
+						<h:outputText value="#{interacaoVar.humor}" />
+					</p:column>
+
 				</p:dataTable>
 			</h:form>
 		</p:fieldset>

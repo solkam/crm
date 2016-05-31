@@ -6,6 +6,7 @@ import javax.faces.bean.ManagedBean;
 import br.com.crm.model.entity.DiaDoMes;
 import br.com.crm.model.entity.EnderecoTipo;
 import br.com.crm.model.entity.Genero;
+import br.com.crm.model.entity.InteracaoHumor;
 import br.com.crm.model.entity.MesDoAno;
 import br.com.crm.model.entity.Perfil;
 import br.com.crm.model.entity.TelefoneOperadora;
@@ -42,6 +43,10 @@ public class EnumHelper {
 
 	public MesDoAno[] getMesesDoAno() {
 		return MesDoAno.values();
+	}
+	
+	public InteracaoHumor[] getInteracaoHumores() {
+		return InteracaoHumor.values();
 	}
 	
 	

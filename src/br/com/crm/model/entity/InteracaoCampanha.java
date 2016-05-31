@@ -43,6 +43,10 @@ public class InteracaoCampanha implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull
 	private Date data;
+	
+	
+	@Enumerated(EnumType.STRING)
+	private InteracaoHumor humor;
 
 	
 	//construtores
@@ -68,6 +72,13 @@ public class InteracaoCampanha implements Serializable {
 		this.id = id;
 	}
 
+	public InteracaoHumor getHumor() {
+		return humor;
+	}
+
+	public void setHumor(InteracaoHumor humor) {
+		this.humor = humor;
+	}
 
 	public Campanha getCampanha() {
 		return campanha;
