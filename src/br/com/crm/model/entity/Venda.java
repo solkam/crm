@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,8 +15,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 /**
- * Venda de um produto para uma pessa relacionanada 
- * a uma empresa.
+ * Venda de um produto para uma pessa relacionada a uma empresa.
  * @author Solkam
  * @since 01 jun 2016
  */
@@ -55,6 +55,10 @@ public class Venda implements Serializable {
 	private BigDecimal precoFinal;
 
 	
+	@Embedded
+	private InfoLog infoLog;
+	
+	
 	//acessores...
 	private static final long serialVersionUID = 6985373890067533902L;
 	public Integer getId() {
@@ -63,6 +67,17 @@ public class Venda implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+	public InfoLog getInfoLog() {
+		if (infoLog==null) {
+			infoLog=new InfoLog();
+		}
+		return infoLog;
+	}
+
+	public void setInfoLog(InfoLog infoLog) {
+		this.infoLog = infoLog;
 	}
 
 	public String getCodVenda() {
@@ -140,6 +155,17 @@ public class Venda implements Serializable {
 	
 	public boolean isTransient() {
 		return getId()==null;
+	}
+	
+	
+	public void inserirInfoLog(Usuario usuario) {
+		if (isTransient()) {
+			getInfoLog().setCriadoEm( new Date() );
+			getInfoLog().setCriadoPor( usuario.getEmail() );
+		} else {
+			getInfoLog().setAtualizadoEm( new Date() );
+			getInfoLog().setAtualizadoPor( usuario.getEmail() );
+		}
 	}
 	
 }

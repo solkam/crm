@@ -1,0 +1,129 @@
+<!DOCTYPE html > 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/components"
+      template="/WEB-INF/design/_template-main.xhtml">
+       
+<ui:define name="title">Vendas</ui:define>       
+
+       
+<ui:define name="content">
+
+	<p:fieldset legend="Pesquisa" toggleable="true">
+		
+	</p:fieldset>
+
+
+	<h:form id="formVendas">
+		<p:panel>
+
+			<my:globalMessages />
+			
+			<p:commandButton icon="fa fa-plus" value="Novo" 
+				process="@this"
+				action="#{vendaMB.novo()}"
+				oncomplete="PF('DialogVenda').show()"
+				update=":formVenda"
+				/>
+				
+			<p:outputPanel rendered="#{not empty vendaMB.vendas}">
+			
+				<p:dataTable value="#{vendaMB.vendas}" var="vendaVar">
+					<p:column headerText="Produto">
+						#{vendaVar.produto.descricao}
+					</p:column>
+					
+					<p:column headerText="Pessoa">
+						#{vendaVar.pessoa.nomeCompleto}
+					</p:column>
+				
+					<p:column headerText="Data">
+						<my:outputDate value="#{vendaVar.data}" />
+					</p:column>
+				</p:dataTable>
+			</p:outputPanel>
+		</p:panel>
+	</h:form>
+	
+	
+	<p:dialog widgetVar="DialogVenda" header="Venda"
+		modal="true" dynamic="true" closeOnEscape="true" maximizable="true"
+		position="top" positionType="absolute">
+		
+		<h:form id="formVenda">
+		
+			<p:panel>
+				<h:panelGrid columns="2" cellpadding="10">
+					<p:outputLabel for="inPessoa" value="Pessoa" styleClass="req" />
+					<h:panelGrid>
+						<p:selectOneMenu id="inPessoa" value="#{vendaMB.venda.pessoa.id}">
+							<f:selectItems value="#{vendaMB.comboPessoas}" var="pessoaVar"
+								itemValue="#{pessoaVar.id}" itemLabel="#{pessoaVar.nomeCompleto}" 
+								/>
+						</p:selectOneMenu>
+						<p:message for="inPessoa" />
+					</h:panelGrid>
+
+					<p:outputLabel for="inProduto" value="Produto" styleClass="req" />
+					<h:panelGrid>
+						<p:selectOneMenu id="inProduto" value="#{vendaMB.venda.produto.id }">
+							<f:selectItems value="#{vendaMB.comboProdutos }" var="produtoVar"
+								itemValue="#{produtoVar.id }" itemLabel="#{produtoVar.descricao }" 
+								/>
+						</p:selectOneMenu>
+						<p:message for="inProduto" />
+					</h:panelGrid>
+
+					<p:outputLabel for="inData" value="Data da Venda" styleClass="req" />
+					<h:panelGrid>
+						<p:calendar id="inData" value="#{vendaMB.venda.data }" required="true"
+							navigator="true" showOn="button" size="12" pattern="dd/MM/yyyy" mask="99/99/9999"  
+							/>
+						<p:message for="inData" />
+					</h:panelGrid>
+
+					<p:outputLabel for="inPreco" value="Data da Venda" />
+					<h:panelGrid>
+						<p:inputText id="inPreco" value="#{vendaMB.venda.precoFinal }" size="10" />
+						<p:message for="inPreco" />
+					</h:panelGrid>
+
+				</h:panelGrid>
+				
+			</p:panel>
+			
+			<p:toolbar>
+				<p:toolbarGroup>
+					<p:commandButton icon="fa fa-check" value="Salvar venda"
+						action="#{vendaMB.salvar()}"
+						update="@form :formVendas"
+						oncomplete="if (args.sucessOnly) PF('DialogVenda').hide()" 
+						/>
+				</p:toolbarGroup>
+				
+				<p:toolbarGroup align="right" rendered="#{not vendaMB.venda.transient}">
+					<p:menuButton value="remover?" styleClass="font-size:0.83m">
+						<p:menuitem icon="fa fa-trash" value="Sim, remover" 
+							process="@this"
+							action="#{vendaMB.remover()}"
+							oncomplete="if (args.sucessOnly) PF('DialogVenda').hide()"
+							/>
+						<p:menuitem icon="fa fa-close" value="não" 
+							process="@none"
+							global="false"
+							/>
+					</p:menuButton>
+				</p:toolbarGroup>
+			
+			</p:toolbar>
+		
+		</h:form>
+	</p:dialog>
+			
+	
+	
+</ui:define>
+</ui:composition>
