@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -279,13 +280,19 @@ public class Campanha implements Serializable {
 	 * @return
 	 */
 	public List<InteracaoCampanha> getInteracoesDaPessoa(Pessoa p) {
-		List<InteracaoCampanha> interacoesDaPessoa = new ArrayList<>();
-		for (InteracaoCampanha interacaoVar : getInteracoes()) {
-			if (p.equals(interacaoVar.getPessoa())) {
-				interacoesDaPessoa.add( interacaoVar );
-			}
-		}
-		return interacoesDaPessoa;
+		//meu primeiro codigo Java8
+		return getInteracoes()
+				.stream()
+				.filter(i -> i.getPessoa().equals(p))
+				.collect( Collectors.toList() );
+		
+		//List<InteracaoCampanha> interacoesDaPessoa = new ArrayList<>();
+		//for (InteracaoCampanha interacaoVar : getInteracoes()) {
+		//	if (p.equals(interacaoVar.getPessoa())) {
+		//		interacoesDaPessoa.add( interacaoVar );
+		//	}
+		//}
+		//return interacoesDaPessoa;
 	}
 
 	

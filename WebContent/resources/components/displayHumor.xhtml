@@ -1,0 +1,19 @@
+<!DOCTYPE html >
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<cc:interface>
+	<cc:attribute name="humor" required="true" />
+</cc:interface>
+
+<cc:implementation>
+
+	<p:graphicImage library="img" name="#{cc.attrs.humor.imgCompleta}" />
+
+</cc:implementation>
+
+</html>

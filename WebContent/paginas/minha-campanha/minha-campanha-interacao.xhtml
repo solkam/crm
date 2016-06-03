@@ -131,12 +131,12 @@
 					<my:outputTime value="#{interacaoVar.data}" styleClass="less2" />
 				</p:column>
 
-				<p:column headerText="Nota" styleClass="col50p" >
+				<p:column headerText="Nota" styleClass="col40p" >
 					<h:outputText value="#{interacaoVar.nota}" styleClass="less2" />
 				</p:column>
 
 				<p:column headerText="Humor" styleClass="col10p colCenter" >
-					<h:outputText value="#{interacaoVar.humor}" styleClass="less2" />
+					<my:displayHumor humor="#{interacaoVar.humor}" />
 				</p:column>
 			</p:dataTable>
 		
@@ -148,7 +148,7 @@
 	
 <p:dialog widgetVar="DialogInteracao" header="Interações"
 	modal="true" dynamic="true" closeOnEscape="true" maximizable="true" 
-	position="top" width="90%" >
+	position="top" width="90%" positionType="absolute" >
 	
 	<p:outputPanel id="regiaoInteracao">
 		<p:panelGrid id="panelPessoa" columns="10" >
@@ -164,7 +164,7 @@
 			<h:outputText value="Sexo" />
 			
 			<h:outputText  value="#{minhaCampanhaMB.novaInteracao.pessoa.id }" styleClass="destak2" />
-			<my:displayPessoaImagem pessoa="#{pessoaMB.pessoa}" />
+			<my:displayPessoaImagem pessoa="#{minhaCampanhaMB.novaInteracao.pessoa}" />
 			<h:outputText  value="#{minhaCampanhaMB.novaInteracao.pessoa.nomeCompleto}" styleClass="destak2" />
 			<h:outputText  value="#{minhaCampanhaMB.novaInteracao.pessoa.emailPrincipal}" styleClass="destak2" />
 			<h:outputText  value="#{minhaCampanhaMB.novaInteracao.pessoa.endereco.enderecoCidade }" styleClass="destak2" />
@@ -203,11 +203,26 @@
 					
 					<p:outputLabel for="inHumor" value="Humor" styleClass="req" />
 					<h:panelGrid cellpadding="0" cellspacing="0">
-						<p:selectOneButton id="inHumor" value="#{minhaCampanhaMB.novaInteracao.humor }" required="true">
-							<f:selectItems value="#{enumHelper.interacaoHumores}" var="humorVar" 
-								itemValue="#{humorVar}" itemLabel="#{humorVar.name() }"
-								/>
-						</p:selectOneButton>
+					
+						<h:panelGrid id="displayHumor" columns="3" cellpadding="5">
+							<p:graphicImage library="img" name="icone_humor_null_reduzida_64.png" 
+								rendered="#{empty minhaCampanhaMB.novaInteracao.humor}" 
+								/>						
+								
+							<p:graphicImage library="img" name="#{minhaCampanhaMB.novaInteracao.humor.imgReduzida}" 
+								rendered="#{not empty minhaCampanhaMB.novaInteracao.humor}" 
+								/>						
+
+							<p:selectOneButton id="inHumor" value="#{minhaCampanhaMB.novaInteracao.humor }" required="true">
+								<f:selectItems value="#{enumHelper.interacaoHumores}" var="humorVar" 
+									itemValue="#{humorVar}" itemLabel="#{humorVar.name() }"
+									/>
+								<p:ajax process="@this" update="displayHumor" 
+									global="false" 
+									/>
+							</p:selectOneButton>
+
+						</h:panelGrid>
 						<p:message for="inHumor" />
 					</h:panelGrid>
 				
@@ -215,7 +230,7 @@
 					<p:commandButton icon="fa fa-check" value="Salvar Interação" 
 						validateClient="true"  
 						action="#{minhaCampanhaMB.salvarNovaInteracao() }"
-						update=":regiaoInteracao :formMinhaCampanhaPessoas"
+						update=":regiaoInteracao :formMinhaCampanhaPessoas :formMinhaCampanhaInteracoes"
 						/>
 	
 				</h:panelGrid>
@@ -228,7 +243,7 @@
 		<p:spacer height="5" />
 
 		
-		<p:fieldset legend="Interações da Pessoa" toggleable="true">
+		<p:fieldset legend="Interações com esta Pessoa" toggleable="true">
 			<h:form>
 		
 				<h:outputText value="Não há interações" styleClass="warn"
@@ -254,7 +269,7 @@
 					</p:column>
 
 					<p:column headerText="Humor" styleClass="col10p colCenter" >
-						<h:outputText value="#{interacaoVar.humor}" />
+						<my:displayHumor humor="#{interacaoVar.humor}" />
 					</p:column>
 
 				</p:dataTable>
