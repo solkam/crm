@@ -1,0 +1,67 @@
+<!DOCTYPE html > 
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/components">
+       
+<h:form>
+	<p:panel>
+
+		<my:globalMessages />
+	
+		<h:panelGrid columns="2" cellpadding="10">
+			<p:outputLabel for="inName" value="Descrição" styleClass="req" />
+			<h:panelGrid>
+				<p:inputText id="inName" value="#{categoriaProdutoMB.categoria.descricao }" size="50" required="true" />
+				<p:message for="inName" />
+			</h:panelGrid>
+
+			<h:outputText value="Ativo?" />
+			<h:panelGrid>
+				<p:inputSwitch id="inAtivo" value="#{categoriaProdutoMB.categoria.flagAtivo }" required="true" 
+					onLabel="Sim" offLabel="Não"
+					/>
+				<p:message for="inAtivo" />
+			</h:panelGrid>
+		</h:panelGrid>
+		
+	</p:panel>
+	
+	
+	<p:panel rendered="#{not categoriaProdutoMB.categoria.transient}">
+		<h:outputText value="Histórico" styleClass="destak2" />
+		<p:separator />
+	
+		<my:panelGridInfoLog infoLog="#{categoriaProdutoMB.categoria.infoLog }" />
+	</p:panel>	
+	
+	
+	<p:toolbar>
+		<f:facet name="left">
+			<p:commandButton icon="fa fa-check" value="Salvar Categoria" 
+				action="#{categoriaProdutoMB.salvar() }"
+				update="@form :regiaoCategoria  :formCategorias"
+				oncomplete="if (args.sucessOnly) PF('DialogCategoria').hide();"
+				/>
+		</f:facet>
+		
+		<f:facet name="right">
+			<p:menuButton value="remover?" rendered="#{not categoriaProdutoMB.categoria.transient}" >
+				<p:menuitem icon="fa fa-trash" value="Sim, remover" 
+					process="@this"
+					action="#{categoriaProdutoMB.remover() }"
+					update="@form :regiaoCategoria :formCategorias"
+					oncomplete="if (args.sucessOnly) PF('DialogCategoria').hide();"
+					/>
+				<p:menuitem icon="fa fa-close" value="Não" 
+					process="@none"	update="@none" global="false"
+					/>
+			</p:menuButton>
+		</f:facet>
+	</p:toolbar>
+	
+</h:form>
+
+</ui:fragment>

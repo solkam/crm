@@ -1,81 +1,56 @@
 package br.com.crm.model.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
-import javax.persistence.*;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- * Produto ou serviço oferecido pela empresa
- * e comprado ou contratada pela pessoa
+ * Categorização de produtos para classificá-los
  * @author Solkam
- * @since 10 mai 2016
+ * @since 06 jun 2016
  */
 @Entity
-public class Produto implements Serializable, Comparable<Produto> {
-	
+public class CategoriaProduto implements Serializable {
+
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	
 	
 	@ManyToOne
 	@NotNull
 	private Empresa empresa;
-	
-	
-	@ManyToOne
-	private CategoriaProduto categoria;
-	
+
 	
 	@Size(max=100)
 	@NotNull
 	private String descricao;
 	
 	
-	@Size(max=1000)
-	private String observacao;
-	
 	
 	@NotNull
-	private Boolean flagAtivo=true;
+	private Boolean flagAtivo = true;
 	
 	
-	//log
 	@Embedded
 	private InfoLog infoLog;
+
 
 	
 
 	//acessores...
-	private static final long serialVersionUID = -8485301523476681968L;
+	private static final long serialVersionUID = 3982710897274762023L;
 	public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {
 		this.id = id;
-	}
-	
-	public CategoriaProduto getCategoria() {
-		return categoria;
-	}
-	public void setCategoria(CategoriaProduto categoria) {
-		this.categoria = categoria;
-	}
-	public InfoLog getInfoLog() {
-		if (infoLog==null){
-			infoLog=new InfoLog();
-		}
-		return infoLog;
-	}
-	public void setInfoLog(InfoLog infoLog) {
-		this.infoLog = infoLog;
-	}
-	public Empresa getEmpresa() {
-		return empresa;
-	}
-	public void setEmpresa(Empresa empresa) {
-		this.empresa = empresa;
 	}
 	public String getDescricao() {
 		return descricao;
@@ -83,17 +58,26 @@ public class Produto implements Serializable, Comparable<Produto> {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	public String getObservacao() {
-		return observacao;
+	public Empresa getEmpresa() {
+		return empresa;
 	}
-	public void setObservacao(String observacao) {
-		this.observacao = observacao;
+	public void setEmpresa(Empresa empresa) {
+		this.empresa = empresa;
 	}
 	public Boolean getFlagAtivo() {
 		return flagAtivo;
 	}
 	public void setFlagAtivo(Boolean flagAtivo) {
 		this.flagAtivo = flagAtivo;
+	}
+	public InfoLog getInfoLog() {
+		if (infoLog==null) {
+			infoLog = new InfoLog();
+		}
+		return infoLog;
+	}
+	public void setInfoLog(InfoLog infoLog) {
+		this.infoLog = infoLog;
 	}
 	@Override
 	public int hashCode() {
@@ -110,7 +94,7 @@ public class Produto implements Serializable, Comparable<Produto> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Produto other = (Produto) obj;
+		CategoriaProduto other = (CategoriaProduto) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -119,18 +103,24 @@ public class Produto implements Serializable, Comparable<Produto> {
 		return true;
 	}
 	
+	@Override
+	public String toString() {
+		return "CategoriaProduto [id=" + id + ", descricao=" + descricao + "]";
+	}
+	
 	
 	public boolean isTransient() {
 		return getId()==null;
 	}
-
 	
-	@Override
-	public int compareTo(Produto that) {
-		if (this.id!=null) {
-			return this.id.compareTo( that.id );
+	
+	public void inserirInfoLog(Usuario usuario) {
+		if (isTransient()) {
+			getInfoLog().setCriadoEm( new Date() );
+			getInfoLog().setCriadoPor( usuario.getEmail() );
 		} else {
-			return 0;
+			getInfoLog().setAtualizadoEm( new Date() );
+			getInfoLog().setAtualizadoPor( usuario.getEmail() );
 		}
 	}
 	

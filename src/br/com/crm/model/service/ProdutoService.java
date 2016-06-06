@@ -16,6 +16,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import br.com.crm.model.entity.CategoriaProduto;
 import br.com.crm.model.entity.Empresa;
 import br.com.crm.model.entity.Produto;
 import br.com.crm.model.entity.Usuario;
@@ -185,6 +186,67 @@ public class ProdutoService {
 		return manager.createNamedQuery("pesquisarProdutoAtivo", Produto.class)
 				.setParameter("pEmpresa", empresa)
 				.getResultList();
+	}
+	
+	
+	
+	/* *********
+	 * CATEGORIA
+	 ***********/
+	
+	public CategoriaProduto salvarCategoriaProduto(CategoriaProduto categoria, Usuario usuario) {
+		verificarUnicidadeDaDescricaoDaCategoria(categoria, usuario.getEmpresa() );
+		categoria.inserirInfoLog(usuario);
+		categoria.setEmpresa( usuario.getEmpresa() );
+		return manager.merge( categoria );
+	}
+	
+	private void verificarUnicidadeDaDescricaoDaCategoria(CategoriaProduto categoria, Empresa empresa) {
+		CategoriaProduto categoriaEncontrada = buscarCategoriaProdutoPelaDescricao(empresa, categoria.getDescricao());
+		if (categoria!=null && !categoriaEncontrada.equals(categoria)) {
+			throw new NegocioException("Descrição da categoria já existe");
+		}
+	}
+
+
+	public void removerCategoriaProduto(CategoriaProduto categoria) {
+		categoria = manager.find(CategoriaProduto.class, categoria.getId() );
+		verificarSeExisteProdutoDaCategoria( categoria );
+		manager.remove( categoria );
+	}
+
+
+	private void verificarSeExisteProdutoDaCategoria(CategoriaProduto categoria) {
+		List<Produto> produtosEncontrados = pesquisarProdutoPelaCategoria(categoria);
+		if (!produtosEncontrados.isEmpty()) {
+			throw new NegocioException("Categoria possui produtos associados");
+		}
+	}
+
+	
+	public CategoriaProduto buscarCategoriaProdutoPeloId(Integer id) {
+		return manager.find(CategoriaProduto.class, id);
+	}
+	
+	
+	private List<Produto> pesquisarProdutoPelaCategoria(CategoriaProduto categoria) {
+		return manager.createNamedQuery("pesquisarProdutoPelaCategoria", Produto.class)
+				.setParameter("pCategoria", categoria)
+				.getResultList();
+	}
+	
+	
+	public List<CategoriaProduto> pesquisarCategoriaProdutoPelosFiltros(Empresa empresa) {
+		CriteriaBuilder builder = manager.getCriteriaBuilder();
+		CriteriaQuery<CategoriaProduto> criteria = builder.createQuery(CategoriaProduto.class);
+		Root<CategoriaProduto> root = criteria.from( CategoriaProduto.class );
+		
+		Predicate conjunction = builder.conjunction();
+		conjunction = builder.and(conjunction
+				,builder.equal(root.<Empresa>get("empresa"), empresa)
+			);
+		
+		return manager.createQuery(criteria).getResultList();
 	}
 
 }

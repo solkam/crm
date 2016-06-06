@@ -309,7 +309,16 @@
 		</query>
 	</named-query>
 	
+
+	<!-- Categoria de Produto -->
 	
+	<named-query name="pesquisarProdutoPelaCategoria">
+		<query>
+			select p
+			from Produto p
+			where p.categoria = :pCategoria
+		</query>
+	</named-query>	
 
 
 </entity-mappings>

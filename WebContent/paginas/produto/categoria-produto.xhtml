@@ -1,0 +1,82 @@
+<!DOCTYPE html > 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/components"
+      template="/WEB-INF/design/_template-main.xhtml">
+       
+<ui:define name="title">Categorias de Produto</ui:define>       
+
+       
+<ui:define name="content">
+
+	<h:form id="formCategorias">
+		<p:panel>
+
+			<my:globalMessages />
+			
+			<p:commandButton icon="fa fa-plus" value="Nova Categoria" 
+				process="@this"
+				action="#{categoriaProdutoMB.novo() }"
+				oncomplete="PF('DialogCategoria').show()"
+				update="@form :regiaoCategoria"
+				/>
+			
+			<p:outputPanel rendered="#{not empty categoriaProdutoMB.categorias}">
+				
+				<p:dataTable value="#{categoriaProdutoMB.categorias}" var="categoriaVar">
+				
+					<p:column headerText="#" styleClass="col5p colCenter">
+						#{categoriaVar.id}
+					</p:column>
+				
+					<p:column headerText="Descrição" styleClass="col80p">
+						<h:outputText value="#{categoriaVar.descricao }" styleClass="destak2" />
+					</p:column>
+		
+					<p:column headerText="Ativo?" styleClass="col5p colCenter">
+						<my:displayFlag flag="#{categoriaVar.flagAtivo }" />
+					</p:column>
+	
+					<p:column styleClass="col10p colCenter" >
+						<p:commandButton icon="fa fa-edit" value="Editar" 
+							process="@this"
+							action="#{categoriaProdutoMB.gerenciar(categoriaVar)}" 
+							oncomplete="PF('DialogCategoria').show();"
+							update=":regiaoCategoria"
+							/>
+					</p:column>
+				</p:dataTable>
+				
+			</p:outputPanel>				
+		</p:panel>
+	</h:form>
+	
+	
+	<!-- Dialogo Categoria -->
+	<p:dialog widgetVar="DialogCategoria" header="Categoria"
+		modal="true" dynamic="true" maximizable="true" closeOnEscape="true"
+		position="top" width="50%" height="90%">
+		
+		<p:outputPanel id="regiaoCategoria">
+		
+			<p:panelGrid columns="2" rendered="#{not categoriaProdutoMB.categoria.transient}">
+				<h:outputText value="ID" />
+				<h:outputText value="Descrição" />
+				
+				<h:outputText value="#{categoriaProdutoMB.categoria.id}" styleClass="destak2" />
+				<h:outputText value="#{categoriaProdutoMB.categoria.descricao}" styleClass="destak2" />
+			</p:panelGrid>
+			
+			<p:spacer height="5" />
+			
+			<ui:include src="/paginas/produto/categoria-produto-frag-principal.xhtml" />
+		
+		</p:outputPanel>
+	</p:dialog>
+	
+	
+</ui:define>
+</ui:composition>
