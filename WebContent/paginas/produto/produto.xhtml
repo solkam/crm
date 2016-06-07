@@ -7,7 +7,7 @@
       xmlns:my="http://java.sun.com/jsf/composite/components"
       template="/WEB-INF/design/_template-main.xhtml">
        
-<ui:define name="title">Produtos / Serviços</ui:define>       
+<ui:define name="title">Produtos</ui:define>       
 
        
 <ui:define name="content">
@@ -16,10 +16,10 @@
 	
 		<p:fieldset legend="Pesquisa" toggleable="true">
 		
-			<h:panelGrid columns="3" cellpadding="10">
+			<h:panelGrid columns="4" cellpadding="10">
 			
 				<h:panelGrid>
-					<h:outputText value="Descricao" />
+					<h:outputText value="Descrição" />
 					<p:inputText value="#{produtoMB.filtroDescricao}" size="50" />
 				</h:panelGrid>
 
@@ -31,8 +31,19 @@
 						<f:selectItem itemValue="#{false}" itemLabel="Não" />
 					</p:selectOneButton>
 				</h:panelGrid>
+
+				<h:panelGrid>
+					<h:outputText value="Categoria" />
+					<p:selectOneMenu value="#{produtoMB.filtroCategoria }" converter="#{categoriaProdutoConverter}">
+						<f:selectItem itemLabel="TODAS" noSelectionOption="true"  />
+						<f:selectItems value="#{produtoMB.comboCategorias }" var="categoriaVar" 
+							itemValue="#{categoriaVar }"  itemLabel="#{categoriaVar.descricao }" 
+							/>
+					</p:selectOneMenu>
+				</h:panelGrid>
 			
-				<p:commandButton icon="fa fa-search" value="Pesquisar" style="font-size:1.25em"
+			
+				<p:commandButton icon="fa fa-search" value="Pesquisar" 
 					action="#{produtoMB.pesquisar() }"
 					update=":formProdutos" 
 					/>
@@ -64,10 +75,14 @@
 						#{produtoVar.id}
 					</p:column>
 				
-					<p:column headerText="Descrição" styleClass="col40p">
+					<p:column headerText="Descrição" styleClass="col20p">
 						<h:outputText value="#{produtoVar.descricao }" styleClass="destak2" />
 					</p:column>
 		
+					<p:column headerText="Categoria" styleClass="col10p">
+						<h:outputText value="#{produtoVar.categoria.descricao }" />
+					</p:column>
+
 					<p:column headerText="Ativo?" styleClass="col5p colCenter">
 						<my:displayFlag flag="#{produtoVar.flagAtivo }" />
 					</p:column>
@@ -75,6 +90,24 @@
 					<p:column headerText="Observação" styleClass="col10p colCenter">
 						<my:displayNote value="#{produtoVar.observacao }" />
 					</p:column>
+					
+					
+					<p:column headerText="Criado em" styleClass="colCenter col10p">
+						<my:outputTime value="#{produtoVar.infoLog.criadoEm }" styleClass="less2" />
+					</p:column>
+				
+					<p:column headerText="Criado por" styleClass="col10p colCenter">
+						<h:outputText value="#{produtoVar.infoLog.criadoPor }" styleClass="less2" />
+					</p:column>
+		
+					<p:column headerText="Atualizado em" styleClass="colCenter col10p">
+						<my:outputTime value="#{produtoVar.infoLog.atualizadoEm }" styleClass="less2" />
+					</p:column>
+				
+					<p:column headerText="Atualizado por" styleClass="col10p colCenter">
+						<h:outputText value="#{produtoVar.infoLog.atualizadoPor }" styleClass="less2" />
+					</p:column>
+					
 					
 					<p:column styleClass="col10p colCenter" >
 						<p:commandButton icon="fa fa-fw fa-edit" value="Editar" 

@@ -1,6 +1,7 @@
 package br.com.crm.controller.mb;
 
 import java.io.Serializable;
+
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -30,13 +31,16 @@ public class CategoriaProdutoMB implements Serializable {
 	
 	private List<CategoriaProduto> categorias;
 	
+	//filtros
+	private Boolean filtroFlagAtivo = true;
+	
 	
 	@PostConstruct void init() {
 		pesquisar();
 	}
 
 	private void initCategorias() {
-		categorias = service.pesquisarCategoriaProdutoPelosFiltros( sessionHolder.getEmpresa() );
+		categorias = service.pesquisarCategoriaProdutoPelosFiltros( sessionHolder.getEmpresa(), filtroFlagAtivo );
 	}
 
 	
@@ -82,7 +86,13 @@ public class CategoriaProdutoMB implements Serializable {
 	public List<CategoriaProduto> getCategorias() {
 		return categorias;
 	}
-	
-	
+
+	public Boolean getFiltroFlagAtivo() {
+		return filtroFlagAtivo;
+	}
+
+	public void setFiltroFlagAtivo(Boolean filtroFlagAtivo) {
+		this.filtroFlagAtivo = filtroFlagAtivo;
+	}
 
 }

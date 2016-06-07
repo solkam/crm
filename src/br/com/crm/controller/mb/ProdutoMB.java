@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import br.com.crm.controller.mb.security.SessionHolder;
 import br.com.crm.controller.util.JSFUtil;
 import br.com.crm.model.entity.Campanha;
+import br.com.crm.model.entity.CategoriaProduto;
 import br.com.crm.model.entity.Produto;
 import br.com.crm.model.service.CampanhaService;
 import br.com.crm.model.service.ProdutoService;
@@ -40,19 +41,30 @@ public class ProdutoMB implements Serializable {
 	
 	//filtros
 	private String filtroDescricao;
+	private CategoriaProduto filtroCategoria;
 	private Boolean filtroFlagAtivo = true;
+
+	//combos
+	private List<CategoriaProduto> comboCategorias;
 	
 	
 	//inits
-	
 	@PostConstruct void init() {
 		pesquisar();
+		initComboCategorias();
 		initComboCampanhas();
 	}
-	
+
+	private void initComboCategorias() {
+		comboCategorias = service.pesquisarCategoriaProdutoPelosFiltros( sessionHolder.getEmpresa(), true );
+	}
 
 	private void initProdutos() {
-		produtos = service.pesquisarProdutoPelosFiltros(sessionHolder.getEmpresa(), filtroFlagAtivo, filtroDescricao);
+		produtos = service.pesquisarProdutoPelosFiltros(sessionHolder.getEmpresa()
+													   ,filtroFlagAtivo
+													   ,filtroDescricao
+													   ,filtroCategoria
+													   );
 	}
 	
 	private void initComboCampanhas() {
@@ -70,6 +82,7 @@ public class ProdutoMB implements Serializable {
 	
 	public void novo() {
 		produto = new Produto();
+		produto.setCategoria( new CategoriaProduto() );
 	}
 	
 	
@@ -162,5 +175,17 @@ public class ProdutoMB implements Serializable {
 		return comboCampanhas;
 	}
 
+	public List<CategoriaProduto> getComboCategorias() {
+		return comboCategorias;
+	}
+
+	public CategoriaProduto getFiltroCategoria() {
+		return filtroCategoria;
+	}
+
+	public void setFiltroCategoria(CategoriaProduto filtroCategoria) {
+		this.filtroCategoria = filtroCategoria;
+	}
+	
 	
 }

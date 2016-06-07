@@ -20,6 +20,15 @@
 				<p:message for="inName" />
 			</h:panelGrid>
 
+			<p:outputLabel for="inCat" value="Categoria" styleClass="req" />
+			<h:panelGrid>
+				<p:selectOneMenu id="inCat" value="#{produtoMB.produto.categoria.id }" required="true" >
+					<f:selectItems value="#{produtoMB.comboCategorias}" var="categoriaVar" 
+						itemValue="#{categoriaVar.id}" itemLabel="#{categoriaVar.descricao }" />
+				</p:selectOneMenu>
+				<p:message for="inCat" />
+			</h:panelGrid>
+
 			<h:outputText value="Ativo?" />
 			<h:panelGrid>
 				<p:inputSwitch id="inAtivo" value="#{produtoMB.produto.flagAtivo }" required="true" 

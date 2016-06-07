@@ -12,6 +12,33 @@
        
 <ui:define name="content">
 
+	<h:form id="formPesquisa">
+	
+		<p:fieldset legend="Pesquisa" toggleable="true">
+		
+			<h:panelGrid columns="2" cellpadding="10">
+			
+				<h:panelGrid>
+					<h:outputText value="Ativo?" />
+					<p:selectOneButton value="#{categoriaProdutoMB.filtroFlagAtivo }">
+						<f:selectItem itemValue="#{null}"  itemLabel="TODOS" />
+						<f:selectItem itemValue="#{true}"  itemLabel="Sim" />
+						<f:selectItem itemValue="#{false}" itemLabel="Não" />
+					</p:selectOneButton>
+				</h:panelGrid>
+			
+				<p:commandButton icon="fa fa-search" value="Pesquisar" 
+					action="#{categoriaProdutoMB.pesquisar() }"
+					update=":formCategorias" 
+					/>
+			</h:panelGrid>
+		</p:fieldset>
+	</h:form>
+	
+
+	<p:spacer height="5" />
+
+
 	<h:form id="formCategorias">
 		<p:panel>
 
@@ -32,12 +59,29 @@
 						#{categoriaVar.id}
 					</p:column>
 				
-					<p:column headerText="Descrição" styleClass="col80p">
-						<h:outputText value="#{categoriaVar.descricao }" styleClass="destak2" />
+					<p:column headerText="Descrição" styleClass="col40p">
+						<h:outputText value="#{categoriaVar.descricao }" styleClass="destak3" />
 					</p:column>
 		
 					<p:column headerText="Ativo?" styleClass="col5p colCenter">
 						<my:displayFlag flag="#{categoriaVar.flagAtivo }" />
+					</p:column>
+	
+	
+					<p:column headerText="Criado em" styleClass="colCenter col10p">
+						<my:outputTime value="#{categoriaVar.infoLog.criadoEm }" styleClass="less2" />
+					</p:column>
+				
+					<p:column headerText="Criado por" styleClass="col10p colCenter">
+						<h:outputText value="#{categoriaVar.infoLog.criadoPor }" styleClass="less2" />
+					</p:column>
+		
+					<p:column headerText="Atualizado em" styleClass="colCenter col10p">
+						<my:outputTime value="#{categoriaVar.infoLog.atualizadoEm }" styleClass="less2" />
+					</p:column>
+				
+					<p:column headerText="Atualizado por" styleClass="col10p colCenter">
+						<h:outputText value="#{categoriaVar.infoLog.atualizadoPor }" styleClass="less2" />
 					</p:column>
 	
 					<p:column styleClass="col10p colCenter" >

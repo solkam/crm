@@ -316,7 +316,17 @@
 		<query>
 			select p
 			from Produto p
-			where p.categoria = :pCategoria
+			where p.empresa   = :pEmpresa
+			and   p.categoria = :pCategoria
+		</query>
+	</named-query>
+	
+	<named-query name="buscarCategoriaProdutoPelaDescricao">
+		<query>
+			select cat
+			from CategoriaProduto cat
+			where cat.empresa   = :pEmpresa
+			and   cat.descricao = :pDescricao
 		</query>
 	</named-query>	
 

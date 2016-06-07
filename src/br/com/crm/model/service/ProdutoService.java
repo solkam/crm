@@ -145,7 +145,10 @@ public class ProdutoService {
 	 * @param ano
 	 * @return
 	 */
-	public List<Produto> pesquisarProdutoPelosFiltros(Empresa empresa, Boolean flagAtivo, String descricao) {
+	public List<Produto> pesquisarProdutoPelosFiltros(Empresa empresa
+													, Boolean flagAtivo
+													, String descricao
+													, CategoriaProduto categoria) {
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		CriteriaQuery<Produto> criteria = builder.createQuery(Produto.class);
 		Root<Produto> root = criteria.from(Produto.class);
@@ -158,15 +161,21 @@ public class ProdutoService {
 		
 		//2.flag ativo
 		if (isNotNull(flagAtivo)) {
-			conjunction = builder.and(conjunction,
-					builder.equal( root.<Boolean>get("flagAtivo"), flagAtivo)
+			conjunction = builder.and(conjunction
+					,builder.equal( root.<Boolean>get("flagAtivo"), flagAtivo)
 				);
 		}
 		//3.descricao
 		if (isNotBlank(descricao)) {
-			conjunction = builder.and(conjunction,
-					builder.like( root.<String>get("descricao"), toLikeMatchModeANY(descricao) )
-					);
+			conjunction = builder.and(conjunction
+					,builder.like( root.<String>get("descricao"), toLikeMatchModeANY(descricao) )
+				);
+		}
+		//4.categoria
+		if (isNotNull(categoria)) {
+			conjunction = builder.and(conjunction
+					,builder.equal(root.<CategoriaProduto>get("categoria"), categoria)
+				);
 		}
 		
 		criteria.where( conjunction );
@@ -195,18 +204,20 @@ public class ProdutoService {
 	 ***********/
 	
 	public CategoriaProduto salvarCategoriaProduto(CategoriaProduto categoria, Usuario usuario) {
-		verificarUnicidadeDaDescricaoDaCategoria(categoria, usuario.getEmpresa() );
+		verificarSeDescricaoDaCategoriaEhUnica(categoria, usuario.getEmpresa() );
 		categoria.inserirInfoLog(usuario);
 		categoria.setEmpresa( usuario.getEmpresa() );
 		return manager.merge( categoria );
 	}
 	
-	private void verificarUnicidadeDaDescricaoDaCategoria(CategoriaProduto categoria, Empresa empresa) {
+	private void verificarSeDescricaoDaCategoriaEhUnica(CategoriaProduto categoria, Empresa empresa) {
 		CategoriaProduto categoriaEncontrada = buscarCategoriaProdutoPelaDescricao(empresa, categoria.getDescricao());
-		if (categoria!=null && !categoriaEncontrada.equals(categoria)) {
+		if (categoriaEncontrada!=null && !categoriaEncontrada.equals(categoria)) {
 			throw new NegocioException("Descrição da categoria já existe");
 		}
 	}
+
+
 
 
 	public void removerCategoriaProduto(CategoriaProduto categoria) {
@@ -217,7 +228,7 @@ public class ProdutoService {
 
 
 	private void verificarSeExisteProdutoDaCategoria(CategoriaProduto categoria) {
-		List<Produto> produtosEncontrados = pesquisarProdutoPelaCategoria(categoria);
+		List<Produto> produtosEncontrados = pesquisarProdutoPelaCategoria(categoria.getEmpresa(), categoria);
 		if (!produtosEncontrados.isEmpty()) {
 			throw new NegocioException("Categoria possui produtos associados");
 		}
@@ -228,24 +239,49 @@ public class ProdutoService {
 		return manager.find(CategoriaProduto.class, id);
 	}
 	
+
+	private CategoriaProduto buscarCategoriaProdutoPelaDescricao(Empresa empresa, String descricao) {
+		try {
+			return manager.createNamedQuery("buscarCategoriaProdutoPelaDescricao", CategoriaProduto.class)
+					.setParameter("pEmpresa", empresa)
+					.setParameter("pDescricao", descricao)
+					.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
 	
-	private List<Produto> pesquisarProdutoPelaCategoria(CategoriaProduto categoria) {
+	
+	
+	private List<Produto> pesquisarProdutoPelaCategoria(Empresa empresa, CategoriaProduto categoria) {
 		return manager.createNamedQuery("pesquisarProdutoPelaCategoria", Produto.class)
+				.setParameter("pEmpresa", empresa)
 				.setParameter("pCategoria", categoria)
 				.getResultList();
 	}
 	
 	
-	public List<CategoriaProduto> pesquisarCategoriaProdutoPelosFiltros(Empresa empresa) {
+	public List<CategoriaProduto> pesquisarCategoriaProdutoPelosFiltros(Empresa empresa, Boolean flagAtivo) {
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		CriteriaQuery<CategoriaProduto> criteria = builder.createQuery(CategoriaProduto.class);
 		Root<CategoriaProduto> root = criteria.from( CategoriaProduto.class );
 		
 		Predicate conjunction = builder.conjunction();
+		//1.empresa
 		conjunction = builder.and(conjunction
 				,builder.equal(root.<Empresa>get("empresa"), empresa)
 			);
+		//2.flag ativo
+		if (flagAtivo!=null) {
+			conjunction = builder.and(conjunction
+				,builder.equal(root.<Boolean>get("flagAtivo"), flagAtivo) 
+			);
+		}
 		
+		//where e order by
+		criteria.where( conjunction);
+		criteria.orderBy( builder.asc(root.<String>get("descricao")) );
+
 		return manager.createQuery(criteria).getResultList();
 	}
 
