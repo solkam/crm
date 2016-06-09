@@ -34,12 +34,11 @@
 
 				<h:panelGrid>
 					<h:outputText value="Categoria" />
-					<p:selectOneMenu value="#{produtoMB.filtroCategoria }" converter="#{categoriaProdutoConverter}">
-						<f:selectItem itemLabel="TODAS" noSelectionOption="true"  />
+					<p:selectCheckboxMenu label="selecione" value="#{produtoMB.filtroCategorias }" converter="#{categoriaProdutoConverter}">
 						<f:selectItems value="#{produtoMB.comboCategorias }" var="categoriaVar" 
 							itemValue="#{categoriaVar }"  itemLabel="#{categoriaVar.descricao }" 
 							/>
-					</p:selectOneMenu>
+					</p:selectCheckboxMenu>
 				</h:panelGrid>
 			
 			

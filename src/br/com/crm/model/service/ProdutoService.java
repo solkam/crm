@@ -1,7 +1,9 @@
 package br.com.crm.model.service;
 
 import static br.com.crm.model.util.QueryUtil.isNotNull;
+
 import static br.com.crm.model.util.QueryUtil.isNotBlank;
+import static br.com.crm.model.util.QueryUtil.isNotEmpty;
 import static br.com.crm.model.util.QueryUtil.toLikeMatchModeANY;
 
 import java.util.Date;
@@ -145,10 +147,11 @@ public class ProdutoService {
 	 * @param ano
 	 * @return
 	 */
-	public List<Produto> pesquisarProdutoPelosFiltros(Empresa empresa
-													, Boolean flagAtivo
-													, String descricao
-													, CategoriaProduto categoria) {
+	public List<Produto> pesquisarProdutoPelosFiltros(Empresa filtroEmpresa
+													 ,Boolean filtroFlagAtivo
+													 ,String filtroDescricao
+													 ,List<CategoriaProduto> filtroCategorias
+													 ) {
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		CriteriaQuery<Produto> criteria = builder.createQuery(Produto.class);
 		Root<Produto> root = criteria.from(Produto.class);
@@ -156,25 +159,25 @@ public class ProdutoService {
 		Predicate conjunction = builder.conjunction();
 		//1.empresa
 		conjunction = builder.and(conjunction,
-				builder.equal( root.<Empresa>get("empresa"), empresa)
+				builder.equal( root.<Empresa>get("empresa"), filtroEmpresa)
 			);
 		
 		//2.flag ativo
-		if (isNotNull(flagAtivo)) {
+		if (isNotNull(filtroFlagAtivo)) {
 			conjunction = builder.and(conjunction
-					,builder.equal( root.<Boolean>get("flagAtivo"), flagAtivo)
+					,builder.equal( root.<Boolean>get("flagAtivo"), filtroFlagAtivo)
 				);
 		}
 		//3.descricao
-		if (isNotBlank(descricao)) {
+		if (isNotBlank(filtroDescricao)) {
 			conjunction = builder.and(conjunction
-					,builder.like( root.<String>get("descricao"), toLikeMatchModeANY(descricao) )
+					,builder.like( root.<String>get("descricao"), toLikeMatchModeANY(filtroDescricao) )
 				);
 		}
 		//4.categoria
-		if (isNotNull(categoria)) {
+		if (isNotEmpty(filtroCategorias)) {
 			conjunction = builder.and(conjunction
-					,builder.equal(root.<CategoriaProduto>get("categoria"), categoria)
+					,root.<CategoriaProduto>get("categoria").in(filtroCategorias)
 				);
 		}
 		

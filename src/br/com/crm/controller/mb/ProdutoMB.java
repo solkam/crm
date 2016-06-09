@@ -41,8 +41,8 @@ public class ProdutoMB implements Serializable {
 	
 	//filtros
 	private String filtroDescricao;
-	private CategoriaProduto filtroCategoria;
 	private Boolean filtroFlagAtivo = true;
+	private List<CategoriaProduto> filtroCategorias;
 
 	//combos
 	private List<CategoriaProduto> comboCategorias;
@@ -63,7 +63,7 @@ public class ProdutoMB implements Serializable {
 		produtos = service.pesquisarProdutoPelosFiltros(sessionHolder.getEmpresa()
 													   ,filtroFlagAtivo
 													   ,filtroDescricao
-													   ,filtroCategoria
+													   ,filtroCategorias
 													   );
 	}
 	
@@ -179,12 +179,12 @@ public class ProdutoMB implements Serializable {
 		return comboCategorias;
 	}
 
-	public CategoriaProduto getFiltroCategoria() {
-		return filtroCategoria;
+	public List<CategoriaProduto> getFiltroCategorias() {
+		return filtroCategorias;
 	}
 
-	public void setFiltroCategoria(CategoriaProduto filtroCategoria) {
-		this.filtroCategoria = filtroCategoria;
+	public void setFiltroCategorias(List<CategoriaProduto> filtroCategorias) {
+		this.filtroCategorias = filtroCategorias;
 	}
 	
 	

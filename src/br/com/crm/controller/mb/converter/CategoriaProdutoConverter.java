@@ -23,7 +23,7 @@ public class CategoriaProdutoConverter implements Converter {
 	
 	@Override
 	public Object getAsObject(FacesContext ctx, UIComponent comp, String txt) {
-		if (txt==null || txt.isEmpty()) {
+		if (txt==null || txt.isEmpty() || txt.equals("-1")) {
 			return null;
 		}
 		Integer id = Integer.parseInt( txt );
@@ -33,7 +33,7 @@ public class CategoriaProdutoConverter implements Converter {
 
 	@Override
 	public String getAsString(FacesContext ctx, UIComponent comp, Object obj) {
-		if (obj==null) {
+		if (obj==null || obj.equals("-1")) {
 			return null;
 		}
 		CategoriaProduto categoria = (CategoriaProduto) obj;
