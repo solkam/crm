@@ -5,11 +5,9 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:my="http://java.sun.com/jsf/composite/components"
-      template="/WEB-INF/design/_template-main.xhtml">
+      template="/WEB-INF/design/_decorate-acesso.xhtml">
        
-<ui:define name="title">Usuários</ui:define>       
-       
-<ui:define name="content">
+<ui:define name="content-decorator">
 
 	<h:form>
 		<p:fieldset legend="Pesquisa" toggleable="true">
@@ -53,34 +51,37 @@
 			oncomplete="PF('DialogUsuario').show();"
 			/>
 			
-		<p:dataTable value="#{usuarioMB.usuarios }" var="usuarioVar"
-			rendered="#{not empty usuarioMB.usuarios }">
+		<p:outputPanel rendered="#{not empty usuarioMB.usuarios }">
 			
-			<p:column headerText="#" styleClass="col5p colCenter">
-				<h:outputText value="#{usuarioVar.id }" styleClass="less2" />
-			</p:column>
-
-			<p:column headerText="Email" styleClass="col30p">
-				<h:outputText value="#{usuarioVar.email }" styleClass="destak2" />
-			</p:column>
+			<p:dataTable value="#{usuarioMB.usuarios }" var="usuarioVar">
+				
+				<p:column headerText="#" styleClass="col5p colCenter">
+					<h:outputText value="#{usuarioVar.id }" styleClass="less2" />
+				</p:column>
 	
-			<p:column headerText="Perfil" styleClass="col20p">
-				<h:outputText value="#{usuarioVar.perfil.descricao }" styleClass="destak3" />
-			</p:column>
-			
-			<p:column headerText="Empresa" styleClass="col20p">
-				<h:outputText value="#{usuarioVar.empresa.nome }" />
-			</p:column>
+				<p:column headerText="Email" styleClass="col30p">
+					<h:outputText value="#{usuarioVar.email }" styleClass="destak2" />
+				</p:column>
+		
+				<p:column headerText="Perfil" styleClass="col20p">
+					<h:outputText value="#{usuarioVar.perfil.descricao }" styleClass="destak3" />
+				</p:column>
+				
+				<p:column headerText="Empresa" styleClass="col20p">
+					<h:outputText value="#{usuarioVar.empresa.nome }" />
+				</p:column>
+	
+				<p:column styleClass="col10p colCenter">
+					<p:commandButton icon="fa fa-fw fa-edit" value="Editar"
+						process="@this"
+						action="#{usuarioMB.gerenciar(usuarioVar) }"
+						update=":regiaoUsuario"
+						oncomplete="PF('DialogUsuario').show();"
+						/>
+				</p:column>
+			</p:dataTable>
 
-			<p:column styleClass="col10p colCenter">
-				<p:commandButton icon="fa fa-fw fa-edit" value="Editar"
-					process="@this"
-					action="#{usuarioMB.gerenciar(usuarioVar) }"
-					update=":regiaoUsuario"
-					oncomplete="PF('DialogUsuario').show();"
-					/>
-			</p:column>
-		</p:dataTable>
+		</p:outputPanel>
 	</h:form>
 		
 		
@@ -93,11 +94,11 @@
 		
 			<p:tabView>
 				<p:tab title="Principal">
-					<ui:include src="/paginas/usuario/usuario-frag-principal.xhtml" />
+					<ui:include src="/paginas/acesso/usuario-frag-principal.xhtml" />
 				</p:tab>
 			
 				<p:tab title="Senha" rendered="#{not usuarioMB.usuario.transient}">
-					<ui:include src="/paginas/usuario/usuario-frag-senha.xhtml" />
+					<ui:include src="/paginas/acesso/usuario-frag-senha.xhtml" />
 				</p:tab>
 			</p:tabView>
 		</p:outputPanel>

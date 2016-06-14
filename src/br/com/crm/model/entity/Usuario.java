@@ -154,6 +154,11 @@ public class Usuario implements Serializable, Comparable<Usuario> {
 			return this.id.compareTo( that.id );
 		}
 	}
+	
+	
+	public String getDescricaoCompleta() {
+		return email;
+	}
 
 	
 	

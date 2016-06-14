@@ -1,7 +1,6 @@
 package br.com.crm.model.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -251,7 +250,11 @@ public class Campanha implements Serializable {
 		return true;
 	}
 
-	
+	@Override
+	public String toString() {
+		return "Campanha [id=" + id + ", descricao=" + descricao + "]";
+	}
+
 	public boolean isTransient() {
 		return getId()==null;
 	}
@@ -294,6 +297,8 @@ public class Campanha implements Serializable {
 		//}
 		//return interacoesDaPessoa;
 	}
+	
+	
 
 	
 	

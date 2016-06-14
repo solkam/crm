@@ -6,6 +6,7 @@ import static br.com.crm.model.util.QueryUtil.isNotNegative;
 import static br.com.crm.model.util.QueryUtil.isNotNull;
 import static br.com.crm.model.util.QueryUtil.toLikeMatchModeANY;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -18,11 +19,15 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import br.com.crm.model.entity.AreaInteresse;
+import br.com.crm.model.entity.Campanha;
+import br.com.crm.model.entity.Empresa;
 import br.com.crm.model.entity.Endereco;
 import br.com.crm.model.entity.Genero;
+import br.com.crm.model.entity.InteracaoCampanha;
 import br.com.crm.model.entity.Maturidade;
 import br.com.crm.model.entity.Pessoa;
 import br.com.crm.model.entity.Profissao;
+import br.com.crm.model.entity.Usuario;
 
 
 /**
@@ -132,6 +137,58 @@ public class RelatorioService {
 				);
 		
 		return manager.createQuery(criteria).getResultList();
+	}
+	
+	
+	
+	/**
+	 * Pesquisa pelas interações de campanhas
+	 * @param filtroEmpresa
+	 * @return
+	 */
+	public List<InteracaoCampanha> pesquisarInteracaoCampanhaPeloFiltros(Empresa filtroEmpresa
+																		,List<Campanha> filtroCampanhas
+																		,List<Usuario> filtroResponsaveis
+																		,List<Pessoa> filtroPessoas
+																		) {
+		CriteriaBuilder builder = manager.getCriteriaBuilder();
+		CriteriaQuery<InteracaoCampanha> criteria = builder.createQuery(InteracaoCampanha.class);
+		Root<InteracaoCampanha> root = criteria.from(InteracaoCampanha.class);
+		
+		Predicate conjunction = builder.conjunction();
+		
+		Join<InteracaoCampanha, Campanha> joinCampanha = root.<InteracaoCampanha, Campanha>join("campanha");
+
+		//1.empresa
+		conjunction = builder.and(conjunction
+				, builder.equal(joinCampanha.<Empresa>get("empresa"), filtroEmpresa) 
+				);
+		//2.campanhas
+		if (isNotEmpty(filtroCampanhas)) {
+			conjunction = builder.and(conjunction
+					,joinCampanha.in( filtroCampanhas )
+					);
+		}
+		//3.responsaveis
+		if (isNotEmpty(filtroResponsaveis)) {
+			conjunction = builder.and(conjunction
+					,root.<Usuario>get("responsavel").in( filtroResponsaveis )
+					);
+		}
+		//3.pessoa
+		if (isNotEmpty(filtroPessoas)) {
+			conjunction = builder.and(conjunction
+					,root.<Pessoa>get("pessoa").in( filtroPessoas )
+					);
+		}
+		
+		//fechando...
+		criteria.where( conjunction );
+		criteria.orderBy( builder.desc( root.<Date>get("data") ));
+		
+		List<InteracaoCampanha> interacoes = manager.createQuery( criteria ).getResultList();
+		return interacoes;
+		
 	}
 
 }

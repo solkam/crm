@@ -7,22 +7,23 @@
       xmlns:my="http://java.sun.com/jsf/composite/components"
       template="/WEB-INF/design/_template-main.xhtml">
        
-<ui:define name="title">Relatórios</ui:define>       
+<ui:define name="title">Acesso</ui:define>       
        
 <ui:define name="content">
 
-	<p:tabMenu activeIndex="#{param.rptIdx}">
-		<p:menuitem icon="fa fa-fw fa-user" value="Pessoas" outcome="/paginas/relatorio/relatorio-pessoa" >
-			<f:param name="rptIdx" value="0" />
-		</p:menuitem>
+	<p:tabMenu activeIndex="#{param.idx}">
 		
-		<p:menuitem icon="fa fa-fw fa-headphones" value="Campanhas" outcome="/paginas/relatorio/relatorio-campanha" >
-			<f:param name="rptIdx" value="1" />
+		<p:menuitem icon="fa fa-key" value="Usuários" outcome="/paginas/acesso/usuario" >
+			<f:param name="idx" value="0" />
+		</p:menuitem>
+
+		<p:menuitem icon="fa fa-gears" value="Perfil" outcome="/paginas/acesso/perfil" >
+			<f:param name="idx" value="1" />
 		</p:menuitem>
 
 	</p:tabMenu>
-	
 
+	
 	<p:panel>
 		<ui:insert name="content-decorator">
 			(definir conteudo aqui)

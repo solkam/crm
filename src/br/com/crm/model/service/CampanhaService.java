@@ -149,6 +149,16 @@ public class CampanhaService {
 	}
 	
 
+	/**
+	 * Busca campanha pela PK
+	 * (usad no converter)
+	 * @param id
+	 */
+	public Campanha buscarCampanhaPeloId(Integer id) {
+		return manager.find(Campanha.class, id);
+	}
+
+
 
 	/**
 	 * Busca a campanha pela descrição dentra da empresa
@@ -303,12 +313,6 @@ public class CampanhaService {
 				.setParameter("pCampanha", campanha)
 				.getResultList();
 	}
-	
-	
 
-
-	
-	
-	
 
 }
