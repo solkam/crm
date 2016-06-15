@@ -17,7 +17,7 @@ import br.com.crm.model.entity.Usuario;
 import br.com.crm.model.service.CampanhaService;
 import br.com.crm.model.service.PessoaService;
 import br.com.crm.model.service.RelatorioService;
-import br.com.crm.model.service.UsuarioService;
+import br.com.crm.model.service.AcessoService;
 
 /**
  * Controller para UC Consultar Relatório de Campanhas
@@ -34,7 +34,7 @@ public class RelatorioCampanhasMB implements Serializable {
 
 	
 	@Inject CampanhaService campanhaService;
-	@Inject UsuarioService usuarioService;
+	@Inject AcessoService usuarioService;
 	@Inject PessoaService pessoaService;
 	
 	

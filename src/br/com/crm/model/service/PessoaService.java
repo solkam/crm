@@ -38,7 +38,7 @@ public class PessoaService {
 	@PersistenceContext
 	private EntityManager manager;
 	
-	@EJB UsuarioService userService;
+	@EJB AcessoService userService;
 	
 	@EJB MaturidadeService maturidadeService;
 

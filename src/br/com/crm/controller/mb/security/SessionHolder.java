@@ -66,13 +66,16 @@ public class SessionHolder implements Serializable {
 	public Empresa getEmpresa() {
 		return usuario.getEmpresa();
 	}
+
 	
+	@Deprecated
 	public Boolean getFlagPerfilADM() {
-		return Perfil.ADM.equals( usuario.getPerfil() );
+		return true;
 	}
 	
+	@Deprecated
 	public Boolean getFlagPerfilOPE() {
-		return Perfil.OPE.equals( usuario.getPerfil() );
+		return true;
 	}
 
 

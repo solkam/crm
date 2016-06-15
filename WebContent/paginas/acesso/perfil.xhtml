@@ -9,8 +9,66 @@
        
 <ui:define name="content-decorator">
 
+	<h:form id="formPerfils">
+	
+		<my:globalMessages />
+		
+		<p:commandButton icon="fa fa-plus" value="Novo Perfil" 
+			process="@this"
+			action="#{perfilMB.novo() }" 
+			update=":regiaoPerfil"
+			oncomplete="PF('DialogPerfil').show();"
+			/>
+			
+		<p:outputPanel rendered="#{not empty perfilMB.perfils }">
+			
+			<p:dataTable value="#{perfilMB.perfils }" var="perfilVar">
+				
+				<p:column headerText="Código" styleClass="col20p colCenter">
+					<h:outputText value="#{perfilVar.codigo }" styleClass="less2" />
+				</p:column>
+	
+				<p:column headerText="Nome" styleClass="col60p">
+					<h:outputText value="#{perfilVar.nome }" styleClass="destak2" />
+				</p:column>
+		
+				<p:column headerText="Visível" styleClass="col10p colCenter">
+					<my:displayFlag flag="#{perfilVar.flagVisivel}" />
+				</p:column>
 
-	<h1>Perfil</h1>
+				<p:column styleClass="col10p colCenter">
+					<p:commandButton icon="fa fa-fw fa-edit" value="Editar"
+						process="@this"
+						action="#{perfilMB.gerenciar(perfilVar) }"
+						update=":regiaoPerfil"
+						oncomplete="PF('DialogPerfil').show();"
+						/>
+				</p:column>
+			</p:dataTable>
+
+		</p:outputPanel>
+	</h:form>
+		
+		
+		
+	<p:dialog widgetVar="DialogPerfil" header="Perfil"  
+		modal="true" dynamic="true" closeOnEscape="true" maximizable="true" 
+		position="top" width="60%" height="60%" >
+		
+		<p:outputPanel id="regiaoPerfil">
+		
+			<p:tabView>
+				<p:tab title="Principal">
+					<ui:include src="/paginas/acesso/perfil-frag-principal.xhtml" />
+				</p:tab>
+			
+				<p:tab title="Funcionalidades" rendered="#{not perfilMB.perfil.transient}">
+					<ui:include src="/paginas/acesso/perfil-frag-funcionalidade.xhtml" />
+				</p:tab>
+
+			</p:tabView>
+		</p:outputPanel>
+	</p:dialog>
 	
 	
 </ui:define>

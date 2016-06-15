@@ -22,14 +22,19 @@ import br.com.crm.model.entity.Usuario;
 
 
 /**
- * Servicos de negocio para Usuario
+ * Servicos de negocio para Acesso
  * @author Solkam
  * @since 26 abr 2016
  */
 @Stateless
-public class UsuarioService {
+public class AcessoService {
 	
 	@PersistenceContext EntityManager manager;
+	
+	
+	/* *******
+	 * USUARIO
+	 *********/
 	
 	/**
 	 * Salva instancia de usuario
@@ -59,6 +64,19 @@ public class UsuarioService {
 	 */
 	public void removerUsuario(Usuario usuario) {
 		manager.remove( manager.merge(usuario) );
+	}
+	
+
+	/**
+	 * Autorizar usuario significa carregar a lista
+	 * de funcionalidades do seu perfil
+	 * @param usuario
+	 * @return
+	 */
+	public Usuario autorizarUsuario(Usuario usuario) {
+		usuario = manager.find(Usuario.class, usuario.getId() );
+		usuario.getPerfil().getFuncionalidades().size();
+		return usuario;
 	}
 	
 	
@@ -128,6 +146,59 @@ public class UsuarioService {
 				.setParameter("pEmpresa", empresa)
 				.getResultList();
 	}
+	
+	
+	
+	/* ******
+	 * PERFIL
+	 ********/
+	
+	/**
+	 * Salva um perfil
+	 * @param p
+	 * @return
+	 */
+	public Perfil salvarPerfil(Perfil p) {
+		return manager.merge( p );
+	}
+	
+	
+	public void removerPerfil(Perfil perfil) {
+		perfil = manager.find(Perfil.class, perfil.getCodigo() );
+		manager.remove( perfil );
+	}
+	
+	
+	public Perfil recarregarPerfil(Perfil perfil) {
+		perfil = manager.find(Perfil.class, perfil.getCodigo() );
+		perfil.getFuncionalidades().size();
+		return perfil;
+	}
+	
+	/**
+	 * Pesquisa perfils usando criteria
+	 * @param flagVisivel
+	 * @return
+	 */
+	public List<Perfil> pesquisarPerfilPeloFiltro(Boolean flagVisivel) {
+		CriteriaBuilder builder = manager.getCriteriaBuilder();
+		CriteriaQuery<Perfil> criteria = builder.createQuery(Perfil.class);
+		Root<Perfil> root = criteria.from(Perfil.class);
+		
+		Predicate conjunction = builder.conjunction();
+		//1.flag visivel
+		if (isNotNull(flagVisivel)) {
+			conjunction = builder.and(conjunction
+					, builder.equal(root.<Boolean>get("flagVisivel"), flagVisivel)
+				);
+		}
+		//where
+		criteria.where(conjunction);
+		
+		return manager.createQuery(criteria).getResultList();
+	}
+
+
 	
 
 }

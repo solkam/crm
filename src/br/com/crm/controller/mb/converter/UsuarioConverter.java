@@ -8,7 +8,7 @@ import javax.faces.convert.Converter;
 import javax.inject.Inject;
 
 import br.com.crm.model.entity.Usuario;
-import br.com.crm.model.service.UsuarioService;
+import br.com.crm.model.service.AcessoService;
 
 /**
  * Converter JSF para usuario
@@ -19,7 +19,7 @@ import br.com.crm.model.service.UsuarioService;
 @ViewScoped
 public class UsuarioConverter implements Converter {
 
-	@Inject UsuarioService service;
+	@Inject AcessoService service;
 	
 	
 	@Override

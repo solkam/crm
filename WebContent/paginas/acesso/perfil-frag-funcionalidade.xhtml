@@ -1,0 +1,35 @@
+<!DOCTYPE html > 
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/components">
+       
+<h:form id="formPerfilFuncionalidade">
+
+	<my:globalMessages />
+
+	<p:panel>
+
+		<h:panelGrid>
+			<p:selectManyCheckbox id="inFun" value="#{perfilMB.perfil.funcionalidades}"
+				converter="#{funcionalidadeConverter}" layout="pageDirection">
+					<f:selectItems value="#{enumHelper.funcionalidades}" var="funVar" 
+						itemValue="#{funVar}" itemLabel="#{funVar.name()}"
+						/>
+			</p:selectManyCheckbox>
+			<p:message for="inFun" />
+		</h:panelGrid>
+		
+		<p:separator />
+		<p:commandButton icon="fa fa-check" value="Salvar funcionalidades" 
+			action="#{perfilMB.salvar()}"
+			update="@form"
+			/>
+
+	</p:panel>
+
+</h:form>
+
+</ui:fragment>

@@ -8,7 +8,7 @@ import javax.inject.Named;
 
 import br.com.crm.controller.util.JSFUtil;
 import br.com.crm.model.entity.Usuario;
-import br.com.crm.model.service.UsuarioService;
+import br.com.crm.model.service.AcessoService;
 
 /**
  * Controller para Autenticar
@@ -19,7 +19,7 @@ import br.com.crm.model.service.UsuarioService;
 @RequestScoped
 public class AccessMB implements Serializable {
 
-	@Inject UsuarioService usuarioService;
+	@Inject AcessoService acessoService;
 
 	@Inject SessionHolder sessionHolder;
 	
@@ -30,7 +30,7 @@ public class AccessMB implements Serializable {
 	
 	
 	public String doLogin() {
-		Usuario user = usuarioService.buscarUsuarioPeloEmailESenha(email, senha);
+		Usuario user = acessoService.buscarUsuarioPeloEmailESenha(email, senha);
 		if (user!=null) {
 			return grantAcess(user);
 		} else {
@@ -40,6 +40,7 @@ public class AccessMB implements Serializable {
 
 
 	private String grantAcess(Usuario user) {
+		user = acessoService.autorizarUsuario(user);
 		sessionHolder.initSession(user);
 		return gotoHomePage();
 	}

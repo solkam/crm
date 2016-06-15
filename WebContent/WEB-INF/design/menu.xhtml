@@ -6,67 +6,18 @@
       xmlns:p="http://primefaces.org/ui"> 
 
 	<center>
-		<h:panelGrid columns="10" cellpadding="5">
+
+		<p:dataGrid columns="9" var="funcionalidadeVar" value="#{sessionHolder.usuario.perfil.funcionalidades}" style="padding:10px;" >
+
+			<h:link outcome="#{funcionalidadeVar.pagina}" styleClass="menuitem" >
+				<f:param name="idx" value="0" />
+				<h:panelGrid cellpadding="5" cellspacing="5" styleClass="menuitem">
+					<p:graphicImage library="img" name="#{funcionalidadeVar.icone}"  />
+				</h:panelGrid>
+			</h:link>
 		
-			<h:link outcome="/paginas/acesso/usuario.xhtml" styleClass="menuitem" rendered="#{sessionHolder.flagPerfilADM}">
-				<f:param name="idx" value="0" />
-				<h:panelGrid cellpadding="5" cellspacing="5" styleClass="menuitem">
-					<p:graphicImage library="img" name="icone_menu_acesso_96.png"  />
-				</h:panelGrid>
-			</h:link>
+		</p:dataGrid>
 	
-
-			<h:link outcome="/paginas/pessoa/pessoa.xhtml" styleClass="menuitem">
-				<h:panelGrid cellpadding="5" cellspacing="5" styleClass="menuitem">
-					<p:graphicImage library="img" name="icone_menu_pessoa_96.png"  />
-				</h:panelGrid>
-			</h:link>
-			
-
-			<h:link outcome="/paginas/empresa/empresa.xhtml" styleClass="menuitem" rendered="#{sessionHolder.flagTecnologia}">
-				<h:panelGrid cellpadding="5" cellspacing="5" styleClass="menuitem">
-					<p:graphicImage library="img" name="icone_menu_empresa_96.png"  />
-				</h:panelGrid>
-			</h:link>
-
-			<h:link outcome="/paginas/produto/produto.xhtml" styleClass="menuitem" rendered="#{sessionHolder.flagPerfilADM}">
-				<h:panelGrid cellpadding="5" cellspacing="5" styleClass="menuitem">
-					<p:graphicImage library="img" name="icone_menu_produto_96.png"  />
-				</h:panelGrid>
-			</h:link>
-
-			<h:link outcome="/paginas/venda/venda.xhtml" styleClass="menuitem" rendered="#{sessionHolder.flagPerfilADM}">
-				<h:panelGrid cellpadding="5" cellspacing="5" styleClass="menuitem">
-					<p:graphicImage library="img" name="icone_menu_venda_96.png"  />
-				</h:panelGrid>
-			</h:link>
-
-			<h:link outcome="/paginas/relatorio/relatorio-pessoa.xhtml" styleClass="menuitem">
-				<h:panelGrid cellpadding="5" cellspacing="5" styleClass="menuitem">
-					<p:graphicImage library="img" name="icone_menu_relatorio_96.png"  />
-				</h:panelGrid>
-			</h:link>
-
-			<h:link outcome="/paginas/campanha/campanha.xhtml" styleClass="menuitem" rendered="#{sessionHolder.flagPerfilADM}">
-				<h:panelGrid cellpadding="5" cellspacing="5" styleClass="menuitem">
-					<p:graphicImage library="img" name="icone_menu_campanha_96.png"  />
-				</h:panelGrid>
-			</h:link>
-
-			<h:link outcome="/paginas/minha-campanha/minha-campanha.xhtml" styleClass="menuitem">
-				<h:panelGrid cellpadding="5" cellspacing="5" styleClass="menuitem">
-					<p:graphicImage library="img" name="icone_menu_minha_campanha_96.png"  />
-				</h:panelGrid>
-			</h:link>
-
-			<h:link outcome="/paginas/area-interesse/area-interesse.xhtml" styleClass="menuitem" rendered="#{sessionHolder.flagPerfilADM}">
-				<f:param name="idx" value="0" />
-				<h:panelGrid cellpadding="5" cellspacing="5" styleClass="menuitem">
-					<p:graphicImage library="img" name="icone_menu_ajuste_96.png"  />
-				</h:panelGrid>
-			</h:link>
-
-		</h:panelGrid>
 	</center>
 
 </ui:fragment>

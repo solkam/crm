@@ -27,6 +27,7 @@
 		<class>br.com.crm.model.entity.InteracaoCampanha</class>
 		<class>br.com.crm.model.entity.Venda</class>
 		<class>br.com.crm.model.entity.CategoriaProduto</class>
+		<class>br.com.crm.model.entity.Perfil</class>
 
 		<properties>
 			<property name="hibernate.show_sql" value="false" />

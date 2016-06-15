@@ -23,9 +23,9 @@
 
 			<p:outputLabel for="inPerfil" value="Perfil" styleClass="req" />
 			<h:panelGrid>
-				<p:selectOneRadio id="inPerfil" value="#{usuarioMB.usuario.perfil }" required="true" layout="pageDirection" >
-					<f:selectItems value="#{enumHelper.perfils }" var="perfilVar" 
-						itemValue="#{perfilVar}" itemLabel="#{perfilVar.descricao }" />
+				<p:selectOneRadio id="inPerfil" value="#{usuarioMB.usuario.perfil.codigo }" required="true" layout="pageDirection" >
+					<f:selectItems value="#{usuarioMB.comboPerfils }" var="perfilVar" 
+						itemValue="#{perfilVar.codigo}" itemLabel="#{perfilVar.nome }" />
 				</p:selectOneRadio>
 				<p:message for="inPerfil" />
 			</h:panelGrid>

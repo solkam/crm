@@ -15,7 +15,7 @@ import br.com.crm.model.entity.Perfil;
 import br.com.crm.model.entity.Usuario;
 import br.com.crm.model.exception.NegocioException;
 import br.com.crm.model.service.EmpresaService;
-import br.com.crm.model.service.UsuarioService;
+import br.com.crm.model.service.AcessoService;
 
 /**
  * Controller para UC Gerenciar Usuários
@@ -26,7 +26,7 @@ import br.com.crm.model.service.UsuarioService;
 @ViewScoped
 public class UsuarioMB implements Serializable {
 	
-	@Inject UsuarioService usuarioService;
+	@Inject AcessoService usuarioService;
 	
 	@Inject EmpresaService empresaService;
 	
@@ -40,7 +40,7 @@ public class UsuarioMB implements Serializable {
 	
 	//filtros
 	private String filtroEmail;
-	private Perfil filtroPerfil = Perfil.ADM;
+	private Perfil filtroPerfil;
 	
 	//senhas
 	private String senha1;
@@ -48,12 +48,18 @@ public class UsuarioMB implements Serializable {
 	
 	//combos
 	private List<Empresa> comboEmpresas;
+	private List<Perfil> comboPerfils;
 	
 	@PostConstruct void init() {
 		pesquisar();
 		initComboEmpresas();
+		initComboPerfils();
 	}
 	
+	private void initComboPerfils() {
+		comboPerfils = usuarioService.pesquisarPerfilPeloFiltro( true );
+	}
+
 	private void initUsuarios() {
 		usuarios = usuarioService.pesquisarUsuarioPelosFiltros(filtroEmail, filtroPerfil);
 	}
@@ -70,6 +76,7 @@ public class UsuarioMB implements Serializable {
 	public void novo() {
 		usuario = new Usuario();
 		usuario.setEmpresa( new Empresa() );
+		usuario.setPerfil( new Perfil() );
 	}
 	
 	public void gerenciar(Usuario usuarioSelecionado) {
@@ -155,6 +162,10 @@ public class UsuarioMB implements Serializable {
 
 	public List<Empresa> getComboEmpresas() {
 		return comboEmpresas;
+	}
+
+	public List<Perfil> getComboPerfils() {
+		return comboPerfils;
 	}
 	
 	

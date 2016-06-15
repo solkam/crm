@@ -18,7 +18,7 @@ import br.com.crm.model.entity.Pessoa;
 import br.com.crm.model.entity.Produto;
 import br.com.crm.model.entity.Usuario;
 import br.com.crm.model.service.CampanhaService;
-import br.com.crm.model.service.UsuarioService;
+import br.com.crm.model.service.AcessoService;
 
 /**
  * Controller para UC Gerenciar Campanha
@@ -31,7 +31,7 @@ public class CampanhaMB implements Serializable {
 	
 	@Inject CampanhaService service;
 	
-	@Inject UsuarioService usuarioService;
+	@Inject AcessoService usuarioService;
 	
 	@Inject SessionHolder sessionHolder;
 	

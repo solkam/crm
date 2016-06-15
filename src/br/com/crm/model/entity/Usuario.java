@@ -10,6 +10,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -39,7 +42,7 @@ public class Usuario implements Serializable, Comparable<Usuario> {
 	private String senha;
 
 
-	@Enumerated(EnumType.STRING)
+	@ManyToOne
 	@NotNull
 	private Perfil perfil;
 	

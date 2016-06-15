@@ -5,10 +5,10 @@ import javax.faces.bean.ManagedBean;
 
 import br.com.crm.model.entity.DiaDoMes;
 import br.com.crm.model.entity.EnderecoTipo;
+import br.com.crm.model.entity.Funcionalidade;
 import br.com.crm.model.entity.Genero;
 import br.com.crm.model.entity.InteracaoHumor;
 import br.com.crm.model.entity.MesDoAno;
-import br.com.crm.model.entity.Perfil;
 import br.com.crm.model.entity.TelefoneOperadora;
 
 /**
@@ -20,8 +20,8 @@ import br.com.crm.model.entity.TelefoneOperadora;
 @ApplicationScoped
 public class EnumHelper {
 	
-	public Perfil[] getPerfils() {
-		return Perfil.values();
+	public Funcionalidade[] getFuncionalidades() {
+		return Funcionalidade.values();
 	}
 	
 	public Genero[] getGeneros() {

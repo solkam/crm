@@ -1,0 +1,77 @@
+<!DOCTYPE html > 
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/components">
+       
+<h:form id="formPerfil">
+
+	<my:globalMessages />
+
+	<p:panel>
+		<h:outputText value="Geral" styleClass="destak3" />
+		<p:separator />
+
+		<h:panelGrid columns="2" cellpadding="10">
+			<p:outputLabel for="inCodigo" value="Código" styleClass="req" />
+			<h:panelGrid>
+				<p:inputText id="inCodigo" value="#{perfilMB.perfil.codigo}" size="3" maxlength="3" required="true" />
+				<p:message for="inCodigo" />
+			</h:panelGrid>
+
+			<p:outputLabel for="inNome" value="Nome" styleClass="req" />
+			<h:panelGrid>
+				<p:inputText id="inNome" value="#{perfilMB.perfil.nome }" size="20" required="true" />
+				<p:message for="inNome" />
+			</h:panelGrid>
+
+			<p:outputLabel for="inFlag" value="Visível?" styleClass="req" />
+			<h:panelGrid>
+				<p:inputSwitch id="inFlag" value="#{perfilMB.perfil.flagVisivel }" 
+					onLabel="Sim" offLabel="Não" showLabels="true" 
+					/>
+				<p:message for="inFlag" />
+			</h:panelGrid>
+
+		</h:panelGrid>
+	</p:panel>
+
+	
+	<p:panel rendered="#{not perfilMB.perfil.transient}">
+		<h:outputText value="Histórico" styleClass="destak3" />
+		<p:separator />
+	
+		<my:panelGridInfoLog infoLog="#{perfilMB.perfil.infoLog}" />
+	
+	</p:panel>
+	
+
+	<p:toolbar>
+		<p:toolbarGroup>
+			<p:commandButton icon="ui-icon-check" value="Salvar Perfil" 
+				action="#{perfilMB.salvar() }"
+				update=":regiaoPerfil :formPerfils" 
+				validateClient="true"
+				/>
+		</p:toolbarGroup>
+	
+		<p:toolbarGroup align="right" rendered="#{not perfilMB.perfil.transient}">
+			<p:menuButton value="Remover?" style="font-size:0.8em;">
+				<p:menuitem icon="ui-icon-trash" value="Sim, remover"
+					process="@this"
+					action="#{perfilMB.remover()}"
+					update=":regiaoPerfil :formPerfils"
+					oncomplete="if (args.sucessOnly) PF('DialogPerfil').hide();"
+					/>
+				<p:menuitem icon="ui-icon-close" value="Não"
+					process="@none"
+					global="false" 
+					/>
+			</p:menuButton>
+		</p:toolbarGroup>
+	</p:toolbar>
+</h:form>
+
+</ui:fragment>
