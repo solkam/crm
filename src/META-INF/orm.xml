@@ -25,6 +25,26 @@
 	</named-query>
 	
 	
+	<!-- perfil -->
+	
+	<named-query name="buscarPerfilPeloCodigo">
+		<query>
+			select p
+			from Perfil p
+			where p.codigo = :pCodigo
+		</query>
+	</named-query>
+	
+	<named-query name="buscarPerfilPeloNome">
+		<query>
+			select p
+			from Perfil p
+			where p.nome = :pNome
+		</query>
+	</named-query>
+	
+	
+	
 	
 	<!-- empresa -->
 	

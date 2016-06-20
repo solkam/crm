@@ -54,7 +54,7 @@ public class PerfilMB implements Serializable {
 	}
 	
 	public void salvar() {
-		service.salvarPerfil( perfil );
+		service.salvarPerfil( perfil, sessionHolder.getUsuario() );
 		recarregar();
 		initPerfils();
 		JSFUtil.addInfoMessage("Perfil salvo com sucesso");

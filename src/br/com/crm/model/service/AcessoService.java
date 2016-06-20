@@ -19,6 +19,7 @@ import javax.persistence.criteria.Root;
 import br.com.crm.model.entity.Empresa;
 import br.com.crm.model.entity.Perfil;
 import br.com.crm.model.entity.Usuario;
+import br.com.crm.model.exception.NegocioException;
 
 
 /**
@@ -155,14 +156,53 @@ public class AcessoService {
 	
 	/**
 	 * Salva um perfil
-	 * @param p
+	 * @param perfil
 	 * @return
 	 */
-	public Perfil salvarPerfil(Perfil p) {
-		return manager.merge( p );
+	public Perfil salvarPerfil(Perfil perfil, Usuario usuarioCriadorOrAtualizador) {
+		verificarSeCodigoPerfilJaExiste(perfil);
+		verificarSeNomePerfilJaExiste(perfil);
+		inserirInfoLog(perfil, usuarioCriadorOrAtualizador);
+		return manager.merge( perfil );
 	}
 	
 	
+	private void inserirInfoLog(Perfil perfil, Usuario usuarioCriadorOrAtualizador) {
+		if (perfil.isTransient()) {
+			perfil.getInfoLog().setCriadoEm( new Date() );
+			perfil.getInfoLog().setCriadoPor( usuarioCriadorOrAtualizador.getDescricaoCompleta() );
+		}else {
+			perfil.getInfoLog().setAtualizadoEm( new Date() );
+			perfil.getInfoLog().setAtualizadoPor( usuarioCriadorOrAtualizador.getDescricaoCompleta() );
+		}
+	}
+
+
+	/**
+	 * RN que verifica se código do perfil já existe.
+	 * (aplicada apenas para objetos transientes).
+	 * @param perfil
+	 */
+	private void verificarSeCodigoPerfilJaExiste(Perfil perfil) {
+		if (perfil.isTransient()) {
+			Perfil perfilEncontrado = buscarPerfilPeloCodigo(perfil.getCodigo());
+			if (perfilEncontrado!=null) {
+				throw new NegocioException("Código do perfil já existe");
+			}
+		}
+	}
+			
+	
+	private void verificarSeNomePerfilJaExiste(Perfil perfil) {
+		Perfil perfilEncontrado = buscarPerfilPeloNome( perfil.getNome() );
+		if (perfilEncontrado!=null && !perfilEncontrado.equals(perfil)) {
+			throw new NegocioException("Nome do perfil já existe");
+		}
+	}
+
+
+
+
 	public void removerPerfil(Perfil perfil) {
 		perfil = manager.find(Perfil.class, perfil.getCodigo() );
 		manager.remove( perfil );
@@ -174,6 +214,30 @@ public class AcessoService {
 		perfil.getFuncionalidades().size();
 		return perfil;
 	}
+	
+	
+	private Perfil buscarPerfilPeloCodigo(String codigo) {
+		try {
+			return manager.createNamedQuery("buscarPerfilPeloCodigo", Perfil.class)
+					.setParameter("pCodigo", codigo)
+					.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+	
+	private Perfil buscarPerfilPeloNome(String nome) {
+		try {
+			return manager.createNamedQuery("buscarPerfilPeloNome", Perfil.class)
+					.setParameter("pNome", nome)
+					.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+	
+	
+	
 	
 	/**
 	 * Pesquisa perfils usando criteria

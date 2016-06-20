@@ -111,8 +111,26 @@ public class Perfil implements Serializable {
 		return "Perfil [codigo=" + codigo + ", nome=" + nome + "]";
 	}
 	
+	/**
+	 * Tendo em vista que a PK não é gerada, 
+	 * a regra para determinar a transienalidade usa
+	 * o info log.
+	 * @return
+	 */
 	public boolean isTransient() {
-		return getCodigo()==null;
+		return getInfoLog().getCriadoPor()==null;
+	}
+	
+	
+	//UI
+	
+	public Integer getMenuColunas() {
+		return getFuncionalidades().size();
+	}
+	
+	public String getMenuStyle() {
+		Integer largura = getMenuColunas() * 123;
+		return String.format("width:%spx", largura);
 	}
 
 }

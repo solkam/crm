@@ -17,7 +17,9 @@
 		<h:panelGrid columns="2" cellpadding="10">
 			<p:outputLabel for="inCodigo" value="Código" styleClass="req" />
 			<h:panelGrid>
-				<p:inputText id="inCodigo" value="#{perfilMB.perfil.codigo}" size="3" maxlength="3" required="true" />
+				<p:inputText id="inCodigo" value="#{perfilMB.perfil.codigo}" size="3" maxlength="3" required="true" 
+					disabled="#{not perfilMB.perfil.transient}" 
+					/>
 				<p:message for="inCodigo" />
 			</h:panelGrid>
 

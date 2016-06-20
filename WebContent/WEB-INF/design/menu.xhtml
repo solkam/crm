@@ -7,12 +7,14 @@
 
 	<center>
 
-		<p:dataGrid columns="9" var="funcionalidadeVar" value="#{sessionHolder.usuario.perfil.funcionalidades}" style="padding:10px;" >
+		<p:dataGrid value="#{sessionHolder.usuario.perfil.funcionalidades }" var="funcVar" layout="grid"  
+			columns="#{sessionHolder.usuario.perfil.menuColunas }"  
+			style="#{sessionHolder.usuario.perfil.menuStyle }" >
 
-			<h:link outcome="#{funcionalidadeVar.pagina}" styleClass="menuitem" >
+			<h:link outcome="#{funcVar.pagina}" styleClass="menuitem" >
 				<f:param name="idx" value="0" />
 				<h:panelGrid cellpadding="5" cellspacing="5" styleClass="menuitem">
-					<p:graphicImage library="img" name="#{funcionalidadeVar.icone}"  />
+					<p:graphicImage library="img" name="#{funcVar.icone}"  />
 				</h:panelGrid>
 			</h:link>
 		
