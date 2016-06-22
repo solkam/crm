@@ -17,17 +17,21 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Subquery;
 
 import br.com.crm.model.entity.AreaInteresse;
 import br.com.crm.model.entity.Campanha;
+import br.com.crm.model.entity.CategoriaProduto;
 import br.com.crm.model.entity.Empresa;
 import br.com.crm.model.entity.Endereco;
 import br.com.crm.model.entity.Genero;
 import br.com.crm.model.entity.InteracaoCampanha;
 import br.com.crm.model.entity.Maturidade;
 import br.com.crm.model.entity.Pessoa;
+import br.com.crm.model.entity.Produto;
 import br.com.crm.model.entity.Profissao;
 import br.com.crm.model.entity.Usuario;
+import br.com.crm.model.entity.Venda;
 
 
 /**
@@ -49,7 +53,8 @@ public class RelatorioService {
 	 * @param filtroGenero
 	 * @return
 	 */
-	public List<Pessoa> pesquisarPessoaPelosFiltros(Integer filtroNascimentoDia
+	public List<Pessoa> pesquisarPessoaPelosFiltros(Empresa empresa
+			                                       ,Integer filtroNascimentoDia
 												   ,Integer filtroNascimentoMes
 												   ,Integer filtroNascimentoAno
 												   ,Genero filtroGenero
@@ -59,12 +64,20 @@ public class RelatorioService {
 												   ,List<Profissao> filtroProfissoes
 											       ,String filtroIndicadoPor
 											       ,List<Maturidade> filtroMaturidades
+											       ,List<CategoriaProduto> filtroCategorias
+											       ,List<CategoriaProduto> filtroNotCategorias
+											       ,List<Produto> filtroProdutos
+											       ,List<Produto> filtroNotProdutos
 					                               ) {
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		CriteriaQuery<Pessoa> criteria = builder.createQuery(Pessoa.class);
 		Root<Pessoa> root = criteria.from(Pessoa.class);
 		
 		Predicate conjunction = builder.conjunction();
+		//empresa
+		conjunction = builder.and(conjunction
+				,builder.equal( root.<Empresa>get("empresa") , empresa)
+				);
 		//dia nascimento
 		if (isNotNegative(filtroNascimentoDia)) {
 			conjunction = builder.and(conjunction
@@ -127,7 +140,86 @@ public class RelatorioService {
 					,root.<Maturidade>get("maturidade").in( filtroMaturidades )
 					);
 		}
+		//categorias
+		if (isNotEmpty(filtroCategorias)) {
+			Subquery<Venda> subQueryVenda = criteria.subquery(Venda.class);
+			Root<Venda> rootVenda = subQueryVenda.from(Venda.class);
+			subQueryVenda.select( rootVenda );
+			
+			Predicate auxConjunction = builder.conjunction();
+			auxConjunction = builder.and( auxConjunction 
+					,builder.equal(rootVenda.<Pessoa>get("pessoa"), root)
+					); 
+			auxConjunction = builder.and( auxConjunction 
+					,rootVenda.<Produto>get("produto").<CategoriaProduto>get("categoria").in( filtroCategorias )			
+					); 
+			subQueryVenda.where( auxConjunction );
+			
+			conjunction = builder.and(conjunction
+					,builder.exists( subQueryVenda ) 
+					);
+		}
+		//not categorias
+		if (isNotEmpty(filtroNotCategorias)) {
+			Subquery<Venda> subQueryNotVenda = criteria.subquery(Venda.class);
+			Root<Venda> rootNotVenda = subQueryNotVenda.from(Venda.class);
+			subQueryNotVenda.select( rootNotVenda );
+			
+			Predicate auxConjunction = builder.conjunction();
+			auxConjunction = builder.and( auxConjunction 
+					,builder.equal(rootNotVenda.<Pessoa>get("pessoa"), root)
+					); 
+			auxConjunction = builder.and( auxConjunction 
+					,rootNotVenda.<Produto>get("produto").<CategoriaProduto>get("categoria").in( filtroNotCategorias )			
+					); 
+			subQueryNotVenda.where( auxConjunction );
+			
+			conjunction = builder.and(conjunction
+					,builder.not( builder.exists( subQueryNotVenda ) ) 
+					);
+		}
 
+		//produtos
+		if (isNotEmpty(filtroProdutos)) {
+			Subquery<Venda> subQueryVenda = criteria.subquery(Venda.class);
+			Root<Venda> rootVenda = subQueryVenda.from(Venda.class);
+			subQueryVenda.select( rootVenda );
+			
+			Predicate auxConjunction = builder.conjunction();
+			auxConjunction = builder.and( auxConjunction 
+					,builder.equal(rootVenda.<Pessoa>get("pessoa"), root)
+					); 
+			auxConjunction = builder.and( auxConjunction 
+					,rootVenda.<Produto>get("produto").in( filtroProdutos )			
+					); 
+			subQueryVenda.where( auxConjunction );
+			
+			conjunction = builder.and(conjunction
+					,builder.exists( subQueryVenda ) 
+					);
+		}
+		//not produtos
+		if (isNotEmpty(filtroNotProdutos)) {
+			Subquery<Venda> subQueryNotVenda = criteria.subquery(Venda.class);
+			Root<Venda> rootNotVenda = subQueryNotVenda.from(Venda.class);
+			subQueryNotVenda.select( rootNotVenda );
+			
+			Predicate auxConjunction = builder.conjunction();
+			auxConjunction = builder.and( auxConjunction 
+					,builder.equal(rootNotVenda.<Pessoa>get("pessoa"), root)
+					); 
+			auxConjunction = builder.and( auxConjunction 
+					,rootNotVenda.<Produto>get("produto").in( filtroNotProdutos )			
+					); 
+			subQueryNotVenda.where( auxConjunction );
+			
+			conjunction = builder.and(conjunction
+					,builder.not( builder.exists( subQueryNotVenda ) ) 
+					);
+		}
+
+		
+		
 		//where e order by
 		criteria.distinct( true );
 		criteria.where( conjunction );

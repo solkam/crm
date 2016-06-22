@@ -176,8 +176,11 @@ public class PessoaService {
 		CriteriaQuery<Pessoa> criteria = builder.createQuery(Pessoa.class);
 		Root<Pessoa> root = criteria.from(Pessoa.class);
 		
-		//TODO colocar empresa...
 		Predicate conjuction = builder.conjunction();
+		//empresa
+		conjuction = builder.and( conjuction, 
+				builder.equal( root.<Empresa>get("empresa"), empresa )
+			);
 		//1.name
 		if (isNotBlank(nome)) {
 			Predicate disjunction = builder.disjunction();

@@ -32,13 +32,18 @@
 			<p:outputPanel rendered="#{not empty vendaMB.vendas}">
 			
 				<p:dataTable value="#{vendaMB.vendas}" var="vendaVar">
+					<p:column headerText="Pessoa">
+						#{vendaVar.pessoa.nomeCompleto}
+					</p:column>
+
 					<p:column headerText="Produto">
 						#{vendaVar.produto.descricao}
 					</p:column>
 					
-					<p:column headerText="Pessoa">
-						#{vendaVar.pessoa.nomeCompleto}
+					<p:column headerText="Categoria do Produto">
+						#{vendaVar.produto.categoria.descricao}
 					</p:column>
+
 				
 					<p:column headerText="Data">
 						<my:outputDate value="#{vendaVar.data}" />
