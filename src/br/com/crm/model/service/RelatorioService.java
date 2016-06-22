@@ -26,6 +26,7 @@ import br.com.crm.model.entity.Empresa;
 import br.com.crm.model.entity.Endereco;
 import br.com.crm.model.entity.Genero;
 import br.com.crm.model.entity.InteracaoCampanha;
+import br.com.crm.model.entity.InteracaoHumor;
 import br.com.crm.model.entity.Maturidade;
 import br.com.crm.model.entity.Pessoa;
 import br.com.crm.model.entity.Produto;
@@ -242,6 +243,7 @@ public class RelatorioService {
 																		,List<Campanha> filtroCampanhas
 																		,List<Usuario> filtroResponsaveis
 																		,List<Pessoa> filtroPessoas
+																		,List<InteracaoHumor> filtroHumores
 																		) {
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		CriteriaQuery<InteracaoCampanha> criteria = builder.createQuery(InteracaoCampanha.class);
@@ -271,6 +273,12 @@ public class RelatorioService {
 		if (isNotEmpty(filtroPessoas)) {
 			conjunction = builder.and(conjunction
 					,root.<Pessoa>get("pessoa").in( filtroPessoas )
+					);
+		}
+		//4.humor
+		if (isNotEmpty(filtroHumores)) {
+			conjunction = builder.and(conjunction
+					,root.<InteracaoHumor>get("humor").in( filtroHumores )
 					);
 		}
 		

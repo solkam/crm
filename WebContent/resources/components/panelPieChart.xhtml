@@ -1,0 +1,39 @@
+<!DOCTYPE html >
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<cc:interface>
+	<cc:attribute name="chartModel" required="true" />
+	<cc:attribute name="header" />
+</cc:interface>
+
+<cc:implementation>
+
+	<p:panel>
+		<h:outputText value="#{cc.attrs.header}" styleClass="destak3" />
+		<p:separator />
+		
+		<p:scrollPanel style="height:320px" mode="native">
+			<h:panelGrid columns="2" >
+				<p:chart type="pie" model="#{cc.attrs.chartModel}" 
+					style="width:400px;height:300px;"  
+					/>
+				<p:dataTable value="#{cc.attrs.chartModel.data.entrySet().toArray() }" var="entryVar">
+					<p:column>
+						#{entryVar.key}
+					</p:column>
+					<p:column>
+						#{entryVar.value}
+					</p:column>
+				</p:dataTable>
+			</h:panelGrid>
+		</p:scrollPanel>
+	</p:panel>
+
+</cc:implementation>
+
+</html>

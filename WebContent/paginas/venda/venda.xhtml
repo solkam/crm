@@ -32,22 +32,22 @@
 			<p:outputPanel rendered="#{not empty vendaMB.vendas}">
 			
 				<p:dataTable value="#{vendaMB.vendas}" var="vendaVar">
-					<p:column headerText="Pessoa">
+					<p:column headerText="Pessoa" styleClass="col30p">
 						#{vendaVar.pessoa.nomeCompleto}
 					</p:column>
 
-					<p:column headerText="Produto">
+					<p:column headerText="Produto" styleClass="col30p">
 						#{vendaVar.produto.descricao}
 					</p:column>
 					
-					<p:column headerText="Categoria do Produto">
+					<p:column headerText="Categoria do Produto" styleClass="col20p">
 						#{vendaVar.produto.categoria.descricao}
 					</p:column>
-
 				
-					<p:column headerText="Data">
+					<p:column headerText="Data" styleClass="col20p colCenter">
 						<my:outputDate value="#{vendaVar.data}" />
 					</p:column>
+					
 				</p:dataTable>
 			</p:outputPanel>
 		</p:panel>
@@ -56,7 +56,7 @@
 	
 	<p:dialog widgetVar="DialogVenda" header="Venda"
 		modal="true" dynamic="true" closeOnEscape="true" maximizable="true"
-		position="top" positionType="absolute">
+		position="top" positionType="absolute" width="50%">
 		
 		<h:form id="formVenda">
 		
@@ -90,7 +90,7 @@
 						<p:message for="inData" />
 					</h:panelGrid>
 
-					<p:outputLabel for="inPreco" value="Data da Venda" />
+					<p:outputLabel for="inPreco" value="Preço" />
 					<h:panelGrid>
 						<p:inputText id="inPreco" value="#{vendaMB.venda.precoFinal }" size="10" />
 						<p:message for="inPreco" />

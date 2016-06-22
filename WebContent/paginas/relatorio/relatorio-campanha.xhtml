@@ -12,10 +12,9 @@
 	<h:form id="formPesquisa">
 		<p:fieldset legend="Pesquisa" toggleable="true">
 			
-			<h:panelGrid columns="4" cellpadding="10">
+			<h:panelGrid columns="4" cellpadding="10" >
 					<h:panelGrid>
-						<p:outputLabel value="Campanhas" />
-						<p:selectCheckboxMenu label="selecione" value="#{rCampanhasMB.filtroCampanhas}" converter="#{campanhaConverter}"
+						<p:selectCheckboxMenu label="Campanhas" value="#{rCampanhasMB.filtroCampanhas}" converter="#{campanhaConverter}"
 							filter="true" filterMatchMode="contains" scrollHeight="350" panelStyle="width:500px" >
 						
 							<f:selectItems value="#{rCampanhasMB.comboCampanhas}" var="campanhaVar" 
@@ -25,8 +24,7 @@
 					</h:panelGrid>
 					
 					<h:panelGrid>
-						<p:outputLabel value="Responsáveis" />
-						<p:selectCheckboxMenu label="selecione" value="#{rCampanhasMB.filtroResponsaveis }" converter="#{usuarioConverter}"
+						<p:selectCheckboxMenu label="Responsáveis" value="#{rCampanhasMB.filtroResponsaveis }" converter="#{usuarioConverter}"
 							filter="true" filterMatchMode="contains" scrollHeight="350" panelStyle="width:500px" >
 						
 							<f:selectItems value="#{rCampanhasMB.comboResponsaveis }" var="responsavelVar" 
@@ -36,12 +34,21 @@
 					</h:panelGrid>
 
 					<h:panelGrid>
-						<p:outputLabel value="Pessoas" />
-						<p:selectCheckboxMenu label="selecione" value="#{rCampanhasMB.filtroPessoas }" converter="#{pessoaConverter}"
+						<p:selectCheckboxMenu label="Pessoas" value="#{rCampanhasMB.filtroPessoas }" converter="#{pessoaConverter}"
 							filter="true" filterMatchMode="contains" scrollHeight="350" panelStyle="width:500px" >
 							
 							<f:selectItems value="#{rCampanhasMB.comboPessoas }" var="pessoaVar" 
 								itemValue="#{pessoaVar}" itemLabel="#{pessoaVar.nomeCompleto }" 
+								/>
+						</p:selectCheckboxMenu>
+					</h:panelGrid>
+
+					<h:panelGrid>
+						<p:selectCheckboxMenu label="Humor" value="#{rCampanhasMB.filtroHumores }" converter="#{interacaoHumorConverter }"
+							scrollHeight="350" panelStyle="width:500px" >
+							
+							<f:selectItems value="#{enumHelper.interacaoHumores }" var="humorVar" 
+								itemValue="#{humorVar}" itemLabel="#{humorVar }" 
 								/>
 						</p:selectCheckboxMenu>
 					</h:panelGrid>
@@ -64,6 +71,14 @@
 		<my:globalMessages />
 
 		<p:outputPanel rendered="#{not empty rCampanhasMB.interacoes}">
+		
+			<h:panelGrid columns="2" cellpadding="10">
+				<my:panelPieChart chartModel="#{rCampanhasMB.chartModelCampanha }" header="Campanha" />
+				<my:panelPieChart chartModel="#{rCampanhasMB.chartModelResponsavel }" header="Responsável" />
+				<my:panelPieChart chartModel="#{rCampanhasMB.chartModelPessoa }" header="Pessoa" />
+				<my:panelPieChart chartModel="#{rCampanhasMB.chartModelHumor }" header="Humor" />
+			</h:panelGrid>
+		
 	
 			<p:dataTable value="#{rCampanhasMB.interacoes}" var="interacaoVar">
 			
