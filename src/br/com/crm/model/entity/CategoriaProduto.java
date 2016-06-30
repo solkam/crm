@@ -117,10 +117,10 @@ public class CategoriaProduto implements Serializable {
 	public void inserirInfoLog(Usuario usuario) {
 		if (isTransient()) {
 			getInfoLog().setCriadoEm( new Date() );
-			getInfoLog().setCriadoPor( usuario.getEmail() );
+			getInfoLog().setCriadoPor( usuario.getDescricaoCompleta() );
 		} else {
 			getInfoLog().setAtualizadoEm( new Date() );
-			getInfoLog().setAtualizadoPor( usuario.getEmail() );
+			getInfoLog().setAtualizadoPor( usuario.getDescricaoCompleta() );
 		}
 	}
 	

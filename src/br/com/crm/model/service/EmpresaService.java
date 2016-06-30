@@ -1,6 +1,5 @@
 package br.com.crm.model.service;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -34,12 +33,12 @@ public class EmpresaService {
 	 * @param usuario
 	 * @return
 	 */
-	public Empresa salvarEmpresa(Empresa empresa, Usuario usuario) {
+	public Empresa salvarEmpresa(Empresa empresa, Usuario usuarioSalvador) {
 		//RNs
 		verificarUnicidadeDoNomeDaEmpresa(empresa);
 		verificarUnicidadeDoCnpjDaEmpresa(empresa);
 		//log
-		inserirLogInfo(empresa, usuario);
+		empresa.inserirLogInfo(usuarioSalvador);
 		//salva
 		return manager.merge( empresa );
 	}
@@ -102,21 +101,6 @@ public class EmpresaService {
 	}
 	
 	
-	/**
-	 * Insere informações de log na instancia de empresa
-	 * conforme ela esteja sendo criada ou atualizada
-	 * @param empresa
-	 * @param usuario
-	 */
-	private void inserirLogInfo(Empresa empresa, Usuario usuario) {
-		if (empresa.isTransient()) {
-			empresa.getInfoLog().setCriadoEm( new Date() );
-			empresa.getInfoLog().setCriadoPor( usuario.getEmail() );
-		} else {
-			empresa.getInfoLog().setAtualizadoEm( new Date() );
-			empresa.getInfoLog().setAtualizadoPor( usuario.getEmail() );
-		}
-	}
 	
 	
 	/**

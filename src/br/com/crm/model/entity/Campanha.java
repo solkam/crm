@@ -300,6 +300,15 @@ public class Campanha implements Serializable {
 	
 	
 
+	public void inserirLog(Usuario usuarioSalvador) {
+		if (isTransient()) {
+			getInfoLog().setCriadoEm( new Date() );
+			getInfoLog().setCriadoPor( usuarioSalvador.getDescricaoCompleta() );
+		} else {
+			getInfoLog().setAtualizadoEm( new Date() );
+			getInfoLog().setAtualizadoPor( usuarioSalvador.getDescricaoCompleta() );
+		}
+	}
 	
 	
 	

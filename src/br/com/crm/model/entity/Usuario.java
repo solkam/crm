@@ -1,18 +1,13 @@
 package br.com.crm.model.entity;
 
 import java.io.Serializable;
-
+import java.util.Date;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -31,6 +26,11 @@ public class Usuario implements Serializable, Comparable<Usuario> {
 	@ManyToOne
 	@NotNull
 	private Empresa empresa;
+	
+	
+	@NotNull
+	@Size(max=50)
+	private String login;
 	
 	
 	@NotNull
@@ -65,6 +65,14 @@ public class Usuario implements Serializable, Comparable<Usuario> {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
 	}
 
 	public Empresa getEmpresa() {
@@ -160,9 +168,20 @@ public class Usuario implements Serializable, Comparable<Usuario> {
 	
 	
 	public String getDescricaoCompleta() {
-		return email;
+		return this.login;
 	}
 
+
+	public void inserirInfoLog(Usuario usuarioSalvador) {
+		if (isTransient()) {
+			getInfoLog().setCriadoEm( new Date() );
+			getInfoLog().setCriadoPor( usuarioSalvador.getDescricaoCompleta() );
+		} else {
+			getInfoLog().setAtualizadoEm( new Date() );
+			getInfoLog().setAtualizadoPor( usuarioSalvador.getDescricaoCompleta() );
+		}
+	}
+	
 	
 	
 }

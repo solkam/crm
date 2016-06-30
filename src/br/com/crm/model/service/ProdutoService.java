@@ -1,12 +1,10 @@
 package br.com.crm.model.service;
 
-import static br.com.crm.model.util.QueryUtil.isNotNull;
-
 import static br.com.crm.model.util.QueryUtil.isNotBlank;
 import static br.com.crm.model.util.QueryUtil.isNotEmpty;
+import static br.com.crm.model.util.QueryUtil.isNotNull;
 import static br.com.crm.model.util.QueryUtil.toLikeMatchModeANY;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -41,23 +39,14 @@ public class ProdutoService {
 	 * @param produto
 	 * @return
 	 */
-	public Produto salvarProduto(Produto produto, Usuario usuario) {
-		verificarDescricaoDoProdutoEhUnica(produto, usuario.getEmpresa() );
-		referenciarEmpresa(produto, usuario.getEmpresa() );
-		inserirInfoLog(produto, usuario);
+	public Produto salvarProduto(Produto produto, Usuario usuarioSalvador) {
+		verificarDescricaoDoProdutoEhUnica(produto, usuarioSalvador.getEmpresa() );
+		referenciarEmpresa(produto, usuarioSalvador.getEmpresa() );
+		produto.inserirInfoLog(usuarioSalvador);
 		return manager.merge( produto );
 	}
 	
 	
-	private void inserirInfoLog(Produto produto, Usuario usuario) {
-		if (produto.isTransient()) {
-			produto.getInfoLog().setCriadoEm( new Date() );
-			produto.getInfoLog().setCriadoPor( usuario.getEmail() );
-		} else {
-			produto.getInfoLog().setAtualizadoEm( new Date() );
-			produto.getInfoLog().setAtualizadoPor( usuario.getEmail() );
-		}
-	}
 
 
 	/**

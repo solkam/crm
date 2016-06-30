@@ -15,9 +15,15 @@
 		<p:separator />
 
 		<h:panelGrid columns="2" cellpadding="10">
+			<p:outputLabel for="inLogin" value="Login" styleClass="req" />
+			<h:panelGrid>
+				<p:inputText id="inLogin" value="#{usuarioMB.usuario.login }" size="50" required="true" />
+				<p:message for="inLogin" />
+			</h:panelGrid>
+
 			<p:outputLabel for="inEmail" value="Email" styleClass="req" />
 			<h:panelGrid>
-				<p:inputText id="inEmail" value="#{usuarioMB.usuario.email}" size="50" required="true" placeholder="Email" />
+				<p:inputText id="inEmail" value="#{usuarioMB.usuario.email}" size="100" required="true" />
 				<p:message for="inEmail" />
 			</h:panelGrid>
 

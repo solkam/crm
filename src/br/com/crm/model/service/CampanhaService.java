@@ -40,13 +40,13 @@ public class CampanhaService {
 	/**
 	 * Salva campanha aplicando RN e inserindo log 
 	 * @param campanha
-	 * @param usuario
+	 * @param usuarioSalvador
 	 * @return
 	 */
-	public Campanha salvarCampanha(Campanha campanha, Usuario usuario) {
-		referenciarEmpresaECampanha(campanha, usuario.getEmpresa() );
+	public Campanha salvarCampanha(Campanha campanha, Usuario usuarioSalvador) {
+		referenciarEmpresaECampanha(campanha, usuarioSalvador.getEmpresa() );
 		verificarUnicidadeDaDescricaoDaCampanha(campanha);
-		inserirLog(campanha, usuario);
+		campanha.inserirLog(usuarioSalvador);
 		return manager.merge(campanha);
 	}
 
@@ -78,15 +78,6 @@ public class CampanhaService {
 	 * @param campanha
 	 * @param usuario
 	 */
-	private void inserirLog(Campanha campanha, Usuario usuario) {
-		if (campanha.isTransient()) {
-			campanha.getInfoLog().setCriadoEm( new Date() );
-			campanha.getInfoLog().setCriadoPor( usuario.getEmail() );
-		} else {
-			campanha.getInfoLog().setAtualizadoEm( new Date() );
-			campanha.getInfoLog().setAtualizadoPor( usuario.getEmail() );
-		}
-	}
 	
 	
 	/**

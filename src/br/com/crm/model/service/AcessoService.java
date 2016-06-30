@@ -38,25 +38,17 @@ public class AcessoService {
 	 *********/
 	
 	/**
-	 * Salva instancia de usuario
-	 * @param usuario
-	 * @return
+	 * Salva instância de usuario
+	 * @param usuario usuario em si propriamente dito
+	 * @param usuarioSalvador aquele que está criando ou atualizado
+	 * @return usuario salvo
 	 */
 	public Usuario salvarUsuario(Usuario usuario, Usuario usuarioSalvador) {
-		inserirInfoLog(usuario, usuarioSalvador);
+		usuario.inserirInfoLog( usuarioSalvador );
 		return manager.merge(usuario);
 	}
 	
 	
-	private void inserirInfoLog(Usuario usuario, Usuario usuarioSalvador) {
-		if (usuario.isTransient()) {
-			usuario.getInfoLog().setCriadoEm( new Date() );
-			usuario.getInfoLog().setCriadoPor( usuarioSalvador.getEmail() );
-		} else {
-			usuario.getInfoLog().setAtualizadoEm( new Date() );
-			usuario.getInfoLog().setAtualizadoPor( usuarioSalvador.getEmail() );
-		}
-	}
 
 
 	/**
@@ -83,14 +75,14 @@ public class AcessoService {
 	
 	/**
 	 * Busca um usuario pelo email e senha. Usado na autentica��o
-	 * @param email
+	 * @param login
 	 * @param senha
 	 * @return
 	 */
-	public Usuario buscarUsuarioPeloEmailESenha(String email, String senha) {
+	public Usuario buscarUsuarioPeloLoginESenha(String login, String senha) {
 		try {
-			return manager.createNamedQuery("buscarUsuarioPeloEmailESenha", Usuario.class)
-					.setParameter("pEmail", email)
+			return manager.createNamedQuery("buscarUsuarioPeloLoginESenha", Usuario.class)
+					.setParameter("pLogin", login)
 					.setParameter("pSenha", senha)
 					.getSingleResult();
 		} catch (NoResultException e) {

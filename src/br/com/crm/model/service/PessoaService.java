@@ -35,8 +35,7 @@ import br.com.crm.model.exception.NegocioException;
 @Stateless
 public class PessoaService {
 	
-	@PersistenceContext
-	private EntityManager manager;
+	@PersistenceContext EntityManager manager;
 	
 	@EJB AcessoService userService;
 	
@@ -47,10 +46,14 @@ public class PessoaService {
 	 * @param pessoa
 	 * @return
 	 */
-	public Pessoa salvarPessoa(Pessoa pessoa, Usuario usuario) {
-		verificarSeEmailEhUnico(pessoa, usuario.getEmpresa() );
-		referenciarEmpresaEPessoa(pessoa, usuario.getEmpresa() );
+	public Pessoa salvarPessoa(Pessoa pessoa, Usuario usuarioSalvador) {
+		//RNs
+		verificarSeEmailEhUnico(pessoa, usuarioSalvador.getEmpresa() );
+		referenciarEmpresaEPessoa(pessoa, usuarioSalvador.getEmpresa() );
 		definirMaturidade( pessoa );
+		//log
+		pessoa.inserirInfoLog(usuarioSalvador);
+		//salva
 		return manager.merge( pessoa );
 	}
 	
@@ -304,7 +307,7 @@ public class PessoaService {
 	
 	private void inserirInfoUpload(PessoaCartaoNegocio cartao, Usuario usuario) {
 		cartao.setSubidoEm( new Date() );
-		cartao.setSubidoPor( usuario.getEmail() );
+		cartao.setSubidoPor( usuario.getDescricaoCompleta() );
 	}
 
 

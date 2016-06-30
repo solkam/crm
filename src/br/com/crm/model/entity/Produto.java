@@ -1,6 +1,7 @@
 package br.com.crm.model.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -133,6 +134,17 @@ public class Produto implements Serializable, Comparable<Produto> {
 			return 0;
 		}
 	}
+
+	public void inserirInfoLog(Usuario usuario) {
+		if (isTransient()) {
+			getInfoLog().setCriadoEm( new Date() );
+			getInfoLog().setCriadoPor( usuario.getDescricaoCompleta() );
+		} else {
+			getInfoLog().setAtualizadoEm( new Date() );
+			getInfoLog().setAtualizadoPor( usuario.getDescricaoCompleta() );
+		}
+	}
+	
 	
 	
 }

@@ -3,19 +3,19 @@ package br.com.crm.controller.mb.security;
 import java.io.Serializable;
 
 import javax.enterprise.context.RequestScoped;
+import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import br.com.crm.controller.util.JSFUtil;
 import br.com.crm.model.entity.Usuario;
 import br.com.crm.model.service.AcessoService;
 
 /**
- * Controller para Autenticar
+ * Controller para Autenticar Usuário
  * @author Solkam
  * @since 26 abr 2016
  */
-@Named
+@ManagedBean
 @RequestScoped
 public class AccessMB implements Serializable {
 
@@ -24,13 +24,13 @@ public class AccessMB implements Serializable {
 	@Inject SessionHolder sessionHolder;
 	
 	
-	private String email;
+	private String login;
 	private String senha;
 	
 	
 	
 	public String doLogin() {
-		Usuario user = acessoService.buscarUsuarioPeloEmailESenha(email, senha);
+		Usuario user = acessoService.buscarUsuarioPeloLoginESenha(login, senha);
 		if (user!=null) {
 			return grantAcess(user);
 		} else {
@@ -47,7 +47,7 @@ public class AccessMB implements Serializable {
 
 	
 	private String denyAcess() {
-		JSFUtil.addErroMessage("Email ou senha inválidos");
+		JSFUtil.addErroMessage("Login ou senha inválidos");
 		return gotoLoginPage(false);
 	}
 	
@@ -83,30 +83,16 @@ public class AccessMB implements Serializable {
 	//acessores...
 	private static final long serialVersionUID = 1421116987452326810L;
 
-	public void setSessionHolder(SessionHolder sessionHolder) {
-		this.sessionHolder = sessionHolder;
+	public String getLogin() {
+		return login;
 	}
-
-
-	public String getEmail() {
-		return email;
+	public void setLogin(String login) {
+		this.login = login;
 	}
-
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-
 	public String getSenha() {
 		return senha;
 	}
-
-
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	
-	
-
 }

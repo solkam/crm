@@ -9,7 +9,39 @@
 <h:form>
 	<p:panel>
 	
-		Interações
+		<h:outputText value="Não há interações na campanha" styleClass="warn" 
+			rendered="#{empty campanhaMB.campanha.interacoes}" />
+
+
+		<p:outputPanel rendered="#{not empty campanhaMB.campanha.interacoes }">
+		
+			<p:dataTable value="#{campanhaMB.campanha.interacoes}" var="interacaoVar">
+					<p:column headerText="#" styleClass="col5p colCenter">
+					#{interacaoVar.id}
+				</p:column>
+			
+				<p:column headerText="Responsável" styleClass="col10p" sortBy="#{interacaoVar.responsavel.descricaoCompleta }">
+					#{interacaoVar.responsavel.descricaoCompleta }
+				</p:column>
+
+				<p:column headerText="Pessoa" styleClass="col25p" sortBy="#{interacaoVar.pessoa.nomeCompleto}">
+					<h:outputText value="#{interacaoVar.pessoa.nomeCompleto}" styleClass="destak3" />
+				</p:column>
+
+				<p:column headerText="Data" styleClass="col10p colCenter" sortBy="#{interacaoVar.data}" >
+					<my:outputTime value="#{interacaoVar.data}" styleClass="less2" />
+				</p:column>
+
+				<p:column headerText="Nota" styleClass="col40p" >
+					<h:outputText value="#{interacaoVar.nota}" styleClass="less2" />
+				</p:column>
+
+				<p:column headerText="Humor" styleClass="col10p colCenter" >
+					<my:displayHumor humor="#{interacaoVar.humor}" />
+				</p:column>
+			
+			</p:dataTable>
+		</p:outputPanel>
 			
 	</p:panel>
 </h:form>

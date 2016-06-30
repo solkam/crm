@@ -119,8 +119,8 @@
 					#{interacaoVar.id}
 				</p:column>
 			
-				<p:column headerText="Responsável" styleClass="col10p" sortBy="#{interacaoVar.responsavel.email}">
-					#{interacaoVar.responsavel.email}
+				<p:column headerText="Responsável" styleClass="col10p" sortBy="#{interacaoVar.responsavel.descricaoCompleta }">
+					#{interacaoVar.responsavel.descricaoCompleta }
 				</p:column>
 
 				<p:column headerText="Pessoa" styleClass="col25p" sortBy="#{interacaoVar.pessoa.nomeCompleto}">
@@ -151,7 +151,7 @@
 	position="top" width="90%" positionType="absolute" >
 	
 	<p:outputPanel id="regiaoInteracao">
-		<p:panelGrid id="panelPessoa" columns="10" >
+		<p:panelGrid id="panelPessoa" columns="11" >
 			<h:outputText value="ID" />
 			<h:outputText value="Foto" />
 			<h:outputText value="Nome completo" />
@@ -162,17 +162,34 @@
 			<h:outputText value="Idade" />
 			<h:outputText value="Maturidade" />
 			<h:outputText value="Sexo" />
+			<h:outputText value="Telefones" />
 			
-			<h:outputText  value="#{minhaCampanhaMB.novaInteracao.pessoa.id }" styleClass="destak2" />
+			<h:outputText  value="#{minhaCampanhaMB.novaInteracao.pessoa.id }" />
 			<my:displayPessoaImagem pessoa="#{minhaCampanhaMB.novaInteracao.pessoa}" />
 			<h:outputText  value="#{minhaCampanhaMB.novaInteracao.pessoa.nomeCompleto}" styleClass="destak2" />
-			<h:outputText  value="#{minhaCampanhaMB.novaInteracao.pessoa.emailPrincipal}" styleClass="destak2" />
-			<h:outputText  value="#{minhaCampanhaMB.novaInteracao.pessoa.endereco.enderecoCidade }" styleClass="destak2" />
-			<h:outputText  value="#{minhaCampanhaMB.novaInteracao.pessoa.endereco.enderecoUF }" styleClass="destak2" />
-			<my:outputDate value="#{minhaCampanhaMB.novaInteracao.pessoa.dataNascimentoCompleta }" styleClass="destak2" />
-			<h:outputText  value="#{minhaCampanhaMB.novaInteracao.pessoa.idadeCalculada }" styleClass="destak2" />
-			<h:outputText  value="#{minhaCampanhaMB.novaInteracao.pessoa.maturidade.descricao }" styleClass="destak2" />
-			<h:outputText  value="#{minhaCampanhaMB.novaInteracao.pessoa.genero.descricao }" styleClass="destak2" />
+			<h:outputText  value="#{minhaCampanhaMB.novaInteracao.pessoa.emailPrincipal}" />
+			<h:outputText  value="#{minhaCampanhaMB.novaInteracao.pessoa.endereco.enderecoCidade }" />
+			<h:outputText  value="#{minhaCampanhaMB.novaInteracao.pessoa.endereco.enderecoUF }" />
+			<my:outputDate value="#{minhaCampanhaMB.novaInteracao.pessoa.dataNascimentoCompleta }" />
+			<h:outputText  value="#{minhaCampanhaMB.novaInteracao.pessoa.idadeCalculada }" />
+			<h:outputText  value="#{minhaCampanhaMB.novaInteracao.pessoa.maturidade.descricao }" />
+			<h:outputText  value="#{minhaCampanhaMB.novaInteracao.pessoa.genero.descricao }" />
+			<h:panelGroup>
+				<p:panelGrid columns="3">
+					<h:outputText value="Comercial" />
+					<h:outputText value="#{minhaCampanhaMB.novaInteracao.pessoa.telefone.telefoneComercial}" styleClass="destak3" />
+					<h:outputText value="" />
+					<h:outputText value="Celular 1" />
+					<h:outputText value="#{minhaCampanhaMB.novaInteracao.pessoa.telefone.telefoneCelular1}" styleClass="destak3" />
+					<h:outputText value="#{minhaCampanhaMB.novaInteracao.pessoa.telefone.telefoneCelular1Operadora}" />
+					<h:outputText value="Celular 2" />
+					<h:outputText value="#{minhaCampanhaMB.novaInteracao.pessoa.telefone.telefoneCelular2}" styleClass="destak3" />
+					<h:outputText value="#{minhaCampanhaMB.novaInteracao.pessoa.telefone.telefoneCelular2Operadora}" />
+					<h:outputText value="Residencial" />
+					<h:outputText value="#{minhaCampanhaMB.novaInteracao.pessoa.telefone.telefoneResidencial }" styleClass="destak3" />
+					<h:outputText value="" />
+				</p:panelGrid>
+			</h:panelGroup>
 		</p:panelGrid>
 
 		<p:spacer height="10" />
@@ -256,8 +273,8 @@
 						#{interacaoVar.id}
 					</p:column>
 				
-					<p:column headerText="Responsável" styleClass="col15p" sortBy="#{interacaoVar.responsavel.email}">
-						#{interacaoVar.responsavel.email}
+					<p:column headerText="Responsável" styleClass="col15p" sortBy="#{interacaoVar.responsavel.descricaoCompleta }">
+						#{interacaoVar.responsavel.descricaoCompleta }
 					</p:column>
 	
 					<p:column headerText="Data" styleClass="col20p colCenter" sortBy="#{interacaoVar.data}" >

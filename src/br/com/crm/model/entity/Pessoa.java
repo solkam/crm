@@ -446,6 +446,15 @@ public class Pessoa implements Serializable, Comparable<Pessoa> {
 		return getId()==null;
 	}
 	
+	@Override
+	public int compareTo(Pessoa that) {
+		if (this.id!=null) {
+			return this.id.compareTo( that.id );
+		} else {
+			return 0;
+		}
+	}
+	
 	
 	
 	//runtime
@@ -522,15 +531,17 @@ public class Pessoa implements Serializable, Comparable<Pessoa> {
 			throw new NegocioException("Pelo menos um documento deve ser informado");
 		}
 	}
-
-	@Override
-	public int compareTo(Pessoa that) {
-		if (this.id!=null) {
-			return this.id.compareTo( that.id );
+	
+	public void inserirInfoLog(Usuario usuarioSalvador) {
+		if (isTransient()) {
+			getInfoLog().setCriadoPor( usuarioSalvador.getDescricaoCompleta() );
+			getInfoLog().setCriadoEm( new Date() );
 		} else {
-			return 0;
+			getInfoLog().setAtualizadoPor( usuarioSalvador.getDescricaoCompleta() );
+			getInfoLog().setAtualizadoEm( new Date() );
 		}
 	}
+
 	
 	
 }

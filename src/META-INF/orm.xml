@@ -6,11 +6,11 @@
 
 	<!-- usuario -->
 
-	<named-query name="buscarUsuarioPeloEmailESenha">
+	<named-query name="buscarUsuarioPeloLoginESenha">
 		<query>
 			select u
 			from Usuario u
-			where u.email = :pEmail
+			where u.login = :pLogin
 			and   u.senha = :pSenha
 		</query>
 	</named-query>

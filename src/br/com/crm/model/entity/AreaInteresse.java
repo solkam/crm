@@ -135,10 +135,10 @@ public class AreaInteresse implements Serializable {
 	
 	public void inserirInfoLog(Usuario usuario) {
 		if (isTransient()) {
-			getInfoLog().setCriadoPor( usuario.getEmail() );
+			getInfoLog().setCriadoPor( usuario.getDescricaoCompleta() );
 			getInfoLog().setCriadoEm( new Date() );
 		} else {
-			getInfoLog().setAtualizadoPor( usuario.getEmail() );
+			getInfoLog().setAtualizadoPor( usuario.getDescricaoCompleta() );
 			getInfoLog().setAtualizadoEm( new Date() );
 		}
 	}

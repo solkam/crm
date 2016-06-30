@@ -50,14 +50,18 @@
 					<h:outputText value="#{usuarioVar.id }" styleClass="less2" />
 				</p:column>
 	
-				<p:column headerText="Email" styleClass="col30p">
-					<h:outputText value="#{usuarioVar.email }" styleClass="destak2" />
+				<p:column headerText="Login" styleClass="col20p">
+					<h:outputText value="#{usuarioVar.login }" styleClass="destak2" />
 				</p:column>
 		
-				<p:column headerText="Perfil" styleClass="col20p">
+				<p:column headerText="Perfil" styleClass="col10p">
 					<h:outputText value="#{usuarioVar.perfil.nome }" styleClass="destak3" />
 				</p:column>
 				
+				<p:column headerText="Email" styleClass="col20p">
+					<h:outputText value="#{usuarioVar.email }" />
+				</p:column>
+
 				<p:column headerText="Empresa" styleClass="col20p">
 					<h:outputText value="#{usuarioVar.empresa.nome }" />
 				</p:column>

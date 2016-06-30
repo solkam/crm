@@ -1,6 +1,7 @@
 package br.com.crm.model.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -174,5 +175,22 @@ public class Empresa implements Serializable {
 	public boolean isTransient() {
 		return getId()==null;
 	}
+
+	/**
+	 * Insere informações de log na instancia de empresa
+	 * conforme ela esteja sendo criada ou atualizada
+	 * @param empresa
+	 * @param usuarioSalvador
+	 */
+	public void inserirLogInfo(Usuario usuarioSalvador) {
+		if (isTransient()) {
+			getInfoLog().setCriadoEm( new Date() );
+			getInfoLog().setCriadoPor( usuarioSalvador.getDescricaoCompleta() );
+		} else {
+			getInfoLog().setAtualizadoEm( new Date() );
+			getInfoLog().setAtualizadoPor( usuarioSalvador.getDescricaoCompleta() );
+		}
+	}
+	
 	
 }

@@ -44,6 +44,7 @@ public class PessoaCartaoNegocio implements Serializable {
 	private String imagemExtensao;
 
 	
+	//log
 	/**
 	 * Quando foi feito o upload
 	 */

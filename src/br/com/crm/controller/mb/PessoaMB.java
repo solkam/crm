@@ -155,7 +155,7 @@ public class PessoaMB implements Serializable {
 	
 	private void resetarObservacao() {
 		novaObservacao = new PessoaObservacao();
-		novaObservacao.setResponsavel( sessionHolder.getUsuario().getEmail() );
+		novaObservacao.setResponsavel( sessionHolder.getUsuario().getDescricaoCompleta() );
 	}
 	
 	public void salvarObservacao() {

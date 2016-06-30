@@ -16,7 +16,7 @@
 			converter="#{usuarioConverter}" layout="pageDirection" columns="2">
 			
 			<f:selectItems value="#{campanhaMB.comboResponsaveis}" var="usuarioVar"
-				itemValue="#{usuarioVar}" itemLabel="#{usuarioVar.email}" 
+				itemValue="#{usuarioVar}" itemLabel="#{usuarioVar.descricaoCompleta }" 
 				/>
 		</p:selectManyCheckbox>
 		<p:message for="inResp" />
